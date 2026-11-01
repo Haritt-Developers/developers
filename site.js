@@ -1,7 +1,7 @@
 (function(){var n=document.getElementById('nav'),m=document.getElementById('mb'),l=document.getElementById('lk');
 function s(){n.classList.toggle('s',scrollY>10)}s();addEventListener('scroll',s,{passive:true});
 m&&m.addEventListener('click',function(){var o=l.classList.toggle('o');m.setAttribute('aria-expanded',o)});
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+window.dvInit=function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 document.querySelectorAll('.fq .q').forEach(function(b){b.addEventListener('click',function(){var it=b.parentNode.parentNode,o=it.classList.toggle('is-open');b.setAttribute('aria-expanded',o)})});
 var f=document.getElementById('enq');if(!f)return;
@@ -23,4 +23,4 @@ var h='https://script.google.com/macros/s/AKfycbxpI5YUi8D_Lxlzwx2CRcnY-muhqzFGd3
 try{window.hva&&hva('event','enquiry_sent')}catch(x){}var ok=document.getElementById('ok');ok.querySelector('b').textContent=d.name.split(' ')[0];ok.querySelector('i').textContent=d.email;
 f.querySelectorAll('.ff,.fr,button[type=submit],.fnote').forEach(function(x){x.style.display='none'});ok.style.display='block';ok.scrollIntoView({block:'center',behavior:'smooth'})})
 .catch(function(){b.disabled=false;b.innerHTML=bh;er.style.display='block';
-var mt='mailto:developers@haritt.com?subject='+encodeURIComponent('Project enquiry: '+(d.company||d.name))+'&body='+encodeURIComponent('Name: '+d.name+'\nEmail: '+d.email+'\nCompany: '+(d.company||'-')+'\nWebsite: '+(d.site||'-')+'\nServices: '+svcs+'\nBudget: '+d.budget+'\nTimeline: '+d.timeline+'\n\n'+d.desc);er.querySelector('a').href=mt;location.href=mt})});})();
+var mt='mailto:developers@haritt.com?subject='+encodeURIComponent('Project enquiry: '+(d.company||d.name))+'&body='+encodeURIComponent('Name: '+d.name+'\nEmail: '+d.email+'\nCompany: '+(d.company||'-')+'\nWebsite: '+(d.site||'-')+'\nServices: '+svcs+'\nBudget: '+d.budget+'\nTimeline: '+d.timeline+'\n\n'+d.desc);er.querySelector('a').href=mt;location.href=mt})})};window.dvInit();})();
