@@ -1,18 +1,35 @@
 # Haritt Developers
 
-> Haritt Developers is the digital services brand of Haritt Group (India). It helps businesses build and improve their digital presence with website and software development, branding, digital marketing, lead generation, AI and automation, e-commerce and technology consulting. Contact: developers@haritt.com
+> Haritt Developers is a digital solutions partner for growing businesses, part of Haritt Group (India). We understand before we build: websites and digital experiences, applications and platforms, and custom digital solutions such as enquiry systems and automation. Start with a free First Look: three honest observations about your business online, within 3 working days. Contact: developers@haritt.com
 
-The name is spelled Haritt, with two Ts. People sometimes type Harit Developers; it is the same company.
+The name is spelled Haritt, with two Ts. People sometimes type Harit Developers; it is the same company. Founders: Harsh Goyal and Pulkit Soni.
 
-- Website: https://developers.haritt.com/
-- [Services](https://developers.haritt.com/services/)
-- [Our approach](https://developers.haritt.com/approach/): Discover, Position, Build, Launch, Attract, Convert, Improve
-- [Work](https://developers.haritt.com/work/): live products including HV Verse and haritt.com
-- [Pricing](https://developers.haritt.com/pricing/): custom quotes, no fixed packages
-- [Terms](https://developers.haritt.com/terms/)
-- [Payment and refund](https://developers.haritt.com/payments/)
-- [Support policy](https://developers.haritt.com/support/)
-- [About](https://developers.haritt.com/about/)
-- [FAQ](https://developers.haritt.com/faq/): services, timelines, pricing, support, ownership
-- [Start a project](https://developers.haritt.com/contact/)
+- [Haritt Developers · We understand before we build](https://developers.haritt.com/): Haritt Developers is a digital solutions partner for growing businesses in India: websites, apps and custom systems, built after we understand your business. Start with a free First Look.
+- [Services](https://developers.haritt.com/services/): Three ways Haritt Developers helps: websites and digital experiences, applications and platforms, and custom digital solutions.
+- [Websites & Digital Experiences](https://developers.haritt.com/services/websites/): Business websites, online stores, landing pages and Google profile setup that make people trust you and get in touch.
+- [Applications & Platforms](https://developers.haritt.com/services/apps/): Android apps, web apps, customer portals and dashboards. We start with the smallest version worth building, then grow it.
+- [Custom Digital Solutions](https://developers.haritt.com/services/custom-solutions/): Enquiry inbox, follow-ups, simple CRM and automation that take repetitive work off your plate, with AI only where it helps.
+- [AI & Business Automation](https://developers.haritt.com/services/ai/): Try two working AI demos: an enquiry that routes itself and a customer assistant that answers only from approved information.
+- [Our approach](https://developers.haritt.com/approach/): We understand before we build. Five steps: Understand, Discover, Strategize, Create, Improve, and what you see at every stage.
+- [Industries](https://developers.haritt.com/industries/): What we usually see and set up for retail stores, clinics, restaurants, coaching institutes, real estate and professional services.
+- [Retail & clothing stores](https://developers.haritt.com/industries/retail/): Websites, WhatsApp catalogues and Google profiles for shops that sell through Instagram, WhatsApp and walk-ins.
+- [Clinics & healthcare](https://developers.haritt.com/industries/clinics/): Appointment requests, clear clinic websites and Google profiles for doctors, dentists, physios and diagnostic centres.
+- [Restaurants & cafés](https://developers.haritt.com/industries/restaurants/): Online menus, table bookings and direct orders for restaurants, cafés, cloud kitchens and caterers.
+- [Coaching & education](https://developers.haritt.com/industries/coaching/): Course pages, demo class booking and fee reminders for coaching institutes, tutors and schools.
+- [Real estate](https://developers.haritt.com/industries/real-estate/): Property pages, lead tracking and site visit booking for builders, brokers and property consultants.
+- [Professional services](https://developers.haritt.com/industries/professional-services/): Credible websites, client intake forms and follow-up systems for CAs, lawyers, consultants and agencies.
+- [Work](https://developers.haritt.com/work/): Client projects, products we build and run ourselves, and concept work, each labelled for what it is.
+- [HV Reset case study](https://developers.haritt.com/work/hv-reset/): How we turned a simple question, why do daily planners stop working after a week, into a web app and an Android app.
+- [Insights](https://developers.haritt.com/insights/): Short, practical concept studies of common business problems and how we would approach them.
+- [Free First Look](https://developers.haritt.com/first-look/): A free, written review of your business online: three honest observations within 3 working days. No phone number, no sales calls.
+- [Founding Client Programme](https://developers.haritt.com/founding-clients/): Our first three clients work directly with the founders, with introductory pricing and full attention.
+- [Engagement & Investment](https://developers.haritt.com/engagement/): How we work out your investment: the factors, what you receive, engagement models and care plans. No packages, no surprises.
+- [Technology](https://developers.haritt.com/technology/): The technology and practices we use in real projects and our own products: stack, integrations, AI, security and data protection.
+- [About](https://developers.haritt.com/about/): Haritt Developers is a digital solutions partner for growing businesses, and part of Haritt Group, India.
+- [Contact](https://developers.haritt.com/contact/): Talk to Haritt Developers. Get a free First Look or send us your requirement. We reply within 3 working days.
+- [FAQ](https://developers.haritt.com/faq/): Answers to common questions about working with Haritt Developers: cost, timelines, payments, revisions, ownership and support.
+- [Terms of service](https://developers.haritt.com/terms/): The terms for working with Haritt Developers: scope, revisions, ownership, responsibilities and liability.
+- [Payment and refund](https://developers.haritt.com/payments/): Haritt Developers payment steps, late payment, cancellation and refund policy.
+- [Support and maintenance](https://developers.haritt.com/support/): What support Haritt Developers provides after launch: 30 days of free fixes, care plans and response times.
+- [Privacy](https://developers.haritt.com/privacy/): How Haritt Developers handles the details you share in an enquiry or First Look.
 - Parent company: [Haritt Group](https://haritt.com/)
