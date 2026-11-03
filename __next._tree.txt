@@ -1,5 +1,5 @@
 :HL["/_next/static/chunks/2-4bxn9_de--q.css","style"]
 :HL["https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap","style"]
-:HL["/site.css?v=1f1ffe3d60","style"]
+:HL["/site.css?v=51a7d2735e","style"]
 1:[["children",{"s":"__PAGE__","h":128}]]
-0:{"b":"vG9oRmcC-QcsFuiMu1YOr","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"JmEPk2nJbPEIf-gXjGeJ6","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
