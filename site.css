@@ -1142,3 +1142,7 @@ body.scrolled nav{box-shadow:0 1px 0 rgba(20,18,15,.06),0 10px 30px -18px rgba(2
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.zg-pn{transform:none!important}.jy-s{opacity:1;transform:none}.it.on *{animation:none!important}.up-a{opacity:0}.up-b{opacity:1}.up-ok svg{stroke-dashoffset:0}.jy-e circle.r{animation:none}}
 .it .more{align-items:start}.id-n{z-index:2}
 @media(max-width:640px){.id-n{width:128px;font-size:11.5px;top:18px}.id-p{right:0}.jy-v{height:42vh}}
+/* no side accent bars anywhere (Harsh, Nov 4) */
+.it.on{box-shadow:var(--sh2)}.cap.on{box-shadow:none}
+.pw,.hv .forw{border-left:0;padding-left:0}
+.dsteps button[aria-selected=true]:before{display:none}
