@@ -1013,8 +1013,6 @@ body.scrolled nav{box-shadow:0 1px 0 rgba(20,18,15,.06),0 10px 30px -18px rgba(2
 .hv .gh:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--ink),0 10px 22px -14px rgba(20,18,15,.35)}
 :focus-visible{outline:2px solid var(--or);outline-offset:3px}
 /* hero panel depth + tilt */
-.zg-pn{transform:perspective(1400px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .6s var(--ez),box-shadow .6s var(--ez);box-shadow:0 0 0 1px #ECE8E2,var(--d3)!important;will-change:transform}
-.zg-q{display:flex;align-items:center;gap:10px}.zg-fl{width:30px;height:30px;border-radius:50%;box-shadow:0 6px 14px -6px rgba(232,70,31,.6)}
 .zg-ui{box-shadow:0 0 0 1px #EAE6E0,0 2px 4px rgba(20,18,15,.04),0 22px 40px -22px rgba(20,18,15,.35)!important}
 .zg-cp button{transition:background .25s,color .25s,box-shadow .25s,transform .2s var(--ez)}.zg-cp button:hover{transform:translateY(-1px)}.zg-cp button:active{transform:scale(.97)}
 /* scroll reveal */
@@ -1146,3 +1144,28 @@ body.scrolled nav{box-shadow:0 1px 0 rgba(20,18,15,.06),0 10px 30px -18px rgba(2
 .it.on{box-shadow:var(--sh2)}.cap.on{box-shadow:none}
 .pw,.hv .forw{border-left:0;padding-left:0}
 .dsteps button[aria-selected=true]:before{display:none}
+footer .soc a{display:grid!important;place-items:center;padding:0!important}footer .soc svg{display:block}
+/* ===== old Developers dark look, used in a few premium sections ===== */
+.dk,.phero{--dkbg:#07080C}
+.sec.dk,.phero{position:relative;background:#07080C!important;color:#EDEAE4;--ink:#F6F3EC;--ink2:#B8B2A8;--mute:#8C867C;--rule:rgba(255,255,255,.11);--grid:rgba(255,255,255,.04);--ort:#FF7A52;isolation:isolate;overflow:hidden}
+.sec.dk::before,.phero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(900px 520px at 88% 0%,rgba(232,70,31,.22),transparent 65%),radial-gradient(700px 420px at 0% 100%,rgba(139,13,13,.18),transparent 70%)}
+.sec.dk h2,.sec.dk h3,.phero h1{color:#fff}
+.sec.dk .head p,.phero .lede,.phero p{color:#B8B2A8}
+.phero .crumb a,.phero .crumb{color:#8C867C}
+/* light UI cards inside dark sections keep their own light palette */
+.sec.dk .stage,.sec.dk .scn,.phero .pv,.phero figure{--ink:#15130F;--ink2:#433E37;--mute:#6E675C;--rule:#D8D1C4;--ort:#BF3714;color:var(--ink)}
+/* hero load-in */
+.zg-pn{box-shadow:0 0 0 1px #ECE8E2,var(--d3)!important}
+.zg-q{display:flex;align-items:center;gap:10px}.zg-fl{width:30px;height:30px;border-radius:50%;box-shadow:0 6px 14px -6px rgba(232,70,31,.6)}
+@keyframes hin{from{opacity:0;transform:translateY(22px)}}
+.phero .w>*,.phero .w>div>div>*{animation:hin .9s var(--ez) both}
+.phero .w>div>div>*:nth-child(2){animation-delay:.08s}
+.phero .w>div>div>*:nth-child(3){animation-delay:.16s}
+.phero .w>div>div>*:nth-child(4){animation-delay:.24s}
+@media(prefers-reduced-motion:reduce){.phero *{animation:none!important}}
+
+
+.sec.dk .cap{color:#B8B2A8}.sec.dk .cap b,.sec.dk .cap strong{color:#EDEAE4}
+.sec.dk .cap.on{background:rgba(255,255,255,.07)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)!important}
+.sec.dk .cap.on,.sec.dk .cap.on *{color:#fff!important}.sec.dk .cap.on small,.sec.dk .cap.on span{color:#FF8A66!important}
+.sec.dk .cap:hover{background:rgba(255,255,255,.04)}
