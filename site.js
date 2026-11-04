@@ -31,7 +31,11 @@ const C=[["Websites","A site that explains what you do, shows up on Google and t
 const caps=[...document.querySelectorAll('.cap')],scn=[...document.querySelectorAll('.scn')];
 function cap(i){caps.forEach((c,j)=>c.classList.toggle('on',j==i));scn.forEach((s,j)=>s.classList.toggle('on',j==i));document.getElementById('capname').textContent=C[i][0];document.getElementById('pw').textContent=C[i][1];document.getElementById('uh').textContent=C[i][2]}
 caps.forEach((c,i)=>c.onclick=()=>cap(i));cap(0);
-const tr=document.querySelector(".track");if("IntersectionObserver" in window){new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){tr.classList.add("go");o.disconnect()}},{threshold:.4}).observe(tr)}else tr.classList.add("go");
+const jy=document.getElementById("jy");if(jy){const jp=document.getElementById("jyp"),jg=document.getElementById("jyg"),jk=document.getElementById("jyk"),js=[...jy.querySelectorAll(".jy-s")],jn=[...jy.querySelectorAll(".jy-n")],L=jp.getTotalLength(),kL=jk.getTotalLength(),nl=[200,280,360,450].map(x=>{let lo=0,hi=L;for(let k=0;k<20;k++){const m=(lo+hi)/2;jp.getPointAtLength(m).x<x?lo=m:hi=m}return lo});[jp,jg].forEach(e=>{e.style.strokeDasharray=L;e.style.strokeDashoffset=L});jk.style.strokeDasharray=kL;
+const rm=matchMedia("(prefers-reduced-motion: reduce)").matches;
+window.__jy=function(){if(!jy.isConnected)return;const h=innerHeight,mob=innerWidth<=900,a=js[0].getBoundingClientRect(),z=js[js.length-1].getBoundingClientRect(),c0=a.top+a.height/2,c1=z.top+z.height/2,t=h*(mob?.8:.55);let p=rm?1:Math.min(1,Math.max(0,(t-c0)/(c1-c0||1)));const kp=Math.min(1,Math.max(0,(h-a.top)/(h*.6)));jk.style.strokeDashoffset=rm?0:kL*(1-kp);const off=L*(1-p);jp.style.strokeDashoffset=off;jg.style.strokeDashoffset=off;const dl=L*p;jn.forEach((n,i)=>n.classList.toggle("on",dl>=nl[i]-2));let ai=0;js.forEach((e,i)=>{const r=e.getBoundingClientRect();if(r.top+r.height/2<h*(mob?.86:.62))ai=i});js.forEach((e,i)=>e.classList.toggle("on",i===ai||rm));jy.dataset.s=ai;jy.style.setProperty("--k",(1-p*.75).toFixed(2))};
+if(!window.__jyb){window.__jyb=1;addEventListener("scroll",()=>window.__jy&&window.__jy(),{passive:true});addEventListener("resize",()=>window.__jy&&window.__jy())}window.__jy()}
+const pn=document.querySelector(".zg-pn");if(pn&&matchMedia("(hover:hover) and (pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches){const hv=pn.closest("section");hv.onpointermove=e=>{const r=pn.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;pn.style.setProperty("--ry",(x*5).toFixed(2)+"deg");pn.style.setProperty("--rx",(-y*4).toFixed(2)+"deg")};hv.onpointerleave=()=>{pn.style.setProperty("--ry","0deg");pn.style.setProperty("--rx","0deg")}}
 
 }
 /* enquiry form */
@@ -84,6 +88,8 @@ function cases(){
  var dr=document.querySelectorAll('[data-draw]');
  if(dr.length){if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){dr.forEach(function(x){x.classList.add('go')})}else{var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('go');io2.unobserve(e.target)}})},{threshold:.35});dr.forEach(function(x){io2.observe(x)})}}
 }
-window.dvInit=function(){onLinks();menu(false);if(document.getElementById('zgc'))home();form();cases()};
+function rv(){var sel='.sec .head,.idx .it,.bench,.wgrid>a,.wbig,.wsm,.cl,.cta .w>*,.phero>*,.sg>*,.incl>*,.qa>*,.relw>*,.jy-v';var els=[].slice.call(document.querySelectorAll(sel)).filter(function(e){return !e.classList.contains('rv')&&!e.closest('.hv')});if(!els.length)return;if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;var vh=innerHeight;els.forEach(function(e){var r=e.getBoundingClientRect();if(r.top<vh*.92)return;e.classList.add('rv');var p=e.parentNode,k=[].indexOf.call(p.children,e);e.style.setProperty('--dl',Math.min(k,5)*70+'ms')});var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.08});els.forEach(function(e){if(e.classList.contains('rv'))io.observe(e)})}
+if(!window.__sc){window.__sc=1;var _sc=function(){document.body.classList.toggle('scrolled',scrollY>8)};addEventListener('scroll',_sc,{passive:true});_sc()}
+window.dvInit=function(){onLinks();menu(false);if(document.getElementById('zgc'))home();form();cases();rv()};
 window.dvInit();
 })();
