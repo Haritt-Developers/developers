@@ -16,19 +16,17 @@ function onLinks(){var p=location.pathname;document.querySelectorAll('#nav .nl a
 /* home page */
 function home(){
 
-const B=[["\"We need a new website.\"","Patients call to book. After 7 pm and on Sundays, nobody answers, and most of them book somewhere else.","A website with online booking, fees shown upfront, WhatsApp confirmations and a calendar for the front desk.",["Website","Online booking","WhatsApp reminders"]],
-["\"We need more Instagram followers.\"","People do message, but prices are sent by hand and replies take hours. Interested buyers go cold.","A product catalogue with prices, quick replies on WhatsApp, and a simple order list so no enquiry is forgotten.",["Catalogue","WhatsApp setup","Order tracking"]],
-["\"We need an app.\"","Fees, attendance and test marks are on paper. Parents call every day to ask the same questions.","A web app for staff and a parent view on phone: fees, attendance and results in one place. An Android app later, if it is needed.",["Web app","Parent portal","Fee reminders"]],
-["\"Build us the full product.\"","The idea is strong, but the first version has twenty features and no clear first customer.","A focused first version with the three features users need most, designed, built and launched in weeks, then improved from real usage.",["Product plan","MVP","Analytics"]]];
-const br=document.getElementById('brief'),bt=[...document.querySelectorAll('#btabs button')];let bi=0,bTimer;
-function brief(i){if(!br.isConnected){clearInterval(window.__bT);return}bi=i;bt.forEach((b,j)=>b.classList.toggle('on',j==i));const x=B[i];br.innerHTML=`<div class="fade"><div class="r ask"><div class="mono">They asked</div><div class="t">${x[0]}</div></div><div class="r"><div class="mono">We found</div><div class="t">${x[1]}</div></div><div class="r build"><div class="mono">We build</div><div><div class="t">${x[2]}</div><div class="chips">${x[3].map(c=>`<span>${c}</span>`).join('')}</div></div></div></div>`}
-bt.forEach((b,i)=>b.onclick=()=>{clearInterval(bTimer);brief(i)});brief(0);clearInterval(window.__bT);bTimer=window.__bT=setInterval(()=>brief((bi+1)%B.length),7000);
+const bt=[...document.querySelectorAll('#zgc button')],bs=[...document.querySelectorAll('#zgs .zg-sc')],br=document.getElementById('zgs');let bi=0,bTimer;
+function brief(i){if(!br.isConnected){clearInterval(window.__bT);return}bt[bi].classList.remove('on');bs[bi].classList.remove('on');bt[bi].setAttribute('aria-pressed','false');bi=i;bt[i].classList.add('on');bs[i].classList.add('on');bt[i].setAttribute('aria-pressed','true')}
+bt.forEach((b,i)=>b.onclick=()=>{clearInterval(bTimer);brief(i)});if(!matchMedia('(prefers-reduced-motion: reduce)').matches)clearInterval(window.__bT);bTimer=window.__bT=setInterval(()=>brief((bi+1)%bt.length),3600);
 document.querySelectorAll('.it').forEach(e=>e.onclick=()=>e.classList.toggle('on'));
 const C=[["Websites","A site that explains what you do, shows up on Google and turns visitors into calls, bookings or orders.","Responsive build, fast on 4G, SEO-ready structure, CMS where needed, analytics and accessibility checked."],
 ["Web apps & dashboards","Software in your browser for running the business: enquiries, orders, staff, customers and reports.","Role-based access, secure login, database design, audit trails, exports and integrations through APIs."],
 ["Mobile apps","An app your customers or staff use daily on their phone, for booking, ordering, learning or tracking.","Android and iPhone apps, push notifications, offline support where needed, store listing and release."],
 ["E-commerce","An online store your customers can browse and pay on, with stock and delivery handled for you.","Product catalogue, UPI, card and COD payments, order management, shipping and inventory sync."],
 ["AI & automation","Repetitive work done automatically, and AI added only where it actually saves time or money.","Workflow automation, WhatsApp and email triggers, AI classification and assistants, CRM and API integrations."],
+["Custom software","Software made for the way your business runs, when ready-made tools do not fit.","Custom workflows, job and stock tracking, role-based access, reports, and integrations with the tools you already use."],
+["Digital growth & marketing","Being found on Google and Maps, and knowing which channel actually brings customers.","Technical and local SEO, Google Business profile, analytics and conversion tracking, landing pages and campaign setup."],
 ["Brand & digital identity","A logo, colours and type that look consistent everywhere your business appears online and offline.","Logo construction, colour and type system, social and print templates, usage guide and source files."]];
 const caps=[...document.querySelectorAll('.cap')],scn=[...document.querySelectorAll('.scn')];
 function cap(i){caps.forEach((c,j)=>c.classList.toggle('on',j==i));scn.forEach((s,j)=>s.classList.toggle('on',j==i));document.getElementById('capname').textContent=C[i][0];document.getElementById('pw').textContent=C[i][1];document.getElementById('uh').textContent=C[i][2]}
@@ -86,6 +84,6 @@ function cases(){
  var dr=document.querySelectorAll('[data-draw]');
  if(dr.length){if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){dr.forEach(function(x){x.classList.add('go')})}else{var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('go');io2.unobserve(e.target)}})},{threshold:.35});dr.forEach(function(x){io2.observe(x)})}}
 }
-window.dvInit=function(){onLinks();menu(false);if(document.getElementById('btabs'))home();form();cases()};
+window.dvInit=function(){onLinks();menu(false);if(document.getElementById('zgc'))home();form();cases()};
 window.dvInit();
 })();
