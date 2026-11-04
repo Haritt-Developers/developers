@@ -1,445 +1,164 @@
 2:"$Sreact.fragment"
-8:"/_next/static/chunks/2jr-lhwp61xc7.js"
+8:"/_next/static/chunks/12da21xbz-kcp.js"
 9:"ViewportBoundary"
 a:I[97367,["$8"],"$9"]
 b:"MetadataBoundary"
 c:I[97367,["$8"],"$b"]
 d:"$Sreact.suspense"
 e:I[27201,["$8"],"IconMark"]
-3:T6b4,{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://developers.haritt.com/#org","name":"Haritt Developers","alternateName":["Harit Developers","Haritt Developers by Haritt Group"],"url":"https://developers.haritt.com/","logo":{"@type":"ImageObject","url":"https://developers.haritt.com/assets/logo-256.png"},"email":"developers@haritt.com","description":"Haritt Developers is a digital solutions partner for growing businesses: websites, applications and custom digital systems, built after understanding the business.","parentOrganization":{"@type":"Organization","@id":"https://haritt.com/#org","name":"Haritt Group","url":"https://haritt.com/"},"areaServed":"IN","sameAs":["https://www.youtube.com/@harittdevelopers","https://www.instagram.com/harittdevelopers/","https://www.linkedin.com/company/harittdevelopers/","https://x.com/harittdeveloper","https://www.facebook.com/harittdevelopers","https://www.threads.com/@harittdevelopers","https://github.com/harittdevelopers"]},{"@type":"WebSite","@id":"https://developers.haritt.com/#website","name":"Haritt Developers","url":"https://developers.haritt.com/","publisher":{"@id":"https://developers.haritt.com/#org"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://developers.haritt.com/#page","url":"https://developers.haritt.com/","name":"Haritt Developers · We understand before we build","description":"Haritt Developers is a digital solutions partner for growing businesses in India: websites, apps and custom systems, built after we understand your business. Start with a free First Look.","isPartOf":{"@id":"https://developers.haritt.com/#website"},"about":{"@id":"https://developers.haritt.com/#org"},"inLanguage":"en"}]}4:T8e00,
-<header class="hero">
-  <canvas id="field" aria-hidden="true"></canvas>
-  <div class="w">
-    <span class="tag">Haritt Developers · Websites, apps &amp; business systems</span>
-    <h1 style="margin-top:26px"><span class="ln"><span>We build websites,</span></span><span class="ln"><span>apps and <em class="s grad">business systems.</em></span></span></h1>
-    <div class="hrow">
-      <div>
-        <p class="hlead">For growing businesses in India. <b>We understand your business before we build</b>, so you only pay for what brings customers and saves time.</p>
-        <div class="hcta">
-          <a class="btn hot" href="#first-look">Get a free First Look<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-          <a class="btn" href="#how">Watch how we work<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span></a>
-        </div>
-      </div>
-      <div class="scroll">Scroll<i></i></div>
-    </div>
+3:T6b2,{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://developers.haritt.com/#org","name":"Haritt Developers","alternateName":["Harit Developers","Haritt Developers by Haritt Group"],"url":"https://developers.haritt.com/","logo":{"@type":"ImageObject","url":"https://developers.haritt.com/img/mark-sq.png"},"email":"developers@haritt.com","description":"Haritt Developers builds websites, web apps, mobile apps, e-commerce, AI and automation for businesses, starting with an understanding of the business.","parentOrganization":{"@type":"Organization","@id":"https://haritt.com/#org","name":"Haritt Group","url":"https://haritt.com/"},"areaServed":"IN","sameAs":["https://www.youtube.com/@harittdevelopers","https://www.instagram.com/harittdevelopers/","https://www.linkedin.com/company/harittdevelopers/","https://x.com/harittdeveloper","https://www.facebook.com/harittdevelopers","https://www.threads.com/@harittdevelopers","https://github.com/harittdevelopers"]},{"@type":"WebSite","@id":"https://developers.haritt.com/#website","name":"Haritt Developers","url":"https://developers.haritt.com/","publisher":{"@id":"https://developers.haritt.com/#org"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://developers.haritt.com/#page","url":"https://developers.haritt.com/","name":"Haritt Developers · Websites, apps and software built around your business","description":"Haritt Developers builds websites, web apps, mobile apps, e-commerce, AI and automation for businesses in India, after understanding what is actually holding the business back.","isPartOf":{"@id":"https://developers.haritt.com/#website"},"about":{"@id":"https://developers.haritt.com/#org"},"inLanguage":"en"}]}4:T4d4c,<header class="hero"><div class="w">
+ <div>
+  <div class="mono">Digital solutions studio · Haritt Group · India</div>
+  <h1>Websites, apps and software, <span>built around how your business works.</span></h1>
+  <p class="lead">Before we design a single screen, we find out what is actually holding your business back. Then we build the digital solution that fixes it, and stay to keep it working.</p>
+  <div class="act"><a class="btn" href="/first-look/">Tell us what you're building</a><a class="lnk" href="/how-we-work/">See how we work</a></div>
+  <div class="meta"><div><b>Understand first</b>We study the problem before we suggest a solution</div><div><b>Scope in writing</b>Agreed with you before work starts</div><div><b>Plain language</b>No jargon unless you want it</div></div>
+ </div>
+ <div class="sheet" id="sheet">
+    <div class="sh-top"><span class="mono">The brief behind the brief</span><span class="tag">Illustrative examples</span></div>
+  <div class="tabs" id="btabs"><button class="on">Dental clinic</button><button>Clothing store</button><button>Coaching institute</button><button>Startup</button></div>
+  <div class="row3" id="brief"></div>
+ </div>
+</div></header>
+
+<section class="sec" id="solve"><div class="w">
+ <div class="head"><div class="mono or">01 · What we solve</div><div><h2>Most businesses don't need "a website". They need a problem to go away.</h2><p>These are the problems we hear most often. Open one to see what we would build for it.</p></div></div>
+ <div class="idx" id="idx">
+  <div class="it on"><div class="mono">Problem 01</div><h3>Customers can't find you online, or don't trust what they find.</h3><div class="so"><b>We build</b>Brand identity, website, Google profile</div><div class="pl">+</div><div class="more"><p>A clear brand and a fast website that answers the questions people ask before they call: what you do, what it costs, where you are, how to book. Set up so it shows up on Google and Maps.</p><svg class="ill" viewBox="0 0 280 140" aria-hidden="true"><rect x="10" y="14" width="150" height="26" rx="3"/><circle cx="28" cy="27" r="6"/><path d="M32 31l5 5"/><path class="o" d="M44 27h70"/>
+<rect x="10" y="52" width="150" height="74" rx="3"/><path d="M22 70h90M22 84h70M22 98h110M22 112h60" class="dim"/><rect class="hl" x="16" y="62" width="138" height="16" rx="2"/>
+<rect x="178" y="14" width="92" height="112" rx="3"/><path class="dim" d="M178 60c20-8 40 10 60 0s22-6 32-2M200 14v112M240 14v112"/><g class="pin"><path class="of" d="M224 42c-9 0-15 7-15 15 0 11 15 25 15 25s15-14 15-25c0-8-6-15-15-15z"/><circle cx="224" cy="57" r="5" fill="#fff" stroke="none"/></g></svg></div></div>
+  <div class="it"><div class="mono">Problem 02</div><h3>Orders and enquiries live in WhatsApp, notebooks and someone's memory.</h3><div class="so"><b>We build</b>Order and enquiry system, web app</div><div class="pl">+</div><div class="more"><p>One place where every enquiry and order is recorded, assigned to a person and tracked until it is done. Works on phone and laptop, and your team can learn it in a day.</p><svg class="ill" viewBox="0 0 280 140" aria-hidden="true"><g class="sc a"><rect x="12" y="12" width="56" height="24" rx="10"/><path d="M22 24h34"/></g><g class="sc b"><rect x="20" y="58" width="48" height="56" rx="2"/><path d="M28 72h32M28 82h26M28 92h30"/></g><g class="sc c"><rect x="84" y="20" width="40" height="40" rx="2" transform="rotate(-8 104 40)"/><path d="M92 36h22M92 46h16" transform="rotate(-8 104 40)"/></g><g class="sc d"><rect x="80" y="84" width="54" height="24" rx="10"/><path d="M90 96h34"/></g>
+<path class="arr" d="M146 70h22m-6-6 6 6-6 6"/><rect x="180" y="14" width="90" height="112" rx="3"/><g class="ls"><path class="o" d="M192 34h10"/><path d="M208 34h50"/><path class="o" d="M192 58h10"/><path d="M208 58h42"/><path class="o" d="M192 82h10"/><path d="M208 82h46"/><path class="o" d="M192 106h10"/><path d="M208 106h36"/></g></svg></div></div>
+  <div class="it"><div class="mono">Problem 03</div><h3>Your team spends hours on the same tasks every day.</h3><div class="so"><b>We build</b>Automation and AI integrations</div><div class="pl">+</div><div class="more"><p>Replies, reminders, invoices, reports and data entry that run on their own. Where AI genuinely helps, such as sorting enquiries or answering common questions, we connect it to your existing tools.</p><svg class="ill" viewBox="0 0 280 140" aria-hidden="true"><g class="dim"><rect x="14" y="20" width="70" height="18" rx="2"/><rect x="14" y="46" width="70" height="18" rx="2"/><rect x="14" y="72" width="70" height="18" rx="2"/><rect x="14" y="98" width="70" height="18" rx="2"/></g><path d="M24 29h40M24 55h40M24 81h40M24 107h40"/>
+<path class="arr" d="M100 70h28m-6-6 6 6-6 6"/><g class="spin" style="transform-origin:200px 70px"><circle cx="200" cy="70" r="38"/><path class="o" d="M200 32a38 38 0 0 1 36 26m0 0 2-11m-2 11-10-4"/></g><g class="gear"><circle cx="200" cy="70" r="12" class="of"/><circle cx="200" cy="70" r="4" fill="#fff" stroke="none"/></g></svg></div></div>
+  <div class="it"><div class="mono">Problem 04</div><h3>Selling online feels harder than it should be.</h3><div class="so"><b>We build</b>E-commerce store and catalogue</div><div class="pl">+</div><div class="more"><p>A store your customers can browse and pay on in a few taps, with stock, orders and delivery updates handled behind the scenes.</p><svg class="ill" viewBox="0 0 280 140" aria-hidden="true"><g class="dim"><circle cx="24" cy="40" r="9"/><circle cx="64" cy="40" r="9"/><circle cx="104" cy="40" r="9"/><circle cx="144" cy="40" r="9"/><circle cx="184" cy="40" r="9"/><path d="M33 40h22M73 40h22M113 40h22M153 40h22"/></g><text x="204" y="44" class="t">5 steps</text>
+<g class="st2"><circle class="of" cx="24" cy="100" r="9"/><path class="o" d="M33 100h70"/><circle class="of" cx="112" cy="100" r="9"/></g><path class="buy" d="M134 88h14l8 22h28l6-16h-38"/><circle cx="160" cy="116" r="3"/><circle cx="180" cy="116" r="3"/><text x="204" y="104" class="t o2">2 taps</text></svg></div></div>
+  <div class="it"><div class="mono">Problem 05</div><h3>You have an idea that needs to become a real product.</h3><div class="so"><b>We build</b>Mobile and web apps</div><div class="pl">+</div><div class="more"><p>We shape the idea into a clear first version, design it, build it for Android, iPhone or the web, and help you launch and improve it.</p><svg class="ill" viewBox="0 0 280 140" aria-hidden="true"><path class="draw" d="M40 44a20 20 0 1 1 22 0c-3 2-4 6-4 10H40c0-4-2-8-6-10"/><path d="M42 64h18M44 72h14"/><path class="arr" d="M78 70h22m-6-6 6 6-6 6"/>
+<rect x="112" y="28" width="62" height="84" rx="2" class="dash"/><path class="dash" d="M120 40h46M120 52h30M120 84h46M120 96h46"/><rect class="dash" x="120" y="60" width="46" height="18"/><path class="arr" d="M186 70h22m-6-6 6 6-6 6"/>
+<rect x="220" y="18" width="50" height="104" rx="9"/><rect class="of ph1" x="228" y="34" width="34" height="22" rx="2"/><path d="M228 66h34M228 76h26M228 86h30"/><rect class="of" x="228" y="100" width="34" height="10" rx="2"/></svg></div></div>
+  <div class="it"><div class="mono">Problem 06</div><h3>Your current system is slow, outdated or doesn't talk to anything else.</h3><div class="so"><b>We build</b>Modernisation and integrations</div><div class="pl">+</div><div class="more"><p>We study what you have, keep what works, and rebuild or connect the rest so data flows between your website, payments, CRM and accounts.</p><svg class="ill" viewBox="0 0 280 140" aria-hidden="true"><g><rect x="14" y="16" width="62" height="28" rx="3"/><text x="45" y="34" class="t c">Website</text><rect x="14" y="96" width="62" height="28" rx="3"/><text x="45" y="114" class="t c">Payments</text><rect x="204" y="16" width="62" height="28" rx="3"/><text x="235" y="34" class="t c">CRM</text><rect x="204" y="96" width="62" height="28" rx="3"/><text x="235" y="114" class="t c">Accounts</text></g>
+<circle class="of" cx="140" cy="70" r="16"/><path class="link" d="M76 30L126 62M76 110L126 78M204 30L154 62M204 110L154 78"/><circle cx="140" cy="70" r="5" fill="#fff" stroke="none"/></svg></div></div>
+ </div>
+</div></section>
+
+<section class="sec" id="build"><div class="w">
+ <div class="head"><div class="mono or">02 · What we build</div><div><h2>Six kinds of work. Each one planned around your business before it is built.</h2></div></div>
+ <div class="bench">
+  <div class="caps" id="caps">
+   <button class="cap on">Websites<small>Business sites, landing pages</small></button>
+   <button class="cap">Web apps & dashboards<small>Portals, admin tools, systems</small></button>
+   <button class="cap">Mobile apps<small>Android, iPhone</small></button>
+   <button class="cap">E-commerce<small>Stores, catalogues, payments</small></button>
+   <button class="cap">AI & automation<small>Workflows, AI features</small></button>
+   <button class="cap">Brand & digital identity<small>Logo, colours, type, assets</small></button>
   </div>
-</header>
+  <div class="stage">
+   <div class="bar"><a class="mono capl" id="capname" href="/services/websites/">Websites</a><span class="tag">Concept design</span></div>
 
-<div class="reel" aria-label="Examples of our work"><div class="reel-t"><div class="rc cut"><figure><img src="/img/r-saree.jpg" alt="" loading="eager"></figure><p><b>Saree House</b>Example · retail website</p></div><div class="rc ph2"><figure><img src="/img/resetland.png" alt="" loading="eager"></figure><p><b>HV Reset</b>Our app · Android</p></div><div class="rc cut"><figure><img src="/img/r-wa.jpg" style="border-radius:clamp(22px,2.4vw,34px)" alt="" loading="eager"></figure><p><b>WhatsApp orders</b>Example · catalogue + replies</p></div><div class="rc br"><figure><div class="bb"><i></i><i></i><i></i><span>thehvverse.com</span></div><img src="/img/hvverse.png" alt="" loading="eager"></figure><p><b>HV Verse</b>Our product site</p></div><div class="rc cut"><figure><img src="/img/r-reviews.jpg" style="border-radius:clamp(12px,1.3vw,18px)" alt="" loading="eager"></figure><p><b>Google profile</b>Example · reviews + replies</p></div><div class="rc ph2"><figure><img src="/img/resetapp.png" alt="" loading="eager"></figure><p><b>HV Reset</b>Our app · daily planner</p></div><div class="rc cut"><figure><img src="/img/r-plan.jpg" style="border-radius:clamp(10px,1vw,14px)" alt="" loading="eager"></figure><p><b>Growth plan</b>Example · now / next / later</p></div><div class="rc br"><figure><div class="bb"><i></i><i></i><i></i><span>haritt.com</span></div><img src="/img/haritt.png" alt="" loading="eager"></figure><p><b>Haritt Group</b>Our brand site</p></div><div class="rc cut"><figure><img src="/img/r-saree.jpg" alt="" loading="eager"></figure><p><b>Saree House</b>Example · retail website</p></div><div class="rc ph2"><figure><img src="/img/resetland.png" alt="" loading="eager"></figure><p><b>HV Reset</b>Our app · Android</p></div><div class="rc cut"><figure><img src="/img/r-wa.jpg" style="border-radius:clamp(22px,2.4vw,34px)" alt="" loading="eager"></figure><p><b>WhatsApp orders</b>Example · catalogue + replies</p></div><div class="rc br"><figure><div class="bb"><i></i><i></i><i></i><span>thehvverse.com</span></div><img src="/img/hvverse.png" alt="" loading="eager"></figure><p><b>HV Verse</b>Our product site</p></div><div class="rc cut"><figure><img src="/img/r-reviews.jpg" style="border-radius:clamp(12px,1.3vw,18px)" alt="" loading="eager"></figure><p><b>Google profile</b>Example · reviews + replies</p></div><div class="rc ph2"><figure><img src="/img/resetapp.png" alt="" loading="eager"></figure><p><b>HV Reset</b>Our app · daily planner</p></div><div class="rc cut"><figure><img src="/img/r-plan.jpg" style="border-radius:clamp(10px,1vw,14px)" alt="" loading="eager"></figure><p><b>Growth plan</b>Example · now / next / later</p></div><div class="rc br"><figure><div class="bb"><i></i><i></i><i></i><span>haritt.com</span></div><img src="/img/haritt.png" alt="" loading="eager"></figure><p><b>Haritt Group</b>Our brand site</p></div></div></div>
+   <div class="scn on">
+    <div class="site"><div class="chrome"><i></i><i></i><i></i><span>smiledental.in</span></div>
+     <div class="nv"><b>Smile Dental</b><span>Treatments · Doctors · Fees · Contact</span></div>
+     <div class="hb"><div><div style="font-size:10px;color:#5A8B85;letter-spacing:.08em">MALVIYA NAGAR, JAIPUR</div><div class="h4">Painless dental care, booked in a minute.</div><div style="color:#567">See the fees upfront. Pick a time that suits you.</div><span class="bk">Book an appointment</span></div>
+      <div class="slots"><b>Saturday, 8 Nov</b><div><span>10:30</span><span class="s">12:00</span><span>13:30</span><span>16:15</span><span>17:00</span><span>18:30</span></div></div></div></div>
+    <div class="ann" style="left:600px;top:150px"><b></b><i></i>Booking above the fold</div>
+    <div class="ann" style="left:600px;top:250px"><b></b><i></i>Fees shown, fewer calls</div>
+   </div>
 
-<div class="mq" aria-hidden="true"><div class="mq-t">
-  <span>Clothing stores</span><span><em>Clinics</em></span><span>Coaching institutes</span><span>Real estate</span><span><em>Restaurants</em></span><span>Startups</span><span>Local brands</span><span><em>Service businesses</em></span>
-  <span>Clothing stores</span><span><em>Clinics</em></span><span>Coaching institutes</span><span>Real estate</span><span><em>Restaurants</em></span><span>Startups</span><span>Local brands</span><span><em>Service businesses</em></span>
-</div></div>
+   <div class="scn">
+    <div class="app"><div class="sd"><b>Orders</b><span class="on">Enquiries</span><span>Orders</span><span>Customers</span><span>Team</span><span>Reports</span></div>
+     <div class="mn"><h5>Enquiries this week</h5><table class="tbl"><tr><th>Customer</th><th>Asked about</th><th>Owner</th><th>Status</th></tr>
+      <tr><td>Mehta Traders</td><td>Bulk order, 40 units</td><td>Ravi</td><td><span class="st n">New</span></td></tr>
+      <tr><td>Anita S.</td><td>Delivery to Ajmer</td><td>Pooja</td><td><span class="st f">Follow up</span></td></tr>
+      <tr><td>K. Iyer</td><td>Price for 2 sets</td><td>Ravi</td><td><span class="st d">Ordered</span></td></tr>
+      <tr><td>Sharma &amp; Sons</td><td>Repeat order</td><td>Aman</td><td><span class="st d">Ordered</span></td></tr></table></div></div>
+    <div class="ann" style="left:660px;top:120px"><b></b><i></i>Every enquiry has an owner</div>
+   </div>
 
-<!-- STORY -->
-<!-- PAIN -->
-<section id="pain">
-  <div class="w">
-    <div class="sh">
-      <span class="tag">Why people come to us</span>
-      <h2>Sound <em class="s grad">familiar?</em></h2>
-      <p>Most businesses don't come to us for a website. They come because something isn't working.</p>
+   <div class="scn">
+    <div class="phones">
+     <div class="ph"><div class="sc"><div style="color:#888">Good evening, Aarav</div><h6>Today's classes</h6>
+      <div class="cls"><div><b>Maths · Class 10</b>5:00 pm · Room 2</div><span>Join</span></div>
+      <div class="cls"><div><b>Science test</b>Tomorrow · 20 marks</div><span>Revise</span></div>
+      <div class="cls"><div><b>Fees</b>November paid</div><span>Receipt</span></div>
+      <div class="tabsb"><span>Home</span><span>Classes</span><span>Tests</span><span>Profile</span></div></div></div>
+     <div class="ph s2"><div class="sc"><div style="font:500 10px var(--m);opacity:.8">TEST RESULT</div><div class="big">17/20</div><div>Science · Chapter 4</div></div></div>
     </div>
-    <div class="pain">
-      <div class="pf">
-        <div class="fr"><div class="ui">
-          <div class="g-s"><i></i>saree shop near me</div>
-          <div class="g-tab"><b>All</b><span>Maps</span><span>Images</span><span>Shopping</span></div>
-          <div class="g-r"><u style="background-image:url(/img/p2.jpg)"></u><div><b>Rangoli Silks</b><span><s>4.6 ★</s> (212) · Open now</span></div></div>
-          <div class="g-r"><u style="background-image:url(/img/p3.jpg)"></u><div><b>Laxmi Saree Centre</b><span><s>4.4 ★</s> (98) · Website</span></div></div>
-          <div class="g-miss">Your shop isn't on this page</div>
-        </div></div>
-        <h3>Customers search. You don't show up.</h3>
-        <p>No Google profile, no reviews, no website. They find someone else.</p>
-      </div>
-      <div class="pf">
-        <div class="fr"><div class="ui wl">
-          <div class="t">Chats <small>41 unread</small></div>
-          <div class="c"><div class="av" style="background:#C2185B">PK</div><div><b>Priya K.</b><span>Price kya hai?</span></div><em>2 days<i>3</i></em></div>
-          <div class="c"><div class="av" style="background:#00897B">RS</div><div><b>Ritu Sharma</b><span>Is this still available?</span></div><em>2 days<i>2</i></em></div>
-          <div class="c"><div class="av" style="background:#EF6C00">DM</div><div><b>Deepa M.</b><span>Hello? Anyone there?</span></div><em>3 days<i>4</i></em></div>
-          <div class="c"><div class="av" style="background:#3949AB">SJ</div><div><b>Sneha J.</b><span>Price please</span></div><em>4 days<i>1</i></em></div>
-        </div></div>
-        <h3>Enquiries come in. Replies come late.</h3>
-        <p>By the time someone answers, the customer has already bought elsewhere.</p>
-      </div>
-      <div class="pf">
-        <div class="fr"><div class="ui wc">
-          <div class="h"><div class="av">VK</div><div><b>Vikas (web guy)</b><small>last seen 3 weeks ago</small></div></div>
-          <div class="bd">
-            <div class="m o">Bhai, site band ho gayi hai. Check karoge?<i>11:02</i></div>
-            <div class="m o">Domain ka login bhej do please<i>Mon</i></div>
-            <div class="m">Sir renewal ₹8,500 ka hai. Login mere paas hi rahega.<i>Thu</i></div>
-          </div>
-        </div></div>
-        <h3>Someone else holds your logins.</h3>
-        <p>Your domain, website and accounts are in a freelancer's name. You can't change anything.</p>
-      </div>
-      <div class="pf">
-        <div class="fr"><div class="ui ce">
-          <div class="bar"><span>www.yourbusiness.in</span></div>
-          <svg viewBox="0 0 48 48" fill="none" stroke="#5F6368" stroke-width="2.4" stroke-linecap="round"><rect x="8" y="10" width="32" height="26" rx="3"/><path d="M8 17h32M18 26l6 5M24 26l-6 5"/></svg>
-          <h6>This site can't be reached</h6>
-          <p>yourbusiness.in took too long to respond.</p>
-          <code>ERR_CONNECTION_TIMED_OUT</code>
-          <span class="rl">Reload</span>
-        </div></div>
-        <h3>You paid for a website. It doesn't bring work.</h3>
-        <p>Slow, broken on phones, or simply never updated. Nobody knows if it helps.</p>
-      </div>
+    <div class="ann" style="left:470px;top:110px"><b></b><i></i>Parents see fees and results</div>
+   </div>
+
+   <div class="scn">
+    <div class="shop"><div class="pic"><svg viewBox="0 0 100 120"><path d="M30 10h40l10 20-12 6v74H32V36l-12-6z" fill="#B5462E"/><path d="M42 10c2 8 14 8 16 0" fill="none" stroke="#7A2A18" stroke-width="2"/><path d="M32 60h36M32 70h36" stroke="#D9A066" stroke-width="2"/></svg></div>
+     <div class="inf"><div style="font-size:10px;color:#999;letter-spacing:.08em">HANDLOOM · COTTON</div><h5>Block-print kurta, rust</h5><b style="font-size:16px">₹1,490</b><div class="sz"><span>S</span><span class="on">M</span><span>L</span><span>XL</span></div><div style="color:#1C7A4A;font-size:11px">In stock · delivery by Thursday</div><div class="add">Add to bag</div><div class="pay"><span>UPI</span><span>CARD</span><span>COD</span></div></div></div>
+    <div class="ann" style="left:640px;top:200px"><b></b><i></i>Stock and delivery date, live</div>
+   </div>
+
+   <div class="scn">
+    <div class="mono" style="margin-bottom:6px">Example: a coaching institute's enquiries</div>
+    <div class="fgrid">
+     <div class="nd"><b>Form or WhatsApp</b><span class="mono">Parent asks about fees</span></div><div class="cn"><i></i></div>
+     <div class="nd ai"><b>AI sorts it</b><span class="mono">Class, subject, urgency</span></div><div class="cn"><i></i></div>
+     <div class="nd"><b>Saved to CRM</b><span class="mono">Assigned to a counsellor</span></div><div class="cn"><i></i></div>
+     <div class="nd"><b>Auto reply</b><span class="mono">Fees + demo slot sent</span></div>
     </div>
-    <div class="painx">
-      <p>These are symptoms. <em class="s grad">We find the cause first.</em></p>
-      <a class="btn" href="#how"><span>See how we work</span><span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span></a>
-    </div>
+    <div class="bef"><div><b>Before</b>Enquiries arrive on three phones. Some get answered the next day, some never. Nobody knows how many came in.</div><div><b>After</b>Every enquiry gets an answer within a minute, lands with the right person, and shows up in a weekly report.</div></div>
+   </div>
+
+   <div class="scn">
+    <div class="idg"><div class="cons"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="36"/><circle cx="50" cy="50" r="22"/><path d="M0 50h100M50 0v100M14 14l72 72M86 14 14 86"/></svg><div class="mk">nv</div></div>
+     <div><div class="sw"><div style="background:#1D4E89;color:#fff">#1D4E89</div><div style="background:#F2B134">#F2B134</div><div style="background:#F6F1E7;border:1px solid #e5dccb">#F6F1E7</div><div style="background:#15130F;color:#fff">#15130F</div></div>
+      <div class="spec"><div class="aa">Aa</div><p>Headings · Bricolage Grotesque 600<br>Body · Inter 400</p></div>
+      <div class="cardm"><div><b>Navya Foods</b><div style="opacity:.75">Fresh. Local. Every morning.</div></div><span style="font:500 10px var(--m)">BUSINESS CARD</span></div></div></div>
+    <div class="ann" style="left:48px;top:330px"><b></b><i></i>Built on a grid, works at any size</div>
+   </div>
+
+   <div class="expl"><div><b>In plain words</b><span id="pw"></span></div><div><b>Under the hood</b><span id="uh"></span></div></div>
   </div>
-</section>
+ </div>
+</div></section>
 
-<section id="how">
-  <div class="w">
-    <div class="sh">
-      <span class="tag">How we work</span>
-      <h2>Watch a project <em class="s grad">happen.</em></h2>
-      <p>Five steps. The first two happen before we design anything.</p>
-    </div>
-    <div class="story">
-      <div class="steps" id="steps">
-        <div class="step on" data-s="0"><span class="no">01 / Understand</span><h3>We listen <em class="s">first.</em></h3><p>Your business, your customers, what "better" means to you. A short chat in your language.</p><ul><li>Your goals</li><li>Your customers</li><li>What exists</li></ul><div class="get"><b>You get</b>A clear picture of where you are.</div></div>
-        <div class="step" data-s="1"><span class="no">02 / Discover</span><h3>We find the <em class="s">real</em> problem.</h3><p>We look at your site, Google, social pages and enquiries the way a customer would.</p><ul><li>Symptoms vs cause</li><li>Where people drop off</li></ul><div class="get"><b>You get</b>The one problem worth solving first.</div></div>
-        <div class="step" data-s="2"><span class="no">03 / Strategize</span><h3>We plan the <em class="s">smallest</em> fix.</h3><p>What to do now, what can wait. Scope, timeline and cost, written down before any work.</p><ul><li>Now / Next / Later</li><li>Clear proposal</li></ul><div class="get"><b>You get</b>A written plan. No surprises.</div></div>
-        <div class="step" data-s="3"><span class="no">04 / Create</span><h3>We design, build, <em class="s">launch.</em></h3><p>Previews you approve, progress you can follow in your private portal, tested before go-live.</p><ul><li>Design previews</li><li>Private portal</li><li>Tested launch</li></ul><div class="get"><b>You get</b>Your solution, live.</div></div>
-        <div class="step" data-s="4"><span class="no">05 / Improve</span><h3>We stay and <em class="s">improve.</em></h3><p>30 days of free fixes, then we watch what's working and make it better.</p><ul><li>Free fixes</li><li>Reviews</li><li>Care plans</li></ul><div class="get"><b>You get</b>Something that keeps getting better.</div></div>
-      </div>
-      <div class="stage-wrap">
-        <div class="rail" id="rail"><i class="on"></i><i></i><i></i><i></i><i></i></div>
-        <div class="stage" id="stage">
-          <!-- 1 UNDERSTAND: real chat + notes -->
-          <div class="scene on" data-s="0">
-            <div class="ph wa in" style="left:6%;top:5%;width:40%;height:90%">
-              <div class="sb"><span>10:42</span><span>●●● 5G</span></div>
-              <div class="hd"><div class="av">🔥</div><div><b>Haritt Developers</b><small>online</small></div></div>
-              <div class="body">
-                <div class="day">Today</div>
-                <div class="m a pp d2">Who usually buys from you?<i>10:31</i></div>
-                <div class="m b pp d3">Women 25 to 45, mostly Jaipur. Weddings and festivals.<i>10:34<em>✓✓</em></i></div>
-                <div class="m a pp d4">And where do they find you?<i>10:35</i></div>
-                <div class="m b pp d5">Instagram. Bahut DMs aate hain, but few people buy.<i>10:37<em>✓✓</em></i></div>
-                <div class="m a pp d6">Got it. Let's look at what happens after the DM.<i>10:38</i></div>
-              </div>
-              <div class="bar"><span>Message</span><u>➤</u></div>
-            </div>
-            <div class="paper inR" style="left:51%;top:13%;width:43%">
-              <h5><span>Discovery notes</span><span>Call 1</span></h5>
-              <div class="nrow pp d3"><b>Goal</b><span>More sales from Instagram enquiries</span></div>
-              <div class="nrow pp d4"><b>Customers</b><span>Women 25–45, Jaipur</span></div>
-              <div class="nrow pp d5"><b>Today</b><span>~40 DMs a week, few orders</span></div>
-              <div class="nrow pp d7"><b>Suspect</b><span class="mark">Slow replies. No prices shared.</span></div>
-            </div>
-            <div class="cal pp d8" style="left:57%;top:68%;width:37%"><i></i><div><b>Next: Discovery · Saree House</b><span>Thu, 4:00 pm · 30 min</span><small>We review your Instagram, Google listing and DMs</small></div></div>
-          </div>
-          <!-- 2 DISCOVER: real inbox + Google listing -->
-          <div class="scene" data-s="1">
-            <div class="ph ig in" style="left:5%;top:5%;width:38%;height:90%">
-              <div class="sb"><span>10:42</span><span>●●● 5G</span></div>
-              <div class="hd"><span>‹ &nbsp;saree.house ⌄</span><span>✎</span></div>
-              <div class="tabs"><b>Primary</b><span>General</span><em>Requests (23)</em></div>
-              <div class="it"><div class="av" style="background:#C2185B">PK</div><div><b>priya.k</b><span>Price kya hai? 🙏 <small>· 1d</small></span></div><i></i></div>
-              <div class="it"><div class="av" style="background:#6A1B9A">AN</div><div><b>anjali_n</b><span>Is the green Banarasi available? <small>· 1d</small></span></div><i></i></div>
-              <div class="it"><div class="av" style="background:#00897B">RS</div><div><b>ritu.sharma</b><span>Price please <small>· 2d</small></span></div><i></i></div>
-              <div class="it"><div class="av" style="background:#EF6C00">DM</div><div><b>deepa.m</b><span>Do you deliver to Kota? <small>· 2d</small></span></div><i></i></div>
-              <div class="it"><div class="av" style="background:#3949AB">SJ</div><div><b>sneha.j</b><span>Price? <small>· 3d</small></span></div><i></i></div>
-              <div class="it"><div class="av" style="background:#5D4037">KV</div><div><b>kavya.v</b><span>Saw your reel, love the red one <small>· 3d</small></span></div><i></i></div>
-            </div>
-            <div class="gm inR" style="left:52%;top:10%;width:42%">
-              <div class="ph2"><div style="background-image:url(/img/p1.jpg)"></div><div style="background-image:url(/img/p3.jpg)"></div></div>
-              <div class="bd">
-                <h6>Saree House</h6>
-                <div class="rt"><b>3.8</b> <s>★★★★☆</s> (6) · Saree store</div>
-                <div class="acts"><span>Directions</span><span>Call</span><span>Share</span></div>
-                <div class="li"><em>⌖</em>Johari Bazar, Jaipur</div>
-                <div class="li bad"><em>◷</em>Hours not added</div>
-                <div class="li add"><em>⊕</em>Add website</div>
-              </div>
-            </div>
-            <div class="scan"></div>
-            <div class="pin d3" style="left:9%;top:80%">23 DMs waiting over a day</div>
-            <div class="pin d5" style="left:53%;top:73%">"Price?" asked 17 times this week</div>
-            <div class="pin d7" style="left:53%;top:84%">No website or hours on Google</div>
-          </div>
-          <!-- 3 STRATEGIZE: written proposal -->
-          <div class="scene" data-s="2">
-            <div class="doc in" style="left:7%;top:7%;width:62%">
-              <div class="top"><b><i></i>Haritt Developers</b><span>Proposal · v1</span></div>
-              <h6>Plan for Saree House</h6>
-              <p class="lead">Enquiries come in. Replies are slow and prices unclear, so people leave.</p>
-              <div class="sec now pp d1"><div class="h">Now<small>Week 1–2</small></div><ul><li>WhatsApp catalogue with prices</li><li>Quick replies for the top 10 questions</li><li>Follow-up list for every enquiry</li></ul></div>
-              <div class="sec pp d2"><div class="h">Next<small>Week 3–6</small></div><ul><li>Google profile, hours and reviews</li><li>Reels plan, 8 a month</li></ul></div>
-              <div class="sec pp d3"><div class="h">Later<small>If it works</small></div><ul><li>Online store, when demand grows</li></ul></div>
-              <div class="foot pp d4"><div><b>6 weeks</b>Timeline</div><div><b>Fixed scope</b>Written down</div><div><b>Agreed upfront</b>Cost</div></div>
-            </div>
-            <div class="stamp" style="left:49%;top:63%">✓ Approved</div>
-            <div class="cmt inR d3" style="left:72%;top:9%;width:23%"><div><b>Meera</b><span>Can we start with the catalogue this week?</span></div><div class="me"><b>Haritt Developers</b><span>Yes. Photos on Monday, live by Friday.</span></div></div>
-            <div class="sticky inR d5" style="left:73%;top:58%;width:21%"><b>Not now</b>A new website. It isn't the problem yet.</div>
-          </div>
-          <!-- 4 CREATE: real site, desktop + phone -->
-          <div class="scene" data-s="3">
-            <div class="lap in" style="left:4%;top:8%;width:76%">
-              <div class="ch"><i></i><i></i><i></i><span>sareehouse.in</span></div>
-              <div class="sh-nav"><b>SAREE HOUSE</b><span><a>New arrivals</a><a>Banarasi</a><a>Bridal</a><a>Visit us</a></span></div>
-              <div class="sh-hero">
-                <div class="tx"><small>Handwoven · Jaipur since 1998</small><h6>Sarees for the days you'll <em>remember.</em></h6><p>Banarasi and bridal silks, picked by hand. Prices on every piece.</p><div class="sh-btns"><span>View collection</span><span class="w">Order on WhatsApp</span></div></div>
-                <div class="im" style="background-image:url(/img/p1.jpg)"></div>
-              </div>
-              <div class="sh-row"><div><u style="background-image:url(/img/p2.jpg)"></u>Kanjivaram silk <b>₹6,200</b></div><div><u style="background-image:url(/img/p3.jpg)"></u>Bridal green <b>₹8,900</b></div><div><u style="background-image:url(/img/p1.jpg)"></u>Green Banarasi <b>₹4,850</b></div></div>
-            </div>
-            <div class="ph mph inR" style="left:71%;top:17%;width:24%;height:74%">
-              <div class="sb"><span>10:42</span><span>5G</span></div>
-              <div class="mn"><span>SAREE HOUSE</span><span>☰</span></div>
-              <div class="mi" style="background-image:url(/img/p1.jpg)"></div>
-              <h6>Sarees for the days you'll remember.</h6>
-              <div class="wbtn">Order on WhatsApp</div>
-              <div class="pr"><u style="background-image:url(/img/p2.jpg)"></u><u style="background-image:url(/img/p3.jpg)"></u></div>
-            </div>
-            <div class="toast pp d5" style="left:5%;top:85%"><span class="ic" style="background:rgba(255,91,41,.15)">✓</span><div>Design preview 2 approved<small>In your private portal</small></div></div>
-            <div class="toast pp d7" style="left:40%;top:3%"><span class="dot"></span><div>Live · sareehouse.in<small>Tested on 14 devices</small></div></div>
-          </div>
-          <!-- 5 IMPROVE: real WhatsApp order + Google reviews + review call -->
-          <div class="scene" data-s="4">
-            <div class="ph wa in" style="left:5%;top:5%;width:40%;height:90%">
-              <div class="sb"><span>7:05</span><span>●●● 5G</span></div>
-              <div class="hd"><div class="av" style="background:#6A1B9A;font:600 1.6cqw/1 var(--sans);color:#fff">AN</div><div><b>Anjali N.</b><small>WhatsApp Business · Saree House</small></div></div>
-              <div class="body">
-                <div class="m a pp d1">Hi! Is the green Banarasi available?<i>7:02 pm</i></div>
-                <div class="m b cat pp d2"><u style="background-image:url(/img/p1.jpg)"></u><b>Green Banarasi silk</b><span>₹4,850 · In stock</span><s>View in catalogue</s><i>7:03 pm<em>✓✓</em></i></div>
-                <div class="m b pp d3">Yes 😊 Free delivery in Jaipur.<i>7:03 pm<em>✓✓</em></i></div>
-                <div class="m a pp d4">Perfect, I'll take it. Malviya Nagar?<i>7:05 pm</i></div>
-                <div class="m b pp d5">Done! Order #1042 confirmed ✓<i>7:05 pm<em>✓✓</em></i></div>
-              </div>
-              <div class="bar"><span>Message</span><u>➤</u></div>
-            </div>
-            <div class="gr inR" style="left:51%;top:12%;width:43%">
-              <div class="gh"><div><b>Saree House</b><span><em>4.7</em> <s>★★★★★</s> (48 reviews)</span></div><small>was 3.8 · 6</small></div>
-              <div class="rv pp d4"><div class="ra" style="background:#C2185B">P</div><div><b>Priya K.</b><span><s>★★★★★</s> 2 days ago</span><p>Replied in minutes, prices were clear. The saree is even better in person.</p></div></div>
-              <div class="rv pp d6"><div class="ra" style="background:#00897B">R</div><div><b>Ritu Sharma</b><span><s>★★★★★</s> 1 week ago</span><p>Ordered on WhatsApp, delivered next day.</p><q>Owner: Thank you, Ritu ji!</q></div></div>
-            </div>
-            <div class="cal pp d7" style="left:57%;top:71%;width:37%"><i></i><div><b>Month 2 review · Saree House</b><span>Thu, 11:00 – 11:30 · Video call</span><small>Next: festive reels, add 12 new pieces</small></div></div>
-          </div>
-          <div class="cap">Example scenario · not client data</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<section class="sec" id="how"><div class="w">
+ <div class="head"><div class="mono or">03 · How we work</div><div><h2>Five steps, and you know what you get at each one.</h2><p>Small project or large, the order stays the same. Only the depth changes.</p></div></div>
+ <div class="track">
+  <div class="stp"><div class="mono">Step 1</div><h3>Understand</h3><p>We learn how your business runs, who your customers are and what is not working.</p><div class="get"><b>You get</b>Requirement notes</div></div>
+  <div class="stp"><div class="mono">Step 2</div><h3>Discover</h3><p>We look at your current setup, competitors and options, and find the real problem.</p><div class="get"><b>You get</b>Project brief</div></div>
+  <div class="stp"><div class="mono">Step 3</div><h3>Strategise</h3><p>We recommend what to build, what to skip, how long it takes and what it costs.</p><div class="get"><b>You get</b>Proposal, scope and quote</div></div>
+  <div class="stp"><div class="mono">Step 4</div><h3>Create</h3><p>Design, development and testing, with a working preview you can check as it grows. Then we launch together.</p><div class="get"><b>You get</b>Tested, launched product</div></div>
+  <div class="stp"><div class="mono">Step 5</div><h3>Improve</h3><p>We hand over access and documentation, fix issues and suggest what to improve next.</p><div class="get"><b>You get</b>Handover and next steps</div></div>
+ </div>
+ <p class="wmore"><a class="lnk" href="/how-we-work/">Each step in detail, and how pricing works</a></p>
+</div></section>
 
-<!-- WHAT YOU NEED -->
-<section id="help" style="padding-top:0">
-  <div class="w">
-    <div class="sh">
-      <span class="tag">Start with what you want</span>
-      <h2>What do you need <em class="s grad">help</em> with?</h2>
-      <p>No technical words. Pick the one that sounds like you.</p>
-    </div>
-    <div class="rows" id="rows"></div>
-  </div>
-</section>
+<section class="sec" id="work"><div class="w">
+ <div class="head"><div class="mono or">04 · Work</div><div><h2>Built by us, running today.</h2><p>We are relaunching for client work in 2026. Until client projects are ready to share, here is what we have designed, built and still maintain ourselves.</p></div></div>
+ <div class="wgrid">
+  <a class="wbig" href="/work/hv-verse/"><div class="shot"><img src="/img/hvverse.webp" alt="HV Verse website" width="1440" height="900" loading="lazy" decoding="async"></div><div class="cap2"><div><h3>HV Verse</h3><p>Brand, website, web apps and Android apps for a family of personal growth products.</p></div><div class="mono">Internal product<br>Web · Android</div></div></a>
+  <a class="wsm" href="/work/haritt-group/"><div class="shot"><img src="/img/haritt.webp" alt="Haritt Group website" width="1440" height="900" loading="lazy" decoding="async"></div><div class="cap2"><div><h3>Haritt Group</h3><p>Brand identity and website for our parent company.</p></div><div class="mono">Internal product<br>Brand · Web</div></div></a>
+ </div>
+ <p class="wmore"><a class="lnk" href="/work/">Read the full stories, including HV Reset</a></p>
+</div></section>
 
-<!-- SERVICES -->
-<section id="services" style="padding-top:0">
-  <div class="w">
-    <div class="sh">
-      <span class="tag">What we build</span>
-      <h2>Three ways we <em class="s grad">help.</em></h2>
-      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px"><span class="fine">Explain it</span><div class="depth" role="group" aria-label="How much detail"><button aria-pressed="true" data-d="0">Simply</button><button aria-pressed="false" data-d="1">With details</button><button aria-pressed="false" data-d="2">Technically</button></div></div>
-    </div>
-    <div class="srows">
-      <article class="srow">
-        <div><span class="n">01</span><h3>Websites &amp; Digital Experiences</h3><p data-c="0"></p><div class="chips" data-t="0"></div><a class="more" href="#first-look">Talk about your website →</a></div>
-        <div class="vis a">
-          <div class="brw" style="left:6%;top:9%;width:66%"><div class="ch"><i></i><i></i><i></i><span>haritt.com</span></div><img src="/img/haritt.png" alt="haritt.com homepage"></div>
-          <div class="brw" style="left:30%;top:34%;width:64%"><div class="ch"><i></i><i></i><i></i><span>thehvverse.com</span></div><img src="/img/hvverse.png" alt="HV Verse homepage"></div>
-          <span class="vcap">Built by our team</span>
-        </div>
-      </article>
-      <article class="srow">
-        <div><span class="n">02</span><h3>Applications &amp; Platforms</h3><p data-c="1"></p><div class="chips" data-t="1"></div><a class="more" href="#first-look">Talk about your app →</a></div>
-        <div class="vis b">
-          <div class="dev" style="left:20%;top:9%;width:25%;transform:rotate(-4deg)"><img src="/img/resetapp.png" alt="HV Reset app start screen"></div>
-          <div class="dev" style="left:54%;top:9%;width:25%;transform:rotate(3deg)"><img src="/img/resetland.png" alt="HV Reset planner"></div>
-          <span class="vcap">HV Reset · our daily planner app</span>
-        </div>
-      </article>
-      <article class="srow">
-        <div><span class="n">03</span><h3>Custom Digital Solutions</h3><p data-c="2"></p><div class="chips" data-t="2"></div><a class="more" href="#first-look">Talk about your workflow →</a></div>
-        <div class="vis c">
-          <div class="crm">
-            <div class="sd"><b><i></i>Enquiries</b><span class="on">Inbox <em>12</em></span><span>Follow up today <em>5</em></span><span>Won</span><span>Lost</span><span>Reports</span></div>
-            <div class="ls"><h6>Inbox <small>Today</small></h6>
-              <div class="it sel"><div class="av" style="background:#6A1B9A">AN</div><div><b>Anjali N.</b><small>WhatsApp · Green Banarasi</small></div><span class="pill pf">Follow up</span></div>
-              <div class="it"><div class="av" style="background:#00897B">RS</div><div><b>Ritu Sharma</b><small>Instagram · Bridal set</small></div><span class="pill pn">New</span></div>
-              <div class="it"><div class="av" style="background:#EF6C00">DM</div><div><b>Deepa M.</b><small>Website form · Delivery</small></div><span class="pill pw">Won</span></div>
-              <div class="it"><div class="av" style="background:#3949AB">SJ</div><div><b>Sneha J.</b><small>WhatsApp · Price list</small></div><span class="pill pn">New</span></div>
-              <div class="it"><div class="av" style="background:#C2185B">PK</div><div><b>Priya K.</b><small>Call · Store visit</small></div><span class="pill pw">Won</span></div>
-            </div>
-            <div class="dt"><b>Anjali N.</b><small>+91 ••••• •4821 · WhatsApp</small>
-              <div class="ev"><span>Yesterday 7:02 pm</span>Asked about Green Banarasi</div>
-              <div class="ev auto"><span>Auto · 7:03 pm</span>Catalogue with prices sent</div>
-              <div class="ev auto"><span>Auto · Today 10:00 am</span>Reminder: follow up with Anjali</div>
-            </div>
-          </div>
-          <span class="vcap">Example · enquiry inbox with follow-ups</span>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
+<section class="sec"><div class="w">
+ <div class="head"><div class="mono or">05 · How we treat every project</div><div><h2>The same approach, whether the project is small or large.</h2></div></div>
+ <div class="clauses">
+  <div class="cl"><div class="s">01</div><div><h3>We understand before we recommend.</h3><p>We ask about your business, customers and what is not working before suggesting anything.</p></div></div>
+  <div class="cl"><div class="s">02</div><div><h3>We recommend only what you need.</h3><p>If a smaller solution solves the problem, we say so, even when you asked for something bigger.</p></div></div>
+  <div class="cl"><div class="s">03</div><div><h3>Scope is agreed before we build.</h3><p>You see what we plan to build, how long it should take and what it costs, in writing, before work begins.</p></div></div>
+  <div class="cl"><div class="s">04</div><div><h3>You can see the work as it grows.</h3><p>A preview link to the work in progress, so nothing arrives as a surprise at the end.</p></div></div>
+  <div class="cl"><div class="s">05</div><div><h3>We explain in plain language.</h3><p>Choices are explained in words you use. Technical detail is there when you want it.</p></div></div>
+  <div class="cl"><div class="s">06</div><div><h3>We label our work honestly.</h3><p>Concept designs are marked as concepts and our own products as our own. We do not invent clients, reviews or numbers.</p></div></div>
+ </div>
+</div></section>
 
-<!-- WHY -->
-<section id="why" style="padding-top:0">
-  <div class="w">
-    <div class="sh">
-      <span class="tag">Why Haritt Developers</span>
-      <h2>Your options, <em class="s grad">honestly compared.</em></h2>
-      <p>Every option works for someone. Here's where each one usually falls short.</p>
-    </div>
-    <div class="cmp-wrap">
-      <table class="cmp">
-        <thead><tr><th scope="col"></th><th scope="col" class="us">Haritt Developers</th><th scope="col">Freelancer</th><th scope="col">Large agency</th><th scope="col">Do it yourself with AI tools</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Starts by understanding your business</th><td class="us y">Always, before any design</td><td>Rarely, starts with the design</td><td>Yes, at a high price</td><td class="x">No, you decide alone</td></tr>
-          <tr><th scope="row">Strategy, design, build and growth in one team</th><td class="us y">One team, start to finish</td><td>One person, one skill</td><td>Many teams, many handoffs</td><td class="x">You do every part</td></tr>
-          <tr><th scope="row">Scope and cost written before work starts</th><td class="us y">Always, in one document</td><td>Often only verbal</td><td>Yes</td><td class="x">Monthly tool bills add up</td></tr>
-          <tr><th scope="row">Domain, code and accounts in your name</th><td class="us y">Always</td><td>Often kept by them</td><td>Depends on the contract</td><td>Yes</td></tr>
-          <tr><th scope="row">Help after launch</th><td class="us y">30 days of free fixes, then care plans</td><td>Hard to reach later</td><td>Paid support tickets</td><td class="x">None</td></tr>
-          <tr><th scope="row">Who you talk to</th><td class="us y">The founders, directly</td><td>The freelancer</td><td>An account manager</td><td class="x">A chatbot</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="cmp-note">Swipe the table on a phone.</p>
-  </div>
-</section>
+<section class="cta" id="start"><div class="w">
+ <div><div class="mono">Start a conversation</div><h2 style="margin-top:20px">Tell us what you're building, or what's not working.</h2>
+  <div class="act"><a class="btn lt" href="/first-look/">Share your requirement</a><a class="lnk" href="mailto:developers@haritt.com">developers@haritt.com</a></div></div>
+ <div><div class="mono" style="margin-bottom:14px">What happens next</div>
+  <div class="jr"><div><b>Step 1</b>You tell us about your business. Email is enough, no phone number needed.</div><div><b>Step 2</b>We reply with questions or first thoughts, or arrange a call if you prefer one.</div><div><b>Step 3</b>Once we understand it, you receive a proposal with scope, timeline and price.</div><div><b>Step 4</b>If it fits, we start. If not, there is no obligation.</div></div></div>
+</div></section>
 
-<!-- COMMITMENTS -->
-<section id="commit" style="padding-top:0">
-  <div class="w">
-    <div class="sh">
-      <span class="tag">How we work with you</span>
-      <h2>Four promises you can <em class="s grad">hold us to.</em></h2>
-    </div>
-    <div class="cm">
-      <div class="cmr"><span class="no">01</span><h3>Written before we start.</h3><p>Scope, timeline and cost in one document. Nothing starts until you approve it.</p></div>
-      <div class="cmr"><span class="no">02</span><h3>No big reveal.</h3><p>You see progress every week in your private portal and approve each design.</p></div>
-      <div class="cmr"><span class="no">03</span><h3>Everything is yours.</h3><p>Domain, code, logins and data are always in your name. You can leave any time.</p></div>
-      <div class="cmr"><span class="no">04</span><h3>We don't disappear.</h3><p>30 days of free fixes after launch. Then a care plan, only if you want one.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- WORK -->
-<section id="work" style="padding-top:0">
-  <div class="w">
-    <div class="sh">
-      <span class="tag">Selected work</span>
-      <h2>Products we <em class="s grad">built and run.</em></h2>
-      <p>We use our own products every day. Client case studies are added as projects go live.</p>
-    </div>
-    <div class="wg">
-      <article class="wc3 wide">
-        <div class="vis a">
-          <div class="brw" style="left:7%;top:12%;width:58%"><div class="ch"><i></i><i></i><i></i><span>thehvverse.com</span></div><img src="/img/hvverse.png" alt="HV Verse homepage"></div>
-          <div class="dev" style="left:72%;top:16%;width:14%"><img src="/img/resetland.png" alt="HV Reset on a phone"></div>
-        </div>
-        <div class="row2"><div><h3>HV Verse</h3><p>Three free AI apps and one assistant. Strategy, design, build and launch, done in-house.</p></div><div class="meta"><span>Website</span><span>Web apps</span><span>AI</span><span>Product design</span></div></div>
-      </article>
-      <article class="wc3">
-        <div class="vis b">
-          <div class="dev" style="left:18%;top:7%;width:24%"><img src="/img/resetapp.png" alt="HV Reset start screen"></div>
-          <div class="dev" style="left:56%;top:7%;width:24%"><img src="/img/resetland.png" alt="HV Reset planner"></div>
-        </div>
-        <div class="row2"><div><h3>HV Reset</h3><p>A daily planner that adjusts when you're late. Web app, Android in testing.</p></div><div class="meta"><span>Web app</span><span>Android</span></div></div>
-      </article>
-      <article class="wc3">
-        <div class="vis c">
-          <div class="brw" style="left:9%;top:12%;width:82%"><div class="ch"><i></i><i></i><i></i><span>haritt.com</span></div><img src="/img/haritt.png" alt="haritt.com homepage"></div>
-        </div>
-        <div class="row2"><div><h3>haritt.com</h3><p>Brand site with an animated identity, built to load fast on any phone.</p></div><div class="meta"><span>Brand site</span><span>Animation</span></div></div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- STANDARDS -->
-<section id="standards" style="padding-top:0">
-  <div class="w">
-    <div class="std">
-      <div><span class="tag">Our standards</span><h2 style="margin-top:22px">Every build <em class="s grad">ships with.</em></h2><p class="lede">Not extras. These come with every project, at no added cost.</p></div>
-      <div class="term">
-        <div class="tb"><i></i><i></i><i></i><span>launch-checklist</span></div>
-        <ul>
-          <li><div><b>Fast on real phones</b><span>Tested on a normal 4G connection</span></div><em>✓ passed</em></li>
-          <li><div><b>Works on every screen</b><span>Phone, tablet and laptop, checked by hand</span></div><em>✓ passed</em></li>
-          <li><div><b>Easy to read and use</b><span>Clear text, good contrast, works with a keyboard</span></div><em>✓ passed</em></li>
-          <li><div><b>Ready for Google</b><span>Titles, descriptions, sitemap and business details</span></div><em>✓ passed</em></li>
-          <li><div><b>Tracking you can read</b><span>See where visitors and enquiries come from</span></div><em>✓ passed</em></li>
-          <li><div><b>Handed over to you</b><span>Domain, code and logins in your name</span></div><em>✓ passed</em></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FIRST LOOK -->
-<section id="first-look" style="padding-top:0">
-  <div class="w">
-    <div class="fl">
-      <div>
-        <span class="tag">Haritt First Look · Free</span>
-        <h2 style="margin-top:22px">Start with your business. <em class="s grad">Not your number.</em></h2>
-        <p class="lede">Share a link or a few lines. We look at it the way your customers do and send three honest observations.</p>
-        <div class="prom"><div>No phone number needed</div><div>No sales calls</div><div>Reply in 3 working days</div><div>If we can't help, we'll say so</div></div>
-      </div>
-      <form class="form" id="flForm" novalidate>
-        <div class="seg" role="group" aria-label="How do you want to start"><button type="button" aria-pressed="true" data-m="r">Send for review</button><button type="button" aria-pressed="false" data-m="c">10-minute call</button></div>
-        <div><span class="lbl">What do you need? Pick any</span><div class="need" id="need"><button type="button" aria-pressed="false">Website</button><button type="button" aria-pressed="false">App</button><button type="button" aria-pressed="false">More enquiries</button><button type="button" aria-pressed="false">Less manual work</button><button type="button" aria-pressed="true">Not sure yet</button></div></div>
-        <label for="flLink">Website or Instagram <small>Optional</small><input id="flLink" placeholder="instagram.com/yourstore"></label>
-        <label for="flAbout">What do you do, and what should get better?<textarea id="flAbout" placeholder="We sell sarees in Jaipur. People message us but don't buy."></textarea></label>
-        <label for="flMail" id="mailLbl">Where do we send it? <small>Email, only for this reply</small><input id="flMail" type="email" placeholder="you@business.com"></label>
-        <button class="btn hot" type="submit" style="justify-self:start"><span id="subT">Send for a First Look</span><span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
-        <p class="fine">Used only to reply. Nothing else.</p>
-        <div class="ok" id="flOk" hidden></div>
-      </form>
-    </div>
-  </div>
-</section>
-
-<section style="padding-top:0">
-  <div class="w">
-    <div class="fd">
-      <div><span class="tag">Founding Client Programme</span><h3 style="margin-top:18px">Our first three clients work <em class="s grad">directly with the founders.</em></h3><p>Introductory scope and full founder attention. In return, honest feedback. A review or showcase is always your choice.</p></div>
-      <div class="seats" aria-label="Three seats open"><i>1</i><i>2</i><i>3</i></div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq" style="padding-top:0">
-  <div class="w">
-    <div class="faqg">
-      <div><span class="tag">Questions</span><h2 style="margin-top:22px">Asked before <em class="s grad">every project.</em></h2><p class="lede">Something else on your mind? Ask it in the First Look form.</p></div>
-      <div class="faq">
-        <details open><summary>Do I need to know exactly what I want?<i></i></summary><p>No. Most clients start with a problem, not a plan. Finding the right solution is our job, and it's the first thing we do.</p></details>
-        <details><summary>How much does a project cost?<i></i></summary><p>It depends on what your business needs, so we don't publish a price list. After a short conversation you get a written proposal with a fixed setup cost and an optional monthly care plan. No surprises later.</p></details>
-        <details><summary>How long does it take?<i></i></summary><p>A focused business website usually takes 2 to 4 weeks. Apps and custom systems take longer. Your timeline is written in the proposal before we start.</p></details>
-        <details><summary>Who will I actually work with?<i></i></summary><p>The founders, directly. No account managers or middlemen, and we work in English or Hindi.</p></details>
-        <details><summary>What happens after launch?<i></i></summary><p>30 days of free fixes. After that, an optional care plan covers updates, small changes and a monthly review.</p></details>
-        <details><summary>Will I own everything?<i></i></summary><p>Yes. Domain, code, accounts and data are set up in your name from day one.</p></details>
-      </div>
-    </div>
-  </div>
-</section>
 7:X
 1:[["children",{"s":"__PAGE__","h":128,"d":{"r":["$","$2","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$3"}}],["$","div",null,{"style":{"display":"contents"},"dangerouslySetInnerHTML":{"__html":"$4"}}]],null,"$L5"]}],"p":"$@6","v":null,"s":"$7"}}]]
-0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$La",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#07080C"}]]}],["$","$Lc",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$d",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Haritt Developers · We understand before we build"}],["$","meta","1",{"name":"description","content":"Haritt Developers is a digital solutions partner for growing businesses in India: websites, apps and custom systems, built after we understand your business. Start with a free First Look."}],["$","meta","2",{"name":"robots","content":"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"}],["$","link","3",{"rel":"canonical","href":"https://developers.haritt.com/"}],["$","meta","4",{"property":"og:title","content":"Haritt Developers · We understand before we build"}],["$","meta","5",{"property":"og:description","content":"Haritt Developers is a digital solutions partner for growing businesses in India: websites, apps and custom systems, built after we understand your business. Start with a free First Look."}],["$","meta","6",{"property":"og:url","content":"https://developers.haritt.com/"}],["$","meta","7",{"property":"og:site_name","content":"Haritt Developers"}],["$","meta","8",{"property":"og:locale","content":"en_IN"}],["$","meta","9",{"property":"og:image","content":"https://developers.haritt.com/og/home.jpg"}],["$","meta","10",{"property":"og:image:width","content":"1200"}],["$","meta","11",{"property":"og:image:height","content":"630"}],["$","meta","12",{"property":"og:type","content":"website"}],["$","meta","13",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","14",{"name":"twitter:title","content":"Haritt Developers · We understand before we build"}],["$","meta","15",{"name":"twitter:description","content":"Haritt Developers is a digital solutions partner for growing businesses in India: websites, apps and custom systems, built after we understand your business. Start with a free First Look."}],["$","meta","16",{"name":"twitter:image","content":"https://developers.haritt.com/og/home.jpg"}],["$","link","17",{"rel":"icon","href":"/favicon.ico","sizes":"any"}],["$","link","18",{"rel":"icon","href":"/favicon.png","type":"image/png","sizes":"256x256"}],["$","link","19",{"rel":"apple-touch-icon","href":"/assets/logo-180.png"}],["$","$Le","20",{}]]}]}],null]}],null]}],"p":"$@f","v":null,"s":"$7"}},"a":"$@10","u":"$@11","b":"JmEPk2nJbPEIf-gXjGeJ6"}
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$La",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#F4F1EA"}]]}],["$","$Lc",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$d",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Haritt Developers · Websites, apps and software built around your business"}],["$","meta","1",{"name":"description","content":"Haritt Developers builds websites, web apps, mobile apps, e-commerce, AI and automation for businesses in India, after understanding what is actually holding the business back."}],["$","meta","2",{"name":"robots","content":"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"}],["$","link","3",{"rel":"canonical","href":"https://developers.haritt.com/"}],["$","meta","4",{"property":"og:title","content":"Haritt Developers · Websites, apps and software built around your business"}],["$","meta","5",{"property":"og:description","content":"Haritt Developers builds websites, web apps, mobile apps, e-commerce, AI and automation for businesses in India, after understanding what is actually holding the business back."}],["$","meta","6",{"property":"og:url","content":"https://developers.haritt.com/"}],["$","meta","7",{"property":"og:site_name","content":"Haritt Developers"}],["$","meta","8",{"property":"og:locale","content":"en_IN"}],["$","meta","9",{"property":"og:image","content":"https://developers.haritt.com/og/home.jpg"}],["$","meta","10",{"property":"og:image:width","content":"1200"}],["$","meta","11",{"property":"og:image:height","content":"630"}],["$","meta","12",{"property":"og:type","content":"website"}],["$","meta","13",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","14",{"name":"twitter:title","content":"Haritt Developers · Websites, apps and software built around your business"}],["$","meta","15",{"name":"twitter:description","content":"Haritt Developers builds websites, web apps, mobile apps, e-commerce, AI and automation for businesses in India, after understanding what is actually holding the business back."}],["$","meta","16",{"name":"twitter:image","content":"https://developers.haritt.com/og/home.jpg"}],["$","link","17",{"rel":"icon","href":"/favicon.ico","sizes":"any"}],["$","link","18",{"rel":"icon","href":"/favicon.png","type":"image/png","sizes":"256x256"}],["$","link","19",{"rel":"apple-touch-icon","href":"/assets/logo-180.png"}],["$","$Le","20",{}]]}]}],null]}],null]}],"p":"$@f","v":null,"s":"$7"}},"a":"$@10","u":"$@11","b":"noikowF6OEGm35ShoT0Rj"}
 12:I[97367,["$8"],"OutletBoundary"]
 5:["$","$L12",null,{"children":["$","$d",null,{"name":"Next.MetadataOutlet","children":"$@13"}]}]
 11:true

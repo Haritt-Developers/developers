@@ -1,125 +1,91 @@
 (function(){
-var nav=document.getElementById('nav');function ns(){nav.classList.toggle('s',scrollY>20)}ns();addEventListener('scroll',ns,{passive:true});
-var m=document.getElementById('mmenu'),mb=document.getElementById('mbtn'),mc=document.getElementById('mclose');
-function mt(o){m.classList.toggle('open',o);mb.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''}
-mb.onclick=function(){mt(true)};mc.onclick=function(){mt(false)};m.addEventListener('click',function(e){if(e.target.closest('a'))mt(false)});
-addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('open'))mt(false)});
-window.__closeMenu=function(){mt(false)};
-var FS='https://firestore.googleapis.com/v1/projects/harsh-reset/databases/(default)/documents:commit?key=AIzaSyDggasAVdqpvamkn1xeex2NmPUqG9JiZJ4',DOCS='projects/harsh-reset/databases/(default)/documents',HOOK='https://script.google.com/macros/s/AKfycbxpI5YUi8D_Lxlzwx2CRcnY-muhqzFGd3mSTUIPynVYEFgVrSulFLiklTwcXj2dNDdJ/exec',EMAIL='developers@haritt.com';
-function onLinks(){var p=location.pathname;document.querySelectorAll('#nav .links a').forEach(function(a){var h=a.getAttribute('href');a.classList.toggle('on',h!=='/'&&p.indexOf(h)===0)})}
+var EMAIL='developers@haritt.com',FS='https://firestore.googleapis.com/v1/projects/harsh-reset/databases/(default)/documents:commit?key=AIzaSyDggasAVdqpvamkn1xeex2NmPUqG9JiZJ4',DOCS='projects/harsh-reset/databases/(default)/documents',HOOK='https://script.google.com/macros/s/AKfycbxpI5YUi8D_Lxlzwx2CRcnY-muhqzFGd3mSTUIPynVYEFgVrSulFLiklTwcXj2dNDdJ/exec';
+function track(n,p){try{window.hva&&hva('event',n,p)}catch(e){}try{window.gtag&&gtag('event',n,p||{})}catch(e){}}
+/* mobile menu */
+var mb=document.getElementById('mbtn'),mm=document.getElementById('mm');
+function menu(o){document.body.classList.toggle('mo',o);if(mb){mb.setAttribute('aria-expanded',o);mb.textContent=o?'Close':'Menu'}}
+if(mb){mb.onclick=function(){menu(!document.body.classList.contains('mo'))}}
+if(mm){mm.addEventListener('click',function(e){if(e.target.closest('a'))menu(false)})}
+addEventListener('keydown',function(e){if(e.key==='Escape')menu(false)});
+window.__closeMenu=function(){menu(false)};
+/* CTA clicks */
+document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';
+ if(h.indexOf('/first-look/')===0)track('cta_click',{to:'first_look',from:location.pathname});
+ else if(h.indexOf('mailto:')===0)track('email_click',{from:location.pathname})});
+function onLinks(){var p=location.pathname;document.querySelectorAll('#nav .nl a').forEach(function(a){var h=a.getAttribute('href');a.classList.toggle('on',h!=='/'&&p.indexOf(h)===0)})}
+/* home page */
+function home(){
+
+const B=[["\"We need a new website.\"","Patients call to book. After 7 pm and on Sundays, nobody answers, and most of them book somewhere else.","A website with online booking, fees shown upfront, WhatsApp confirmations and a calendar for the front desk.",["Website","Online booking","WhatsApp reminders"]],
+["\"We need more Instagram followers.\"","People do message, but prices are sent by hand and replies take hours. Interested buyers go cold.","A product catalogue with prices, quick replies on WhatsApp, and a simple order list so no enquiry is forgotten.",["Catalogue","WhatsApp setup","Order tracking"]],
+["\"We need an app.\"","Fees, attendance and test marks are on paper. Parents call every day to ask the same questions.","A web app for staff and a parent view on phone: fees, attendance and results in one place. An Android app later, if it is needed.",["Web app","Parent portal","Fee reminders"]],
+["\"Build us the full product.\"","The idea is strong, but the first version has twenty features and no clear first customer.","A focused first version with the three features users need most, designed, built and launched in weeks, then improved from real usage.",["Product plan","MVP","Analytics"]]];
+const br=document.getElementById('brief'),bt=[...document.querySelectorAll('#btabs button')];let bi=0,bTimer;
+function brief(i){if(!br.isConnected){clearInterval(window.__bT);return}bi=i;bt.forEach((b,j)=>b.classList.toggle('on',j==i));const x=B[i];br.innerHTML=`<div class="fade"><div class="r ask"><div class="mono">They asked</div><div class="t">${x[0]}</div></div><div class="r"><div class="mono">We found</div><div class="t">${x[1]}</div></div><div class="r build"><div class="mono">We build</div><div><div class="t">${x[2]}</div><div class="chips">${x[3].map(c=>`<span>${c}</span>`).join('')}</div></div></div></div>`}
+bt.forEach((b,i)=>b.onclick=()=>{clearInterval(bTimer);brief(i)});brief(0);clearInterval(window.__bT);bTimer=window.__bT=setInterval(()=>brief((bi+1)%B.length),7000);
+document.querySelectorAll('.it').forEach(e=>e.onclick=()=>e.classList.toggle('on'));
+const C=[["Websites","A site that explains what you do, shows up on Google and turns visitors into calls, bookings or orders.","Responsive build, fast on 4G, SEO-ready structure, CMS where needed, analytics and accessibility checked."],
+["Web apps & dashboards","Software in your browser for running the business: enquiries, orders, staff, customers and reports.","Role-based access, secure login, database design, audit trails, exports and integrations through APIs."],
+["Mobile apps","An app your customers or staff use daily on their phone, for booking, ordering, learning or tracking.","Android and iPhone apps, push notifications, offline support where needed, store listing and release."],
+["E-commerce","An online store your customers can browse and pay on, with stock and delivery handled for you.","Product catalogue, UPI, card and COD payments, order management, shipping and inventory sync."],
+["AI & automation","Repetitive work done automatically, and AI added only where it actually saves time or money.","Workflow automation, WhatsApp and email triggers, AI classification and assistants, CRM and API integrations."],
+["Brand & digital identity","A logo, colours and type that look consistent everywhere your business appears online and offline.","Logo construction, colour and type system, social and print templates, usage guide and source files."]];
+const caps=[...document.querySelectorAll('.cap')],scn=[...document.querySelectorAll('.scn')];
+function cap(i){caps.forEach((c,j)=>c.classList.toggle('on',j==i));scn.forEach((s,j)=>s.classList.toggle('on',j==i));document.getElementById('capname').textContent=C[i][0];document.getElementById('pw').textContent=C[i][1];document.getElementById('uh').textContent=C[i][2]}
+caps.forEach((c,i)=>c.onclick=()=>cap(i));cap(0);
+const tr=document.querySelector(".track");if("IntersectionObserver" in window){new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){tr.classList.add("go");o.disconnect()}},{threshold:.4}).observe(tr)}else tr.classList.add("go");
+
+}
+/* enquiry form */
 function form(){var f=document.getElementById('flForm');if(!f||f.__on)return;f.__on=1;
- f.querySelectorAll('#need button').forEach(function(x){x.onclick=function(){x.setAttribute('aria-pressed',x.getAttribute('aria-pressed')!=='true')}});
- var seg=f.querySelectorAll('.seg button'),st=f.querySelector('#subT'),lbl=f.querySelector('#mailLbl');
- seg.forEach(function(x){x.onclick=function(){seg.forEach(function(y){y.setAttribute('aria-pressed',y===x)});var c=x.dataset.m==='c';if(st)st.textContent=c?'Request a 10-minute call':'Send for a First Look';if(lbl)lbl.firstChild.nodeValue=c?'Where do we send a call time? ':'Where do we send it? '}});
- var ok=f.querySelector('#flOk');
- function err(el,msg){var n=el.parentNode.querySelector('.err');if(!msg){el.classList.remove('bad');if(n)n.remove();return true}el.classList.add('bad');if(!n){n=document.createElement('div');n.className='err';el.parentNode.appendChild(n)}n.textContent=msg;return false}
+ var need=f.querySelectorAll('#need button'),seg=f.querySelectorAll('.seg button'),ok=f.querySelector('#flOk'),st=f.querySelector('#subT');
+ need.forEach(function(x){x.onclick=function(){x.setAttribute('aria-pressed',x.getAttribute('aria-pressed')!=='true')}});
+ seg.forEach(function(x){x.onclick=function(){seg.forEach(function(y){y.setAttribute('aria-pressed',y===x)})}});
+ var q=new URLSearchParams(location.search).get('need');
+ if(q){need.forEach(function(x){var slug=x.dataset.v.toLowerCase().replace(/&/g,'').replace(/[^a-z]+/g,'-').replace(/^-|-$/g,'');if(slug.indexOf(q.split('-')[0])===0)x.setAttribute('aria-pressed','true')})}
+ function err(el,msg){var box=el.closest('.fld'),n=box.querySelector('.err');if(!msg){el.classList.remove('bad');el.removeAttribute('aria-invalid');if(n)n.remove();return true}
+  el.classList.add('bad');el.setAttribute('aria-invalid','true');if(!n){n=document.createElement('div');n.className='err';n.id=el.id+'Err';box.appendChild(n);el.setAttribute('aria-describedby',n.id)}n.textContent=msg;return false}
+ var ab=f.querySelector('#flAbout'),ml=f.querySelector('#flMail'),lk=f.querySelector('#flLink'),hp=f.querySelector('#flCo');
+ ab.addEventListener('input',function(){if(ab.classList.contains('bad')&&ab.value.trim().length>=10)err(ab,'')});
+ ml.addEventListener('input',function(){if(ml.classList.contains('bad')&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ml.value.trim()))err(ml,'')});
  f.onsubmit=function(e){e.preventDefault();
-  var link=f.querySelector('#flLink'),ab=f.querySelector('#flAbout'),ml=f.querySelector('#flMail');
-  var a=err(ab,ab.value.trim().length<10?'Please add a line or two about your business.':''),b=err(ml,/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ml.value.trim())?'':'Please add an email so we can reply.');
+  var a=err(ab,ab.value.trim().length<10?'Please write at least a line about your business or project.':''),b=err(ml,/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ml.value.trim())?'':'Please enter an email address we can reply to.');
   if(!a){ab.focus();return}if(!b){ml.focus();return}
+  if(hp&&hp.value){ok.className='ok';ok.textContent='Thank you.';ok.hidden=false;return}
   var call=f.querySelector('.seg button[data-m="c"]').getAttribute('aria-pressed')==='true';
-  var need=[].filter.call(f.querySelectorAll('#need button'),function(x){return x.getAttribute('aria-pressed')==='true'}).map(function(x){return x.textContent});
-  var em=ml.value.trim(),nm=em.split('@')[0].replace(/[._\-+0-9]+/g,' ').trim();nm=nm?(nm.charAt(0).toUpperCase()+nm.slice(1)).slice(0,100):'First Look';if(nm.length<2)nm='First Look';
-  var d={name:nm,email:em,company:link.value.trim().slice(0,200),site:link.value.trim().slice(0,200),services:(call?'10-minute call':'First Look review')+(need.length?', '+need.join(', '):''),budget:'Not sure yet',timeline:'Flexible',desc:ab.value.trim().slice(0,5000),src:('developers.haritt.com'+location.pathname).slice(0,80),status:'new'};
-  var btn=f.querySelector('button[type=submit]'),bh=btn.innerHTML;btn.disabled=true;if(st)st.textContent='Sending…';
+  var picked=[].filter.call(need,function(x){return x.getAttribute('aria-pressed')==='true'}).map(function(x){return x.dataset.v});
+  var em=ml.value.trim(),nm=em.split('@')[0].replace(/[._\-+0-9]+/g,' ').trim();nm=nm?(nm.charAt(0).toUpperCase()+nm.slice(1)).slice(0,100):'';if(nm.length<2)nm='Website enquiry';
+  var link=lk.value.trim().slice(0,200);
+  var d={name:nm,email:em,company:link,site:link,services:(call?'Short call':'Written reply')+(picked.length?', '+picked.join(', '):''),budget:'Not discussed',timeline:'Not discussed',desc:ab.value.trim().slice(0,5000),src:('developers.haritt.com'+location.pathname).slice(0,80),status:'new'};
+  var btn=f.querySelector('button[type=submit]');btn.disabled=true;btn.setAttribute('aria-busy','true');st.textContent='Sending…';ok.hidden=true;
   var id='';for(var i=0;i<20;i++)id+='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random()*62)];
   var fl={};Object.keys(d).forEach(function(k){if(d[k])fl[k]={stringValue:d[k]}});
   fetch(FS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({writes:[{update:{name:DOCS+'/enquiries/'+id,fields:fl},updateTransforms:[{fieldPath:'at',setToServerValue:'REQUEST_TIME'}],currentDocument:{exists:false}}]})})
   .then(function(r){if(!r.ok)throw new Error(r.status);
    try{fetch(HOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({id:id},d)),keepalive:true}).catch(function(){})}catch(x){}
-   try{window.hva&&hva('event','enquiry_sent')}catch(x){}
+   track('enquiry_sent',{reply:call?'call':'written'});
    [].forEach.call(f.children,function(c){if(c!==ok)c.style.display='none'});
-   ok.innerHTML='<b>Thank you. We’ve got it.</b><br>'+(call?'We’ll email a call time to ':'Your First Look will reach ')+'<b></b> within 3 working days. Need to add something? Write to <a href="mailto:'+EMAIL+'">'+EMAIL+'</a>.';ok.querySelectorAll('b')[1].textContent=em;ok.hidden=false})
-  .catch(function(){btn.disabled=false;btn.innerHTML=bh;
-   var mt='mailto:'+EMAIL+'?subject='+encodeURIComponent((call?'10-minute call':'First Look')+' request')+'&body='+encodeURIComponent('Link: '+(d.site||'-')+'\nNeed: '+d.services+'\nEmail: '+em+'\n\n'+d.desc);
-   ok.innerHTML='Couldn’t send it from here, so your email app should open with it ready. If it didn’t, <a href="'+mt+'">email it to us</a>.';ok.hidden=false;location.href=mt})}}
-window.dvInit=function(){if(location.pathname==='/pricing/'){location.replace('/engagement/');return}onLinks();form();
- if(document.getElementById('field'))(function(){
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  
-
-  /* HERO FIELD: scattered points drift, then settle into an ordered grid near the right side (chaos -> system) */
-  var cv=document.getElementById('field'),cx=cv.getContext('2d'),P=[],W,H,dpr,t0=performance.now();
-  function size(){dpr=Math.min(2,devicePixelRatio||1);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
-    P=[];var cols=W<700?9:14,rows=W<700?9:10,gx=W<700?W*.1:W*.52,gw=W<700?W*.8:W*.42,gy=H*.12,gh=H*.55;
-    for(var r=0;r<rows;r++)for(var c=0;c<cols;c++){P.push({x:Math.random()*W,y:Math.random()*H,tx:gx+gw*c/(cols-1),ty:gy+gh*r/(rows-1),s:Math.random()*Math.PI*2,hot:Math.random()<.08})}}
-  function frame(now){var t=(now-t0)/1000,k=Math.min(1,Math.max(0,(t-.6)/2.6));k=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
-    cx.clearRect(0,0,W,H);
-    for(var i=0;i<P.length;i++){var p=P[i],wob=(1-k)*24+3;p.cx=p.x+(p.tx-p.x)*k+Math.sin(t*.7+p.s)*wob;p.cy=p.y+(p.ty-p.y)*k+Math.cos(t*.6+p.s)*wob}
-    cx.lineWidth=1;
-    for(var i=0;i<P.length;i++){for(var j=i+1;j<P.length;j++){var a=P[i],b=P[j],dx=a.cx-b.cx,dy=a.cy-b.cy,d=dx*dx+dy*dy,lim=k>.9?5200:9000;if(d<lim){cx.strokeStyle='rgba(255,140,90,'+(0.16*(1-d/lim))+')';cx.beginPath();cx.moveTo(a.cx,a.cy);cx.lineTo(b.cx,b.cy);cx.stroke()}}}
-    for(var i=0;i<P.length;i++){var p=P[i];cx.fillStyle=p.hot?'rgba(255,120,60,.95)':'rgba(244,241,236,.55)';cx.beginPath();cx.arc(p.cx,p.cy,p.hot?2.4:1.4,0,7);cx.fill();
-      if(p.hot&&k>.95){cx.strokeStyle='rgba(255,91,41,'+(.35+.25*Math.sin(t*2+p.s))+')';cx.beginPath();cx.arc(p.cx,p.cy,7+3*Math.sin(t*2+p.s),0,7);cx.stroke()}}
-    if(!reduce&&cv.isConnected)requestAnimationFrame(frame)}
-  size();var rs=function(){if(!cv.isConnected){removeEventListener('resize',rs);return}size();if(reduce)frame(t0+9000)};addEventListener('resize',rs);
-  if(reduce)frame(t0+9000);else requestAnimationFrame(frame);
-
-  /* STORY: active step drives the stage */
-  var steps=document.querySelectorAll('.step'),scenes=document.querySelectorAll('.scene'),rail=document.querySelectorAll('#rail i'),url=document.getElementById('url'),names=['understand','discover','strategize','create','improve'],cur=-1;
-  function act(n){if(n===cur)return;cur=n;steps.forEach(function(s,i){s.classList.toggle('on',i===n)});
-    scenes.forEach(function(s,i){s.classList.remove('on');if(i===n){void s.offsetWidth;s.classList.add('on')}});
-    rail.forEach(function(r,i){r.classList.toggle('on',i<=n)})}
-  act(0);
-  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)act(+e.target.dataset.s)})},{rootMargin:'-45% 0px -45% 0px'});steps.forEach(function(s){io.observe(s)})}
-
-  /* WHAT YOU NEED rows */
-  var Q=[
-    ["More people should know about my business.",["Who your customers are","Your Google and social pages","What a new visitor sees first"],"Google profile, social content, local ads","Websites & Digital Experiences"],
-    ["I want more enquiries and sales.",["Where enquiries come from","How fast they get a reply","Where people drop off"],"Landing page, ads, enquiry tracking, follow-ups","Websites & Digital Experiences, Custom Digital Solutions"],
-    ["I want my business online, properly.",["What customers need to find","Pages that matter","How people contact you"],"A clear website or store, Google set up","Websites & Digital Experiences"],
-    ["Repetitive work eats my day.",["Tasks that repeat daily","Where info gets lost","What can be automatic"],"Enquiry inbox, reminders, simple dashboards","Custom Digital Solutions"],
-    ["I need an app or custom software.",["Who uses it and why","Smallest version worth building","What it connects to"],"A focused first version, then grow it","Applications & Platforms"],
-    ["I'm not sure what I need yet.",["Your business and goal","What already exists","Where the real gap is"],"A free First Look with three honest observations","First Look"]
-  ];
-  var rows=document.getElementById('rows');
-  rows.innerHTML=Q.map(function(q,i){return '<div class="row'+(i===0?' open':'')+'"><button aria-expanded="'+(i===0)+'" aria-controls="a'+i+'" id="q'+i+'"><span class="n">0'+(i+1)+'</span><span class="q">'+q[0]+'</span><span class="pl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="ans" id="a'+i+'" role="region" aria-labelledby="q'+i+'"><div><div class="in"><span></span><div><h4>What we’d look at</h4><ul>'+q[1].map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul></div><div><h4>Likely starting point</h4><p>'+q[2]+'</p></div><div><h4>Service</h4><p>'+q[3]+'</p><p style="margin-top:12px"><a href="#first-look" style="color:var(--flare)">Start with a First Look →</a></p></div></div></div></div></div>'}).join('');
-  rows.querySelectorAll('.row button').forEach(function(b){b.addEventListener('click',function(){var r=b.parentNode,o=!r.classList.contains('open');rows.querySelectorAll('.row').forEach(function(x){x.classList.remove('open');x.querySelector('button').setAttribute('aria-expanded','false')});if(o){r.classList.add('open');b.setAttribute('aria-expanded','true')}})});
-
-  /* SERVICES depth */
-  var C=[
-    [["A website and online presence that makes people trust you and get in touch.","Websites, Online stores, Landing pages, Google profile"],["Business websites, online stores and landing pages, with your Google profile, domain and email set up properly, so visitors turn into enquiries.","Websites, Online stores, Google Business, Domain + email"],["Next.js or Shopify builds, Core Web Vitals, structured data, analytics and conversion tracking, DNS and email routing.","Next.js, Shopify, Schema, Web Vitals, GA4"]],
-    [["Apps and online tools that your customers or your team use every day.","Mobile apps, Web apps, Portals, Dashboards"],["Android and web apps, booking and customer portals, admin dashboards. We start with the smallest version worth building, then grow it.","Android, Web apps, Customer portals, Admin panels"],["Kotlin and Jetpack Compose, React and Next.js, Firebase backends, sign-in and roles, Play Store releases.","Kotlin, Compose, React, Firebase, Auth"]],
-    [["Systems that take repetitive work off your plate, so no customer slips through.","Enquiry inbox, Follow-ups, CRM, AI assist"],["One inbox for every enquiry, automatic follow-ups and reminders, a simple CRM, and AI that drafts replies while a person stays in charge.","Enquiry inbox, Automation, CRM, AI drafts"],["Workflow automation, APIs and webhooks, WhatsApp Business integrations, language models with human review, Firestore or Sheets data.","APIs, Webhooks, WhatsApp API, LLM + review"]]
-  ];
-  var db=document.querySelectorAll('.depth button');
-  function dep(d){db.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.d==d)});for(var k=0;k<3;k++){document.querySelector('[data-c="'+k+'"]').textContent=C[k][d][0];document.querySelector('[data-t="'+k+'"]').innerHTML=C[k][d][1].split(', ').map(function(t){return'<span>'+t+'</span>'}).join('')}}
-  db.forEach(function(b){b.addEventListener('click',function(){dep(+b.dataset.d)})});dep(0);
-
-  })();
- 
-if(document.getElementById('wfGo')||document.getElementById('faForm'))(function(){(function(){
-var steps=[].slice.call(document.querySelectorAll('#wfSteps .fs'));
-function has(t,a){return a.some(function(w){return t.indexOf(w)>-1})}
-function analyse(m){var t=m.toLowerCase(),ch=/kya|hai|kar|chahiye|kitna/.test(t)?'WhatsApp (Hinglish)':'WhatsApp',intent,team,reply,fu,items=[];
- var ord=(t.match(/#?\b(\d{3,6})\b/)||[])[1];
- var when=(t.match(/\b(today|tonight|tomorrow|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/)||[])[1];if(when&&!/^to/.test(when))when=when[0].toUpperCase()+when.slice(1);
- var time=(t.match(/\b(\d{1,2}(:\d{2})?\s?(am|pm))\b/)||[])[1];
- var ppl=(t.match(/\bfor (\d{1,2})\b/)||[])[1];
- if(has(t,['disappoint','not arrived','hasn\'t arrived','late','complain','wrong','refund','bad'])){intent='Complaint';team='Owner (priority)';reply='Sorry about this'+(ord?' — order #'+ord:'')+'. I\'m checking it right now and will update you within 30 minutes.';fu='In 30 min: owner checks the status and replies'}
- else if(has(t,['book','table','reserve','appointment','slot','demo','visit'])){intent='Booking request';team='Front desk';reply='Happy to book'+(ppl?' for '+ppl:'')+(when?' '+when:'')+(time?' at '+time:'')+'. Confirming availability now.';fu=(when||'Today')+': confirm booking, reminder sent the day before'}
- else if(has(t,['price','fees','fee','cost','kitna','rate','available','size','stock','deliver'])){intent='Product / price enquiry';team='Sales';if(has(t,['saree','banarasi']))items.push('Green Banarasi saree');if(has(t,['kurta']))items.push('Blue kurta');if(has(t,['maths','class']))items.push('Class 10 Maths batch');
-  reply='Yes'+(items.length?', '+items[0]:'')+' is available. Price and details: catalogue link. '+(has(t,['deliver'])?'Delivery'+(when?' by '+when:'')+' is possible.':'Want me to reserve it?');fu='Tomorrow 11 am: if no reply, send a gentle reminder'}
- else{intent='General question';team='Front desk';reply='Thanks for your message! Someone from our team will reply shortly.';fu='In 2 hours: check that a person replied'}
- var det=[];if(items.length)det.push('item: '+items.join(', '));if(ord)det.push('order: #'+ord);if(when)det.push('day: '+when);if(time)det.push('time: '+time);if(ppl)det.push('people: '+ppl);
- return [['Received','Channel: '+ch+'\n"'+m.slice(0,90)+(m.length>90?'…':'')+'"'],['Understood','Intent: '+intent+(det.length?'\nDetails: '+det.join(' · '):'')],['Routed','Assigned to: '+team+'\nLogged in the enquiry inbox'],['Reply drafted','"'+reply+'"\nReady for one-tap send'],['Follow-up set',fu]];}
-var tm=[];function run(){tm.forEach(clearTimeout);var r=analyse(document.getElementById('wfIn').value.trim()||'Hello');steps.forEach(function(s){s.classList.remove('on')});
- r.forEach(function(x,i){tm.push(setTimeout(function(){var s=steps[i];s.querySelector('b').textContent=x[0];s.querySelector('span').textContent=x[1];s.classList.add('on')},350+i*550))})}
-document.getElementById('wfGo').onclick=run;
-document.querySelectorAll('#wfChips button').forEach(function(b){b.onclick=function(){document.getElementById('wfIn').value=b.textContent;run()}});
-var KB=[
- ['Timings',['open','close','timing','time','hours','sunday','monday','weekend','today'],'We\'re open Monday to Saturday 8 am – 11 pm, and Sunday 9 am – 11 pm.'],
- ['Menu',['vegan','veg','vegetarian','menu','food','gluten','jain','dish','eat'],'Yes. Our menu has vegetarian, vegan and Jain options, clearly marked. Full menu: oliveember.in/menu'],
- ['Bookings',['book','table','reserve','reservation','party','people','group'],'You can book a table for up to 12 people here or on WhatsApp. For bigger groups, we\'ll arrange the terrace.'],
- ['Location',['where','located','location','address','parking','map','reach'],'We\'re at C-Scheme, Jaipur, opposite Central Park. Free parking for 20 cars. Map: maps.app/olive'],
- ['Delivery',['deliver','delivery','zomato','swiggy','order','takeaway','home'],'Yes, we deliver within 6 km through our website, and takeaway is available all day.'],
- ['Payments',['pay','upi','card','cash','payment'],'We accept UPI, cards and cash.']];
-var chat=document.getElementById('faChat');
-function add(t,c,s){var d=document.createElement('div');d.className='bub '+c;d.textContent=t;if(s){var sm=document.createElement('small');sm.textContent=s;d.appendChild(sm)}chat.appendChild(d);chat.scrollTop=chat.scrollHeight}
-function ask(q){if(!q)return;add(q,'u');var w=q.toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/),best=null,sc=0;
- KB.forEach(function(k){var s=k[1].filter(function(x){return w.indexOf(x)>-1}).length;if(s>sc){sc=s;best=k}});
- setTimeout(function(){if(best)add(best[2],'b','Source: '+best[0]+' · approved info');else add('I\'m not sure about that one, so I\'ve passed it to the café team. They\'ll reply here shortly.','b h','Handed over to a person')},500)}
-document.getElementById('faForm').onsubmit=function(e){e.preventDefault();var i=document.getElementById('faIn');ask(i.value.trim());i.value=''};
-document.querySelectorAll('#faChips button').forEach(function(b){b.onclick=function(){ask(b.textContent)}});
-})();})();
-};
-window.dvInit();})();
+   ok.className='ok';ok.innerHTML='<b>Thank you. Your message has reached us.</b><br>We will reply to <b></b>. If you want to add anything, write to <a href="mailto:'+EMAIL+'">'+EMAIL+'</a>.';ok.querySelectorAll('b')[1].textContent=em;ok.hidden=false;ok.focus&&ok.setAttribute('tabindex','-1');ok.focus()})
+  .catch(function(){btn.disabled=false;btn.removeAttribute('aria-busy');st.textContent='Send';
+   var mt='mailto:'+EMAIL+'?subject='+encodeURIComponent('Project enquiry')+'&body='+encodeURIComponent('Link: '+(link||'-')+'\nNeed: '+d.services+'\nEmail: '+em+'\n\n'+d.desc);
+   ok.className='ok err2';ok.innerHTML='We could not send this from the website just now. Your details are still in the form. You can try again, or <a href="'+mt+'">send it by email instead</a>.';ok.hidden=false;track('enquiry_failed')})}}
+/* case studies: chapter nav, demo tabs, lightbox, drawn diagrams */
+function cases(){
+ var nav=document.querySelector('.chnav');
+ if(nav&&!nav.__on&&'IntersectionObserver' in window){nav.__on=1;var links={};nav.querySelectorAll('a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var a=links[e.target.id];if(!a)return;nav.querySelectorAll('a.on').forEach(function(x){x.classList.remove('on');x.removeAttribute('aria-current')});a.classList.add('on');a.setAttribute('aria-current','true');var ol=a.closest('ol');if(ol.scrollWidth>ol.clientWidth)ol.scrollTo({left:a.offsetLeft-16,behavior:'smooth'})}})},{rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('[data-ch]').forEach(function(s){io.observe(s)})}
+ document.querySelectorAll('[data-demo]').forEach(function(d){if(d.__on)return;d.__on=1;var tabs=[].slice.call(d.querySelectorAll('[role=tab]'));
+  function pick(i,f){tabs.forEach(function(t,j){var on=i===j;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=!on});if(f)tabs[i].focus();track('case_demo_step',{step:i+1})}
+  tabs.forEach(function(t,i){t.onclick=function(){pick(i)};t.onkeydown=function(e){var k=e.key,n=null;if(k==='ArrowDown'||k==='ArrowRight')n=(i+1)%tabs.length;else if(k==='ArrowUp'||k==='ArrowLeft')n=(i-1+tabs.length)%tabs.length;else if(k==='Home')n=0;else if(k==='End')n=tabs.length-1;if(n!==null){e.preventDefault();pick(n,true)}}})});
+ var zs=document.querySelectorAll('img[data-zoom]');
+ if(zs.length&&window.HTMLDialogElement){var dl=document.getElementById('lbx');if(!dl){dl=document.createElement('dialog');dl.id='lbx';dl.className='lbx';dl.setAttribute('aria-label','Image preview');dl.innerHTML='<button type="button">Close</button><img alt="">';document.body.appendChild(dl);dl.querySelector('button').onclick=function(){dl.close()};dl.addEventListener('click',function(e){if(e.target===dl)dl.close()})}
+  zs.forEach(function(im){if(im.__z)return;im.__z=1;im.tabIndex=0;im.setAttribute('role','button');im.setAttribute('aria-label','Open larger: '+im.alt);
+   function op(){var b=dl.querySelector('img');b.src=im.currentSrc||im.src;b.alt=im.alt;dl.showModal();dl.querySelector('button').focus();track('case_image_open',{img:im.getAttribute('src')})}
+   im.onclick=op;im.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();op()}}})}
+ var dr=document.querySelectorAll('[data-draw]');
+ if(dr.length){if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){dr.forEach(function(x){x.classList.add('go')})}else{var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('go');io2.unobserve(e.target)}})},{threshold:.35});dr.forEach(function(x){io2.observe(x)})}}
+}
+window.dvInit=function(){onLinks();menu(false);if(document.getElementById('btabs'))home();form();cases()};
+window.dvInit();
+})();
