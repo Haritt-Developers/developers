@@ -1,23 +1,26 @@
 # Haritt Developers
 
-> Haritt Developers is a digital solutions company and part of Haritt Group (India). We build websites, web apps and dashboards, mobile apps, e-commerce stores, AI and automation, and brand identities for businesses in Bharatpur, Rajasthan and across India, after first understanding what is actually holding a business back. Contact: developers@haritt.com
+> Haritt Developers is a business solutions company and part of Haritt Group (India). It works as an end-to-end business solutions partner for businesses in Bharatpur, Rajasthan and across India: it first understands what a business is trying to achieve, recommends the right solution, and makes it happen. Work can include websites, apps and software, AI and automation, e-commerce and online selling (including marketplaces and delivery partners), digital marketing and SEO, brand identity, and setting up third-party services. It also takes direct requests, such as building a website. It is not only a web or software agency, and it does not promise sales or growth. Contact: developers@haritt.com
 
 The name is spelled Haritt, with two Ts. People sometimes type Harit Developers; it is the same company. Founders: Harsh Goyal and Pulkit Soni.
 
-- [Haritt Developers](https://developers.haritt.com/): Haritt Developers builds websites, web apps, mobile apps, e-commerce, AI and automation for businesses in India, after understanding what is actually holding the business back.
-- [What we build](https://developers.haritt.com/services/): Websites, web apps and dashboards, mobile apps, e-commerce, AI and automation, and brand identity, built around how your business works.
+- [Haritt Developers](https://developers.haritt.com/): Haritt Developers is a business solutions partner. We understand your business, find what it needs and make it happen: websites, apps, AI, online selling, marketing and partner services.
+- [Solutions](https://developers.haritt.com/services/): Websites, apps and software, AI and automation, online selling, digital marketing and partner services, chosen around what your business needs.
 - [Websites](https://developers.haritt.com/services/websites/): Business sites and landing pages that explain what you do and turn visitors into calls, bookings or orders. Planned around your business by Haritt Developers.
 - [Web apps & dashboards](https://developers.haritt.com/services/web-apps/): Software in the browser for running the business: enquiries, orders, staff, customers and reports. Planned around your business by Haritt Developers.
 - [Mobile apps](https://developers.haritt.com/services/mobile-apps/): Android and iPhone apps your customers or team use every day. Planned around your business by Haritt Developers.
-- [E-commerce](https://developers.haritt.com/services/e-commerce/): Online stores and catalogues people can browse and pay on, with orders handled behind the scenes. Planned around your business by Haritt Developers.
+- [E-commerce & online selling](https://developers.haritt.com/services/e-commerce/): Online stores, marketplace listings, payments and delivery set up together, so you can start selling online. Planned around your business by Haritt Developers.
 - [AI & automation](https://developers.haritt.com/services/ai-automation/): Repetitive work done automatically, and AI added only where it saves real time or money. Planned around your business by Haritt Developers.
 - [Brand & digital identity](https://developers.haritt.com/services/brand-identity/): A logo, colours and type that look consistent everywhere your business appears. Planned around your business by Haritt Developers.
-- [How we work](https://developers.haritt.com/how-we-work/): How a Haritt Developers project runs: understand, discover, strategise, create and improve, and how pricing is worked out.
+- [Digital marketing & growth](https://developers.haritt.com/services/digital-marketing/): Being found on Google and Maps, and reaching the right customers through the channels that actually work for you. Planned around your business by Haritt Developers.
+- [Partners & integrations](https://developers.haritt.com/services/partners-integrations/): The right third-party services, such as payments, delivery, marketplaces or a CRM, compared, set up and connected for you. Planned around your business by Haritt Developers.
+- [How we work](https://developers.haritt.com/how-we-work/): How Haritt Developers works: understand, identify, recommend and plan, execute, support and improve, and how pricing is worked out.
+- [Example: selling online](https://developers.haritt.com/how-we-work/selling-online/): How Haritt Developers helps a business start selling online: store, payments, marketplaces, delivery partner, visibility and support, set up together.
 - [Work](https://developers.haritt.com/work/): Case studies of products Haritt Developers has designed and built: HV Reset, HV Verse and the Haritt Group identity and website. Client work is shown only with permission.
 - [HV Reset case study](https://developers.haritt.com/work/hv-reset/): How Haritt Developers designed and built HV Reset, a day planner for web and Android that records what you actually did: problem, decisions, product, architecture, launch and effort.
 - [HV Verse case study](https://developers.haritt.com/work/hv-verse/): How Haritt Developers named, designed and built HV Verse: three free apps and one AI under one sign-in, from idea and audience to identity, architecture and launch.
 - [Haritt Group case study](https://developers.haritt.com/work/haritt-group/): How Haritt Developers designed the Haritt flame mark, the colour system for its brands, and the haritt.com scroll-film website.
-- [About](https://developers.haritt.com/about/): Haritt Developers is the digital solutions company of Haritt Group, India. Our story, what we believe and how we work.
+- [About](https://developers.haritt.com/about/): Haritt Developers is the business solutions company of Haritt Group, India. Our story, what we believe and how we work.
 - [Start a conversation](https://developers.haritt.com/first-look/): Tell Haritt Developers about your business or project. No phone number needed. We reply with questions or first thoughts.
 - [FAQ](https://developers.haritt.com/faq/): Answers to common questions about working with Haritt Developers: cost, timelines, payments, revisions, ownership and support.
 - [Privacy](https://developers.haritt.com/privacy/): How Haritt Developers handles the details you share in an enquiry.
