@@ -2,4 +2,4 @@
 :HL["https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@600;700&display=swap","style"]
 :HL["/site.css?v=bf46193ad5","style"]
 1:[["children",{"s":"__PAGE__","h":128}]]
-0:{"b":"guZ8evuUNE3Iy5z0TUP9u","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"tm0DCw7BY45MHhcZh3xFW","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
