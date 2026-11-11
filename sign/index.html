@@ -84,6 +84,7 @@ select{width:100%;background:#fff;color:var(--txt);border:1px solid var(--line2)
 textarea.mono{font:13.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:320px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--line2);background:#fff;border-radius:99px;padding:7px 12px;font:600 13px Inter,sans-serif;color:var(--txt);cursor:pointer}.chip:hover{border-color:var(--acc);color:var(--acc)}
 .or{text-align:center;color:var(--dim);font-size:13px;margin:16px 0 10px}.gb{display:flex;justify-content:center;min-height:44px}
+.embed header,.embed .foot{display:none}.embed .wrap{padding-top:14px}.embed .lang-embed{display:block}
 </style>
 </head>
 <body>
@@ -101,7 +102,7 @@ const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;"
 const B=(en,hi)=>'<span class="L-en">'+en+'</span><span class="L-hi">'+hi+'</span>';
 let LANG="en";
 try{const s=localStorage.getItem("hd_lang");if(s==="hi"||s==="en")LANG=s;else if(/^hi/i.test(navigator.language||""))LANG="hi"}catch(e){}
-const qp=new URLSearchParams(location.search);if(qp.get("l")==="hi"||qp.get("l")==="en")LANG=qp.get("l");
+const qp=new URLSearchParams(location.search);if(qp.has("embed"))document.documentElement.classList.add("embed");if(qp.get("l")==="hi"||qp.get("l")==="en")LANG=qp.get("l");
 const tt=(en,hi)=>LANG==="hi"?hi:en;
 let redraw=()=>{};
 function setLang(l){LANG=l;try{localStorage.setItem("hd_lang",l)}catch(e){}document.documentElement.lang=l;document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));redraw()}
