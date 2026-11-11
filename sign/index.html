@@ -287,7 +287,7 @@ async function makePDF(){
   let logo=null;try{logo=await loadImg("/assets/logo-256.png")}catch(e){}
   const brand=()=>{if(logo)doc.addImage(logo,"PNG",L,9,10,10);doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.setTextColor(...INK);doc.setCharSpace(1.2);doc.text("HARITT DEVELOPERS",L+13,13.3);doc.setCharSpace(0);doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUT);doc.text("A Haritt Group company",L+13,17.2);doc.setDrawColor(...ORG);doc.setLineWidth(.5);doc.line(L,21,W-R,21)};
   brand();
-  const np=()=>{doc.addPage();brand();y=T};
+  const np=()=>{doc.addPage();doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUT);doc.text("Haritt Developers · "+TE,L,12);doc.setDrawColor(215,215,220);doc.setLineWidth(.2);doc.line(L,15,W-R,15);y=24};
   function rich(text,x,maxW,size,lh,color){
     text=clean(text);const words=[];text.split("**").forEach((s,i)=>s.split(/(\s+)/).forEach(w=>{if(w!=="")words.push({w,b:i%2===1})}));
     doc.setFontSize(size);doc.setTextColor(...(color||INK));let cx=x;
@@ -327,7 +327,7 @@ async function makePDF(){
     doc.text("Access: personal link sent to the signer's email address",L,y);y+=7.5}
   y+=1;const note=doc.splitTextToSize("Each signer opened a personal link sent to their own email address, read the agreement, confirmed they understood it and drew their signature. The fingerprint above is calculated from the full English agreement text as signed. If a single word changes, the fingerprint changes. A Hindi translation follows for understanding; the English text is the agreement.",CW);
   doc.setFontSize(8.3);doc.setTextColor(...MUT);doc.text(note,L,y);
-  try{const pgs=await hindiPages(v);for(const c of pgs){np();doc.addImage(c.toDataURL("image/jpeg",.9),"JPEG",L,T,CW,CW*c.height/c.width)}}catch(e){}
+  try{const pgs=await hindiPages(v);for(const c of pgs){np();doc.addImage(c.toDataURL("image/jpeg",.9),"JPEG",L,20,CW,CW*c.height/c.width)}}catch(e){}
   const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUT);doc.text("Agreement ID HD-"+S.id.slice(0,8).toUpperCase()+" · Signed electronically",L,H-10);doc.text("Page "+i+" of "+n,W-R,H-10,{align:"right"})}
   const blob=doc.output("blob"),buf=doc.output("arraybuffer");let bin="";const u=new Uint8Array(buf);for(let i=0;i<u.length;i+=8192)bin+=String.fromCharCode.apply(null,u.subarray(i,i+8192));
   return{blob,base64:btoa(bin)}}
