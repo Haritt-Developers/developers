@@ -235,7 +235,7 @@ function screenOtp(email,err){
   b.onclick=go;c.addEventListener("keydown",e=>{if(e.key==="Enter")go()});$("#bk").onclick=()=>screenGate("",email);c.focus()}
 let WS=null;const WSORIGIN="https://workspace.developers.haritt.com",EMB=qp.has("embed")&&window.parent!==window;
 async function wsLogin(d){WS=d;try{const r=await api({action:"fb_login",idToken:d.idToken});
-  if(!r.ok){return screenGate(r.error==="not_allowed"?"This Workspace account is not a founder account.":"Could not sign in.")}
+  if(!r.ok){return screenGate(r.error==="not_allowed"?"This Workspace account is not a founder account.":"Could not sign in ("+(r.error||"no reply")+").")}
   SESS=r.sess;try{sessionStorage.setItem("hd_sess",SESS)}catch(e){}const l=await api({action:"list",sess:SESS});if(!l.ok)return screenGate();ADM=l;screenConsole()}catch(e){screenGate("No internet or server problem.")}}
 if(EMB)addEventListener("message",e=>{if(e.origin!==WSORIGIN||!e.data||e.data.type!=="hd-init")return;wsLogin(e.data)});
 async function resume(){
