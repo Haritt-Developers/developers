@@ -69,6 +69,8 @@ input[readonly]{background:var(--soft);color:var(--mut)}
 .party{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;padding:14px 0;border-top:1px solid var(--line)}
 .party:first-of-type{border-top:0}
 .party .nm{font-weight:600}.party .sub{color:var(--mut);font-size:13px}
+.pill.bad{background:#FDE8E8;color:#C62828}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
 .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .big{width:60px;height:60px;border-radius:50%;background:#E3F5EC;display:flex;align-items:center;justify-content:center;margin:0 0 14px}
 .big svg{width:28px;height:28px}
@@ -97,7 +99,8 @@ textarea.mono{font:13.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monosp
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 const API="https://script.google.com/macros/s/AKfycbxlnGmdBPvi9BsWG7nxAIY9qWOF2yNGivhxrtj1OSRZ7CZFHkhLCwRcgsUftN_l-c4b/exec",GID="__GID__";
-const $=(s,r=document)=>r.querySelector(s);
+const ROOT=document;
+const $=(s,r=ROOT)=>r.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const B=(en,hi)=>'<span class="L-en">'+en+'</span><span class="L-hi">'+hi+'</span>';
 let LANG="en";
@@ -203,7 +206,7 @@ function parseMd(md){const out=[];let sec=0,idx=0,ins=false;
   return out}
 const normMd=s=>String(s||"").split("\n").map(x=>x.trim()).filter(Boolean).join("\n");
 const TOKRE=/\{\{(\w+)\}\}/g;
-let SESS="",ADM={docs:[],tpls:[]};
+let SESS="",ADM={docs:[],tpls:[],drafts:[]},ME={admin:true,email:"",perms:{view:1,create:1,send:1,delete:1}};const setAdm=l=>{ADM=l;if(l.me)ME=l.me};const can=p=>!ME||!!(ME.perms&&ME.perms[p]);
 const ago=d=>fmtDate(d);
 function gBtn(host,onCred){if(!GID||GID.indexOf("__")===0)return;
   const go=()=>{try{google.accounts.id.initialize({client_id:GID,callback:r=>onCred(r.credential),ux_mode:"popup"});google.accounts.id.renderButton(host,{theme:"outline",size:"large",shape:"pill",text:"continue_with",width:Math.min(300,host.clientWidth||300)})}catch(e){}};
@@ -214,7 +217,7 @@ function screenGate(err,email){
   '<label>Email</label><input id="em" type="email" inputmode="email" autocomplete="email" autocapitalize="none" value="'+esc(email||"")+'"><div class="err" id="err">'+(err||"")+'</div><button class="btn" id="go" disabled>Send code</button>'+((GID&&GID.indexOf("__")!==0)?'<p class="or">or</p><div id="gb" class="gb"></div>':'')+'</div>');
   gBtn($("#gb"),async cred=>{if(busy)return;busy=true;try{const r=await api({action:"g_login",credential:cred});
     if(!r.ok){$("#err").textContent=r.error==="not_allowed"?"This Google account is not a founder account.":"Could not sign in.";return}
-    SESS=r.sess;try{sessionStorage.setItem("hd_sess",SESS)}catch(e){}const l=await api({action:"list",sess:SESS});if(!l.ok)return;ADM=l;screenConsole()}finally{busy=false}});
+    SESS=r.sess;try{sessionStorage.setItem("hd_sess",SESS)}catch(e){}const l=await api({action:"list",sess:SESS});if(!l.ok)return;setAdm(l);screenConsole()}finally{busy=false}});
   const c=$("#em"),b=$("#go"),ok=()=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.value.trim());c.addEventListener("input",()=>{b.disabled=!ok()});b.disabled=!ok();
   const go=async()=>{if(!ok()||busy)return;busy=true;b.disabled=true;b.textContent="Sending...";$("#err").textContent="";
     try{const r=await api({action:"otp_send",email:c.value.trim()});
@@ -230,91 +233,207 @@ function screenOtp(email,err){
     try{const r=await api({action:"otp_check",email,code:c.value});
       if(!r.ok){$("#err").textContent=r.error==="locked"?"Too many wrong tries. Try again in an hour.":"Wrong or expired code.";b.disabled=false;b.textContent="Open console";return}
       SESS=r.sess;try{sessionStorage.setItem("hd_sess",SESS)}catch(e){}
-      const l=await api({action:"list",sess:SESS});if(!l.ok)return screenGate("Could not open. Try again.");ADM=l;screenConsole()}
+      const l=await api({action:"list",sess:SESS});if(!l.ok)return screenGate("Could not open. Try again.");setAdm(l);screenConsole()}
     catch(e){$("#err").textContent="No internet or server problem. Try again.";b.disabled=false;b.textContent="Open console"}finally{busy=false}};
   b.onclick=go;c.addEventListener("keydown",e=>{if(e.key==="Enter")go()});$("#bk").onclick=()=>screenGate("",email);c.focus()}
 let WS=null;const WSORIGIN="https://workspace.developers.haritt.com",EMB=qp.has("embed")&&window.parent!==window;
 async function wsLogin(d){WS=d;try{const r=await api({action:"fb_login",idToken:d.idToken});
   if(!r.ok){return screenGate(r.error==="not_allowed"?"This Workspace account is not a founder account.":"Could not sign in ("+(r.error||"no reply")+").")}
-  SESS=r.sess;try{sessionStorage.setItem("hd_sess",SESS)}catch(e){}const l=await api({action:"list",sess:SESS});if(!l.ok)return screenGate();ADM=l;screenConsole()}catch(e){screenGate("No internet or server problem.")}}
+  SESS=r.sess;try{sessionStorage.setItem("hd_sess",SESS)}catch(e){}const l=await api({action:"list",sess:SESS});if(!l.ok)return screenGate();setAdm(l);screenConsole()}catch(e){console.error(e);screenGate("No internet or server problem.")}}
 if(EMB)addEventListener("message",e=>{if(e.origin!==WSORIGIN||!e.data||e.data.type!=="hd-init")return;wsLogin(e.data)});
 async function resume(){
   if(EMB){show('<div class="spin"></div><p style="text-align:center">Loading...</p>');parent.postMessage({type:"hd-ready"},WSORIGIN);for(let i=0;i<40&&!WS;i++)await new Promise(r=>setTimeout(r,200));if(WS)return}
   let s="";try{s=sessionStorage.getItem("hd_sess")||""}catch(e){}if(!s)return screenGate();
-  try{const l=await api({action:"list",sess:s});if(l.ok){SESS=s;ADM=l;return screenConsole()}}catch(e){}screenGate()}
-async function reloadAdm(){const r=await api({action:"list",sess:SESS});if(r.ok)ADM=r}
+  try{const l=await api({action:"list",sess:s});if(l.ok){SESS=s;setAdm(l);return screenConsole()}}catch(e){}screenGate()}
+async function reloadAdm(){const r=await api({action:"list",sess:SESS});if(r.ok)setAdm(r)}
+const todayIso=()=>new Date().toLocaleDateString("en-CA",{timeZone:"Asia/Kolkata"});
+function docState(d){return d.voided?"void":d.complete?"done":(d.deadline&&d.deadline<todayIso())?"overdue":"wait"}
+const STL={void:["Cancelled","bad"],done:["Completed","ok"],overdue:["Overdue","bad"],wait:["Waiting","wait"]};
+let CF={q:"",f:"all"};
+function rowHtml(d){const s=docState(d),l=STL[s];
+  return '<div class="party"><div><div class="nm">'+esc(d.title)+'</div><div class="sub">'+esc(d.names)+'</div>'+((d.project||d.client)?'<div class="sub">'+esc([d.project,d.client].filter(Boolean).join(' · '))+'</div>':'')+
+  ((s==="wait"||s==="overdue")&&(d.pending||[]).length?'<div class="sub">Waiting for: <b>'+esc(d.pending.join(", "))+'</b></div>':'')+
+  (s==="void"&&d.voided?'<div class="sub">Reason: '+esc(d.voided.reason)+'</div>':'')+
+  '<div class="sub">'+ago(d.created)+' · '+d.signed+' of '+d.total+' signed'+(d.deadline&&s!=="done"&&s!=="void"?' · Due '+esc(d.deadline):'')+(d.handler?' · Handled by '+esc(d.handler):'')+'</div></div>'+
+  '<div style="text-align:right"><span class="pill '+l[1]+'">'+l[0]+'</span><div class="acts" style="justify-content:flex-end"><button class="btn ghost sm" data-open="'+d.id+'">Open</button>'+(can("delete")?'<button class="btn ghost sm" style="color:#C62828" data-rm="'+d.id+'">Delete</button>':'')+'</div></div></div>'}
+function draftRow(x){return '<div class="party"><div><div class="nm">'+esc(x.title)+'</div><div class="sub">Draft · saved '+ago(x.updated)+(x.by?' by '+esc(x.by):'')+'</div></div><div style="text-align:right"><span class="pill wait">Draft</span><div class="acts" style="justify-content:flex-end"><button class="btn ghost sm" data-draft="'+x.id+'">Continue</button><button class="btn ghost sm" style="color:#C62828" data-dd="'+x.id+'">Delete</button></div></div></div>'}
+function listHtml(){const q=CF.q.trim().toLowerCase(),f=CF.f;
+  const hit=t=>!q||t.toLowerCase().includes(q);
+  const docs=f==="drafts"?[]:ADM.docs.filter(d=>hit([d.title,d.names,d.project,d.client,d.handler].join(" "))&&(f==="all"||(f==="wait"?(docState(d)==="wait"||docState(d)==="overdue"):docState(d)===f)));
+  const drs=(f==="all"||f==="drafts")?(ADM.drafts||[]).filter(x=>hit(x.title)):[];
+  return (drs.length?'<h2 style="margin-top:14px">Drafts</h2>'+drs.map(draftRow).join(""):"")+(docs.length?'<h2 style="margin-top:14px">Sent documents</h2>'+docs.map(rowHtml).join(""):"")||'<p style="color:var(--mut);margin-top:14px">Nothing here.</p>'}
+function wireList(){
+  ROOT.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>screenAdmin(b.dataset.open));
+  ROOT.querySelectorAll("[data-draft]").forEach(b=>b.onclick=()=>screenBuilder(null,(ADM.drafts||[]).find(x=>x.id===b.dataset.draft)));
+  ROOT.querySelectorAll("[data-dd]").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this draft?"))return;b.disabled=true;const r=await api({action:"draft_del",id:b.dataset.dd,sess:SESS});if(r.ok){await reloadAdm();screenConsole();toast("Draft deleted")}else{b.disabled=false;toast("Could not delete")}});
+  ROOT.querySelectorAll("[data-rm]").forEach(b=>b.onclick=async()=>{const d=ADM.docs.find(x=>x.id===b.dataset.rm);if(!d||!confirm('Delete "'+d.title+'"? '+(d.complete?'This is a signed document; the signers keep their emailed copy. ':'Its signing links will stop working. ')+'It moves to the Drive bin.'))return;b.disabled=true;const r=await api({action:"del",id:d.id,sess:SESS});if(r.ok){await reloadAdm();screenConsole();toast("Deleted")}else{b.disabled=false;toast(r.error==="forbidden"?"You do not have rights to delete.":"Could not delete. Update the script first.")}})}
 function screenConsole(){
-  const rows=ADM.docs.map(d=>'<div class="party"><div><div class="nm">'+esc(d.title)+'</div><div class="sub">'+esc(d.names)+'</div>'+((d.project||d.client)?'<div class="sub">'+esc([d.project,d.client].filter(Boolean).join(' · '))+'</div>':'')+'<div class="sub">'+ago(d.created)+' · '+d.signed+' of '+d.total+' signed</div></div>'+
-    '<div style="text-align:right"><span class="pill '+(d.complete?"ok":"wait")+'">'+(d.complete?"Completed":"Waiting")+'</span><div class="acts" style="justify-content:flex-end"><button class="btn ghost sm" data-open="'+d.id+'">Open</button><button class="btn ghost sm" style="color:#C62828" data-rm="'+d.id+'">Delete</button></div></div></div>').join("")||'<p style="color:var(--mut)">Nothing sent yet.</p>';
-  show('<div class="card top">'+(EMB?'':'<div class="eyebrow">— Founder console</div>')+'<h1>Documents</h1><p>Agreements and contracts sent from Haritt Developers.</p><button class="btn" id="nw">New document</button></div>'+
-    '<div class="card"><h2>Sent documents</h2>'+rows+'</div>');
-  $("#nw").onclick=()=>screenBuilder();document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>screenAdmin(b.dataset.open));
-  document.querySelectorAll("[data-rm]").forEach(b=>b.onclick=async()=>{const d=ADM.docs.find(x=>x.id===b.dataset.rm);if(!d||!confirm('Delete "'+d.title+'"? '+(d.complete?'This is a signed document; the signers keep their emailed copy. ':'Its signing links will stop working. ')+'It moves to the Drive bin.'))return;b.disabled=true;const r=await api({action:"del",id:d.id,sess:SESS});if(r.ok){await reloadAdm();screenConsole();toast("Deleted")}else{b.disabled=false;toast("Could not delete. Update the script first.")}})}
+  try{localStorage.setItem("hd_adm",JSON.stringify(ADM))}catch(e){}
+  const cnt=f=>f==="all"?ADM.docs.length:f==="drafts"?(ADM.drafts||[]).length:ADM.docs.filter(d=>{const s=docState(d);return f==="wait"?(s==="wait"||s==="overdue"):s===f}).length;
+  const chips=[["all","All"],["wait","Waiting"],["done","Completed"],["void","Cancelled"],["drafts","Drafts"]];
+  show('<div class="card top toolbar"><div><h1>Documents</h1><p style="margin:0">Agreements and contracts sent from Haritt Developers.</p></div><div class="acts" style="margin:0">'+(ME&&ME.admin?'<button class="btn ghost sm" id="ta">Team access</button>':'')+(can("create")?'<button class="btn" id="nw">New document</button>':'')+'</div></div>'+
+    '<div class="card"><input id="q" type="search" placeholder="Search by title, person, project or client" value="'+esc(CF.q)+'"><div class="chips" id="cf" style="margin-top:10px">'+chips.map(c=>'<button type="button" class="chip'+(CF.f===c[0]?' on':'')+'" data-f="'+c[0]+'">'+c[1]+' ('+cnt(c[0])+')</button>').join("")+'</div><div id="lst">'+listHtml()+'</div></div>');
+  const nw=$("#nw");if(nw)nw.onclick=()=>screenBuilder();const ta=$("#ta");if(ta)ta.onclick=()=>screenAccess();
+  $("#q").oninput=e=>{CF.q=e.target.value;$("#lst").innerHTML=listHtml();wireList()};
+  ROOT.querySelectorAll("#cf [data-f]").forEach(b=>b.onclick=()=>{CF.f=b.dataset.f;screenConsole()});
+  wireList()}
+function screenAccess(){
+  const list=(ADM.access||[]).map(x=>Object.assign({},x));
+  const mine=x=>[x.email,x.alt].filter(Boolean).map(e=>e.toLowerCase());
+  const sug=(WS&&WS.team||[]).filter(x=>x.name&&!list.some(l=>mine(x).includes(l.email)));
+  const PERMS=[["view","See documents"],["create","Create and save drafts"],["send","Send, remind, cancel"],["delete","Delete"]];
+  const rows=()=>list.map((x,i)=>'<div class="grp"><div class="row"><div><label>Name</label><input data-a="'+i+'" data-k="name" value="'+esc(x.name||"")+'"></div><div><label>Role</label><input data-a="'+i+'" data-k="role" value="'+esc(x.role||"")+'"></div></div><label>Email they sign in to Workspace with</label><input data-a="'+i+'" data-k="email" type="email" value="'+esc(x.email||"")+'"><div class="acts" style="margin-top:12px;align-items:center">'+PERMS.map(p=>'<label style="display:flex;gap:8px;align-items:center;margin:0;font-weight:500"><input type="checkbox" style="width:auto" data-a="'+i+'" data-p="'+p[0]+'"'+(x[p[0]]?' checked':'')+'>'+p[1]+'</label>').join("")+'<button class="btn ghost sm" data-ar="'+i+'">Remove</button></div></div>').join("")||'<p style="color:var(--mut)">No one added yet. Founders always have full rights.</p>';
+  const draw=()=>{$("#al").innerHTML=rows();wire()};
+  const wire=()=>{
+    ROOT.querySelectorAll("[data-a][data-k]").forEach(i=>i.oninput=e=>{list[+i.dataset.a][i.dataset.k]=e.target.value});
+    ROOT.querySelectorAll("[data-a][data-p]").forEach(i=>i.onchange=e=>{list[+i.dataset.a][i.dataset.p]=e.target.checked?1:0});
+    ROOT.querySelectorAll("[data-ar]").forEach(b=>b.onclick=()=>{list.splice(+b.dataset.ar,1);draw()})};
+  show('<div class="card top"><p style="margin:0 0 6px"><button class="link" id="bk">← All documents</button></p><h1>Team access</h1><p>Choose what each person can do in Contracts. They open Contracts by signing in to Workspace with the email you enter here. Founders always have full rights.</p></div>'+
+    '<div class="card"><div id="al"></div><div class="acts">'+(sug.length?'<select id="sg" style="width:auto"><option value="">Add from team...</option>'+sug.map((x,n)=>'<option value="'+n+'">'+esc(x.name)+(x.role?' · '+esc(x.role):'')+'</option>').join("")+'</select>':'')+'<button class="btn ghost sm" id="ap">Add someone else</button></div><div class="err" id="err"></div><button class="btn" id="sv">Save access</button></div>');
+  draw();
+  $("#bk").onclick=()=>screenConsole();
+  const sg=$("#sg");if(sg)sg.onchange=e=>{const x=sug[+e.target.value];if(!x)return;list.push({name:x.name,role:x.role||"",email:(x.alt||x.email||"").toLowerCase(),view:1,create:1,send:0,"delete":0});screenAccess.keep=list;screenAccessRender()};
+  const screenAccessRender=()=>{ADM.access=list;screenAccess()};
+  $("#ap").onclick=()=>{list.push({name:"",role:"",email:"",view:1,create:0,send:0,"delete":0});draw()};
+  $("#sv").onclick=async()=>{const err=t=>$("#err").textContent=t;err("");const bad=list.find(x=>!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test((x.email||"").trim()));if(bad)return err("Check the email of "+(bad.name||"every person")+".");
+    $("#sv").disabled=true;try{const r=await api({action:"access_save",sess:SESS,list:list.map(x=>Object.assign({},x,{email:x.email.trim().toLowerCase()}))});if(r.ok){ADM.access=r.access;toast("Access saved");screenConsole()}else err(r.error==="forbidden"?"Only founders can change access.":"Could not save. Update the script first.")}catch(e){err("No internet or server problem.")}finally{if($("#sv"))$("#sv").disabled=false}}}
 function allTemplates(){return TPL_BUILTIN.concat((ADM.tpls||[]).map(t=>Object.assign({saved:true,hi:null},t)))}
-function screenBuilder(tid){
-  const T=allTemplates();let tpl=T.find(t=>t.id===tid)||T[0];
-  let B=null,idc=0;
-  const load=t=>{tpl=t;B={meta:(B&&B.meta)||{projectId:"",projectName:"",clientName:""},title:t.title,subtitle:t.subtitle||"",md:t.md,vars:{},roles:t.roles.map(r=>Object.assign({},r,{name:"",email:"",phone:""}))};(t.vars||[]).forEach(v=>B.vars[v.k]=v.def||"")};
-  load(tpl);
+function screenBuilder(tid,draft){
+  const T=allTemplates();let tpl=T.find(t=>t.id===(draft&&draft.state?draft.state.tplId:tid))||T[0];
+  let B=null,idc=0,draftId=draft?draft.id:"",step=1,openIdx=-1,editText=false;
+  const blankH=()=>({name:"",role:"",email:"",phone:"",alt:""});
+  const blankMeta=()=>({projectId:"",projectName:"",clientId:"",clientName:"",handler:blankH()});
+  const load=t=>{tpl=t;B={meta:(B&&B.meta)||blankMeta(),deadline:(B&&B.deadline)||"",order:!!(B&&B.order),title:t.title,subtitle:t.subtitle||"",md:t.md,vars:{},roles:t.roles.map(r=>Object.assign({},r,{name:"",email:"",phone:"",alt:""}))};(t.vars||[]).forEach(v=>B.vars[v.k]=v.def||"")};
+  const lc=a=>(a||"").toLowerCase();
+  const EMAIL=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  const meMail=lc(ME&&ME.email);
+  const prefillHandler=()=>{const mine=((WS&&WS.team)||[]).find(x=>[x.email,x.alt].filter(Boolean).map(lc).includes(meMail));if(mine)B.meta.handler={name:mine.name||"",role:mine.role||"",email:mine.email||"",phone:mine.phone||"",alt:mine.alt||""}};
+  if(draft&&draft.state&&draft.state.B){B=draft.state.B;idc=draft.state.idc||0;step=draft.state.step||1;B.meta=Object.assign(blankMeta(),B.meta||{});B.meta.handler=Object.assign(blankH(),B.meta.handler||{})}else{load(tpl);prefillHandler()}
   const varDefs=()=>{const known={};(tpl.vars||[]).forEach(v=>known[v.k]=v);const ids=B.roles.map(r=>r.id),seen=[];let m;TOKRE.lastIndex=0;
     while(m=TOKRE.exec(B.md)){const k=m[1];if(k==="date"||seen.includes(k)||ids.some(i=>k.startsWith(i+"_")))continue;seen.push(k)}
     return seen.map(k=>known[k]||{k,l:k.replace(/_/g," ").replace(/^./,c=>c.toUpperCase())})};
-  const tokens=()=>{const t=[["date","Date"]];B.roles.forEach(r=>{t.push([r.id+"_name",r.label+" name"],[r.id+"_email",r.label+" email"],[r.id+"_phone",r.label+" phone"]);(r.fields||[]).forEach(f=>t.push([r.id+"_"+f.k,r.label+": "+f.l]))});varDefs().forEach(v=>t.push([v.k,v.l]));return t};
+  const isF=r=>r.kind==='founder'||r.kind==='team'||/founder|team member|^haritt developers/i.test(r.label);
+  const isOur=r=>isF(r)||/@haritt\.com$/i.test(r.email||"");
+  const FREE=/@(gmail|googlemail|yahoo|hotmail|outlook|live|icloud|rediffmail|proton|protonmail)\./i;
+  const lbl=(r,i)=>B.roles.filter(x=>x.label===r.label).length>1?r.label+" ("+((r.name||"").trim()||"signer "+(i+1))+")":r.label;
+  const tokens=()=>{const t=[["date","Date"]];B.roles.forEach((r,i)=>{const L=lbl(r,i);t.push([r.id+"_name",L+" name"],[r.id+"_email",L+" email"],[r.id+"_phone",L+" phone"]);(r.fields||[]).forEach(f=>t.push([r.id+"_"+f.k,L+": "+f.l]))});varDefs().forEach(v=>t.push([v.k,v.l]));const seen={};return t.filter(x=>seen[x[0]]?false:(seen[x[0]]=1))};
   const mkDoc=()=>{const same=!!tpl.hi&&normMd(B.md)===normMd(tpl.md);const vl={};varDefs().forEach(v=>vl[v.k]=v.l);
     return{meta:B.meta,title:B.title.trim(),subtitle:B.subtitle.trim(),titleHi:same?tpl.titleHi:"",subtitleHi:same?tpl.subtitleHi:"",items:parseMd(B.md),hi:same?tpl.hi:null,vars:Object.assign({},B.vars),varLabels:vl,
       roles:B.roles.map(r=>({id:r.id,label:r.label,labelHi:r.labelHi||"",note:r.note||"",fields:r.fields||[]}))}};
   const mkS=()=>{const p={};B.roles.forEach(r=>p[r.id]={name:r.name,email:r.email,phone:r.phone,data:{}});return{parties:p,complete:false,created:new Date().toISOString()}};
-  const draw=()=>{DOC=mkDoc();S=mkS();$("#pp").innerHTML=paper(values())};
-  const pickHtml=i=>{if(!WS)return '';const o=(arr,k)=>(arr||[]).filter(x=>x.name).map((x,n)=>'<option value="'+k+':'+n+'">'+esc(x.name)+(x.email?' · '+esc(x.email):'')+'</option>').join('');return '<label>Pick from Workspace</label><select data-pick="'+i+'"><option value="">Choose a person...</option><optgroup label="Clients">'+o(WS.clients,'c')+'</optgroup><optgroup label="Team">'+o(WS.team,'t')+'</optgroup></select>'};
-  const isF=r=>r.kind==='founder'||r.kind==='team'||/founder|team member|^haritt developers/i.test(r.label);const FREE=/@(gmail|googlemail|yahoo|hotmail|outlook|live|icloud|rediffmail|proton|protonmail)\./i;
-  const rowsHtml=()=>B.roles.map((r,i)=>'<div class="grp"><h3>Signer '+(i+1)+'</h3>'+pickHtml(i)+'<label>Role shown in the document</label><input data-i="'+i+'" data-f="label" value="'+esc(r.label)+'">'+
-    '<div class="row"><div><label>Full name</label><input data-i="'+i+'" data-f="name" value="'+esc(r.name)+'" list="ctl"></div><div><label>Mobile</label><input data-i="'+i+'" data-f="phone" inputmode="tel" value="'+esc(r.phone)+'"></div></div>'+
-    '<label>Email used for signing'+(isF(r)?' <span class="sl">use the company email, e.g. name@haritt.com</span>':'')+'</label><input data-i="'+i+'" data-f="email" type="email" value="'+esc(r.email)+'">'+
-    (isF(r)?(FREE.test(r.email)?'<p class="sl" style="color:#b45309;margin:4px 0 0">This is a personal email. For a professional record, use the company email as the signing email and add the personal one below.</p>':'')+'<label>Personal email, for record only <span class="sl">optional</span></label><input data-i="'+i+'" data-f="alt" type="email" value="'+esc(r.alt||'')+'"><p class="sl" style="margin:4px 0 0">Shown in the signing record so it is clear who was involved. No link is sent here.</p>':'')+
-    (B.roles.length>1?'<div class="acts"><button class="btn ghost sm" data-del="'+i+'">Remove this signer</button></div>':'')+'</div>').join("");
-  const varsHtml=()=>{const d=varDefs();return d.length?'<div class="card"><h2>Fill in the details</h2><p style="margin:0;color:var(--mut);font-size:14px">These go into the document.</p>'+d.map(v=>'<label>'+esc(v.l)+'</label>'+(v.multi?'<textarea data-v="'+v.k+'">':'<input data-v="'+v.k+'" value="'+esc(B.vars[v.k]||"")+'">')+(v.multi?esc(B.vars[v.k]||"")+'</textarea>':'')).join("")+'</div>':''};
-  const chipsHtml=()=>tokens().map(t=>'<button type="button" class="chip" data-tok="'+t[0]+'">'+esc(t[1])+'</button>').join("");
+  const sheet=()=>'<div class="sheetwrap"><div class="sheet"><div class="sheetinner"></div></div></div>';
+  const fit=()=>ROOT.querySelectorAll(".sheetwrap").forEach(w=>{const sh=w.querySelector(".sheet"),W=w.clientWidth;if(!W)return;const k=Math.min(1,W/794);sh.style.transform="scale("+k+")";sh.style.marginLeft=Math.max(0,Math.floor((W-794*k)/2))+"px";w.style.height=Math.ceil(sh.offsetHeight*k)+"px";const pg=w.parentElement&&w.parentElement.querySelector(".pgs");if(pg)pg.textContent="About "+Math.max(1,Math.ceil(sh.offsetHeight/1123))+" page(s)"});
+  const draw=()=>{DOC=mkDoc();S=mkS();const h=paper(values());ROOT.querySelectorAll(".sheetinner").forEach(e=>e.innerHTML=h);fit()};
+  if(!window.__hdFit){window.__hdFit=1;addEventListener("resize",()=>{try{window.__hdFitFn&&window.__hdFitFn()}catch(e){}})}window.__hdFitFn=fit;
+  /* ---------- checks ---------- */
+  const personErr=(r,i)=>{const n=(r.name||"").trim()||("Signer "+(i+1));if(r.label.trim().length<2||(r.name||"").trim().length<2)return "Fill the role and full name of "+n+".";if(!EMAIL.test((r.email||"").trim()))return "Check the email of "+n+".";if((r.phone||"").replace(/\D/g,"").length<8)return "Add a mobile number for "+n+".";return ""};
+  const check=n=>{
+    if(n===1){const d=B.title.trim();if(d.length<3)return "Add a title.";return ""}
+    if(n===2){if(B.roles.length<1)return "Add at least one signer.";for(let i=0;i<B.roles.length;i++){const e=personErr(B.roles[i],i);if(e){openIdx=i;return e}}
+      const em=B.roles.map(r=>lc(r.email.trim()));if(new Set(em).size<em.length)return "Two signers have the same email. Each signer needs their own email.";
+      const h=B.meta.handler;if(h.email&&!EMAIL.test(h.email.trim()))return "Check the email in the conversation record.";return ""}
+    if(n===3){if(!parseMd(B.md).length)return "The text is empty.";const miss=varDefs().filter(v=>!String(B.vars[v.k]||"").trim());if(miss.length)return "Fill in: "+miss.map(v=>v.l).join(", ")+".";return ""}
+    return ""};
+  /* ---------- people ---------- */
+  const opt=(x,k,n)=>'<option value="'+k+':'+n+'">'+esc(x.name)+(k==="t"?(x.role?' · '+esc(x.role):''):(x.company&&x.company!==x.name?' · '+esc(x.company):''))+'</option>';
+  const pickHtml=i=>{if(!WS)return '';const o=(arr,k)=>(arr||[]).filter(x=>x.name).map((x,n)=>opt(x,k,n)).join('');return '<label>Pick from Workspace</label><select data-pick="'+i+'"><option value="">Choose a person...</option><optgroup label="Our team">'+o(WS.team,'t')+'</optgroup><optgroup label="Clients">'+o(WS.clients,'c')+'</optgroup></select>'};
+  const initials=n=>((n||"").trim().split(/\s+/).map(x=>x[0]).slice(0,2).join("")||"?").toUpperCase();
+  const cardHtml=(r,i)=>{const open=openIdx===i,bad=personErr(r,i),our=isOur(r);
+    let h='<div class="sc'+(open?' open':'')+'"><div class="schead"><div class="av '+(our?'our':'')+'">'+esc(initials(r.name))+'</div><div class="sci"><b>'+esc((r.name||"").trim()||"Add name")+'</b><span>'+esc(lbl(r,i))+(r.email?' · '+esc(r.email):'')+'</span></div><span class="pill '+(our?'ok':'wait')+'">'+(our?'Our side':'Other side')+'</span>'+(bad&&!open?'<span class="pill bad">Incomplete</span>':'')+
+      '<div class="scb">'+(open?'<button class="btn ghost sm" data-ed="-1">Done</button>':'<button class="btn ghost sm" data-ed="'+i+'">Edit</button>')+'</div></div>';
+    if(open){h+='<div class="scbody">'+pickHtml(i)+'<label>Role shown in the document</label><input data-i="'+i+'" data-f="label" value="'+esc(r.label)+'">'+
+      '<div class="row"><div><label>Full name</label><input data-i="'+i+'" data-f="name" value="'+esc(r.name)+'" list="ctl"></div><div><label>Mobile</label><input data-i="'+i+'" data-f="phone" inputmode="tel" value="'+esc(r.phone)+'"></div></div>'+
+      '<label>Email used for signing'+(isF(r)?' <span class="sl">use the company email, e.g. name@haritt.com</span>':'')+'</label><input data-i="'+i+'" data-f="email" type="email" value="'+esc(r.email)+'">'+
+      (isF(r)?(FREE.test(r.email)?'<p class="sl" style="color:#b45309;margin:4px 0 0">This is a personal email. For a professional record, use the company email as the signing email and add the personal one below.</p>':'')+'<label>Personal email, for record only <span class="sl">optional</span></label><input data-i="'+i+'" data-f="alt" type="email" value="'+esc(r.alt||'')+'"><p class="sl" style="margin:4px 0 0">Shown in the signing record. No link is sent here.</p>':'')+
+      '<div class="acts">'+(i>0?'<button class="btn ghost sm" data-up="'+i+'">↑ Move up</button>':'')+(i<B.roles.length-1?'<button class="btn ghost sm" data-dn="'+i+'">↓ Move down</button>':'')+(B.roles.length>1?'<button class="btn ghost sm" style="color:#C62828" data-del="'+i+'">Remove</button>':'')+'</div></div>'}
+    return h+'</div>'};
+  const handlerHtml=()=>{const h=B.meta.handler,cp=B.roles.filter(r=>!isOur(r)).map(r=>esc((r.name||"").trim()||r.label));
+    return '<div class="card"><h2>Who handled this conversation</h2><p class="hint">Our side. It is saved with the document and printed on the signed PDF, so there is proof that both sides were in contact. Both sides sign and both get the copy; Haritt keeps one too.</p>'+
+      (WS&&WS.team&&WS.team.filter(x=>x.name).length?'<label>Pick from team</label><select id="hs"><option value="">Choose a team member...</option>'+WS.team.filter(x=>x.name).map((x,n)=>'<option value="'+n+'">'+esc(x.name)+(x.role?' · '+esc(x.role):'')+'</option>').join('')+'</select>':'')+
+      '<div class="row"><div><label>Name</label><input id="hn" value="'+esc(h.name)+'"></div><div><label>Role</label><input id="hr" value="'+esc(h.role)+'"></div></div>'+
+      '<div class="row"><div><label>Company email</label><input id="he" type="email" value="'+esc(h.email)+'"></div><div><label>Mobile</label><input id="hp" inputmode="tel" value="'+esc(h.phone)+'"></div></div>'+
+      '<p class="sl" style="margin:10px 0 0">In conversation with: <b>'+(cp.join(", ")||"the other signers")+'</b></p><div class="acts"><button class="btn ghost sm" id="hsig">Add them as a signer</button></div></div>'};
   const contacts=(()=>{const m={};ADM.docs.forEach(d=>(d.people||[]).forEach(p=>{m[(p.email||p.name).toLowerCase()]=p}));return Object.values(m)})();
+  const peopleHtml=()=>handlerHtml()+'<div class="card"><h2>Who signs</h2><p class="hint">Each person gets an email on their own address with a personal link. They confirm it is them (Google or an emailed code) and then sign.</p><datalist id="ctl">'+contacts.map(c=>'<option value="'+esc(c.name)+'">').join("")+'</datalist><div id="rs">'+B.roles.map(cardHtml).join("")+'</div>'+
+    '<label>Add a signer</label><div class="chips" id="ad">'+[["client","+ Client"],["cm","+ Client manager"],["owner","+ Owner / landlord"],["team","+ Team member"],["founder","+ Founder"],["witness","+ Witness"],["other","+ Other"]].map(a=>'<button type="button" class="chip" data-add="'+a[0]+'">'+a[1]+'</button>').join("")+'</div></div>'+
+    '<div class="card"><h2>Signing options</h2><label>Sign by <span class="sl">optional. Reminders go out every 2 days until then.</span></label><input id="dl" type="date" value="'+esc(B.deadline||"")+'"><label class="chkrow"><input type="checkbox" id="od"'+(B.order?' checked':'')+'><span>People sign one after another, in the order shown. Each person is emailed only after the previous one has signed.</span></label></div>';
+  /* ---------- steps ---------- */
+  const s1=()=>'<div class="card"><h2>Template and link</h2><label>Start from</label><select id="tp">'+T.map(t=>'<option value="'+esc(t.id)+'"'+(t.id===tpl.id?" selected":"")+'>'+esc(t.name)+'</option>').join("")+'</select>'+
+    (WS&&WS.projects&&WS.projects.length?'<label>Link to a project <span class="sl">optional</span></label><select id="pj"><option value="">No project</option>'+WS.projects.map(p=>'<option value="'+esc(p.id)+'"'+(B.meta.projectId===p.id?' selected':'')+'>'+esc(p.name)+(p.client?' · '+esc(p.client):'')+'</option>').join('')+'</select>':'')+
+    (WS&&WS.clients&&WS.clients.length?'<label>Link to a client <span class="sl">optional</span></label><select id="cl"><option value="">No client</option>'+WS.clients.map((c,n)=>'<option value="'+esc(c.id||("i"+n))+'"'+(B.meta.clientId===(c.id||("i"+n))?' selected':'')+'>'+esc(c.company&&c.company!==c.name?c.company+' · '+c.name:c.name)+'</option>').join('')+'</select>':'')+
+    '<label>Document title</label><input id="ti" value="'+esc(B.title)+'"><label>Subtitle <span class="sl">optional</span></label><input id="su" value="'+esc(B.subtitle)+'"></div>';
+  const varsHtml=()=>{const d=varDefs();return d.length?'<div class="card"><h2>Fill in the details</h2><p class="hint">These go into the document.</p>'+d.map(v=>'<label>'+esc(v.l)+'</label>'+(v.multi?'<textarea data-v="'+v.k+'">':'<input data-v="'+v.k+'" value="'+esc(B.vars[v.k]||"")+'">')+(v.multi?esc(B.vars[v.k]||"")+'</textarea>':'')).join("")+'</div>':'<div class="card"><h2>Details</h2><p class="hint">This template has nothing to fill in. Check the text below.</p></div>'};
+  const chipsHtml=()=>tokens().map(t=>'<button type="button" class="chip" data-tok="'+t[0]+'">'+esc(t[1])+'</button>').join("");
+  const textHtml=()=>'<div class="card"><div class="toolbar"><div><h2 style="margin:0">Document text</h2><p class="hint" style="margin:2px 0 0">'+(tpl.hi?'Hindi translation is included while the text is unchanged.':'No Hindi translation for this text.')+'</p></div><button class="btn ghost sm" id="et">'+(editText?'Hide editor':'Edit text')+'</button></div>'+
+    (editText?'<div class="note" style="margin-top:12px"><b>#</b> numbered heading &nbsp; <b>##</b> heading without number &nbsp; <b>-</b> numbered point &nbsp; plain line = paragraph &nbsp; <b>**bold**</b></div><textarea id="md" class="mono" spellcheck="false">'+esc(B.md)+'</textarea><label>Insert a detail</label><div class="chips" id="ch">'+chipsHtml()+'</div>':'<p class="hint" style="margin:10px 0 0">The text is ready to use. Open the editor only if you want to change the wording.</p>')+'</div>';
+  const s3=()=>'<div id="vs">'+varsHtml()+'</div>'+textHtml();
+  const s4=()=>{const rows=B.roles.map((r,i)=>'<div class="party" style="padding:10px 0"><div><div class="nm">'+(i+1)+'. '+esc(r.name)+'</div><div class="sub">'+esc(lbl(r,i))+'</div></div><div class="sub" style="text-align:right">'+esc(r.email)+'<br>'+(B.order&&i>0?'Emailed after '+esc(B.roles[i-1].name)+' signs':'Emailed a personal signing link now')+'</div></div>').join("");
+    const h=B.meta.handler,copy=["developers@haritt.com"].concat(h.email?[h.email]:[]).concat(ME&&ME.email&&EMAIL.test(ME.email)?[ME.email]:[]).filter((x,i,a)=>a.indexOf(x)===i);
+    return '<div class="card"><h2>Review</h2><div class="party" style="padding:8px 0"><div class="sub">Document</div><div style="text-align:right"><b>'+esc(B.title)+'</b>'+(B.subtitle?'<div class="sub">'+esc(B.subtitle)+'</div>':'')+'</div></div>'+
+      ((B.meta.projectName||B.meta.clientName)?'<div class="party" style="padding:8px 0"><div class="sub">Linked to</div><div style="text-align:right">'+esc([B.meta.projectName,B.meta.clientName].filter(Boolean).join(' · '))+'</div></div>':'')+
+      (h.name?'<div class="party" style="padding:8px 0"><div class="sub">Handled by</div><div style="text-align:right">'+esc(h.name)+(h.role?' · '+esc(h.role):'')+'</div></div>':'')+
+      (B.deadline?'<div class="party" style="padding:8px 0"><div class="sub">Sign by</div><div style="text-align:right">'+esc(B.deadline)+'</div></div>':'')+'</div>'+
+      '<div class="card"><h2>Who gets what</h2>'+rows+'<p class="hint" style="margin:10px 0 0">After everyone signs, the signed PDF goes to all signers and a copy to: '+copy.map(esc).join(", ")+'.</p></div>'+
+      '<div class="card"><div class="toolbar"><h2 style="margin:0">Preview</h2><span class="pgs sub"></span></div><div class="pvbox">'+sheet()+'</div></div>'};
+  const STEPS=[["Template","Template and link"],["People","People"],["Details","Details and text"],["Review","Review and send"]];
+  const stepper=()=>'<div class="stepper">'+STEPS.map((s,i)=>'<button type="button" class="stp'+(step===i+1?' on':'')+(step>i+1?' done':'')+'" data-go="'+(i+1)+'"><span class="sn">'+(step>i+1?'✓':(i+1))+'</span><span class="stn">'+s[0]+'</span></button>').join('<span class="stl"></span>')+'</div>';
+  const side=()=>'<div class="pvside card"><div class="toolbar"><h2 style="margin:0">Preview</h2><span class="pgs sub"></span></div><div class="pvbox">'+sheet()+'</div></div>';
   const render=()=>{
-    const scroll=window.scrollY;
-    show('<div class="card top"><p style="margin:0 0 6px"><button class="link" id="bk">← All documents</button></p><div class="eyebrow">— New document</div><h1>Create a document</h1>'+
-      '<label>Start from</label><select id="tp">'+T.map(t=>'<option value="'+esc(t.id)+'"'+(t.id===tpl.id?" selected":"")+'>'+esc(t.name)+'</option>').join("")+'</select>'+
-      (WS&&WS.projects&&WS.projects.length?'<label>Link to a project <span class="sl">optional</span></label><select id="pj"><option value="">No project</option>'+WS.projects.map(p=>'<option value="'+esc(p.id)+'"'+(B.meta.projectId===p.id?' selected':'')+'>'+esc(p.name)+(p.client?' · '+esc(p.client):'')+'</option>').join('')+'</select>':'')+'<label>Document title</label><input id="ti" value="'+esc(B.title)+'"><label>Subtitle <span class="sl">optional</span></label><input id="su" value="'+esc(B.subtitle)+'"></div>'+
-      '<div id="vs">'+varsHtml()+'</div>'+
-      '<div class="card"><h2>Who signs</h2><p style="margin:0;color:var(--mut);font-size:14px">You decide who signs this document: remove anyone, or add a founder, team member, client or anyone else. If you remove a signer, edit the text where that person is mentioned. Each person gets an email on their own address with a personal link. They confirm it is them (Google or an emailed code) and then sign.</p><datalist id="ctl">'+contacts.map(c=>'<option value="'+esc(c.name)+'">').join("")+'</datalist><div id="rs">'+rowsHtml()+'</div><label>Add a signer</label><select id="ad"><option value="">Choose who to add...</option><option value="founder">Founder, Haritt Developers</option><option value="team">Team member, Haritt Developers</option><option value="client">Client</option><option value="cm">Client manager</option><option value="owner">Owner / landlord</option><option value="witness">Witness</option><option value="other">Other person</option></select></div>'+
-      '<div class="card"><h2>Text</h2><p style="margin:0 0 8px;color:var(--mut);font-size:14px">Formatting stays fixed. Write each point on its own line.</p>'+
-      '<div class="note"><b>#</b> numbered heading &nbsp; <b>##</b> heading without number &nbsp; <b>-</b> numbered point &nbsp; plain line = paragraph &nbsp; <b>**bold**</b></div>'+
-      '<textarea id="md" class="mono" spellcheck="false">'+esc(B.md)+'</textarea><label>Insert a detail</label><div class="chips" id="ch">'+chipsHtml()+'</div>'+
-      (tpl.hi?'<p class="sl" style="margin-top:10px">Hindi translation is included while the text is unchanged.</p>':'<p class="sl" style="margin-top:10px">No Hindi translation for this text.</p>')+'</div>'+
-      '<div class="card"><h2>Preview</h2><div id="pp"></div></div>'+
-      '<div class="card"><div class="err" id="err"></div><button class="btn" id="go">Send for signature</button><div class="acts"><button class="btn ghost sm" id="st">Save as template</button>'+(tpl.saved?'<button class="btn ghost sm" id="dt">Delete this template</button>':'')+'</div></div>');
-    draw();window.scrollTo(0,scroll);
+    const body=step===1?s1():step===2?peopleHtml():step===3?s3():s4();
+    const bar='<div class="bar"><div class="err" id="err"></div><div class="barin"><button class="btn ghost sm" id="bk2"'+(step===1?' disabled':'')+'>← Back</button><span class="grow"></span><button class="btn ghost sm" id="sd">Save draft</button>'+(step<4?'<button class="btn ghost sm pvbtn" id="pvo">Preview</button><button class="btn" id="nx">Next →</button>':(can("send")?'<button class="btn" id="go">Send for signature</button>':'<span class="sl">Ask a founder to send</span>'))+'</div></div>';
+    show('<div class="card top"><p style="margin:0 0 6px"><button class="link" id="bk">← All documents</button></p><div class="toolbar"><div><div class="eyebrow">— '+(draftId?"Draft":"New document")+'</div><h1>Step '+step+' of 4 · '+STEPS[step-1][1]+'</h1></div></div>'+stepper()+'</div>'+
+      (step===2||step===3?'<div class="bsplit"><div class="bl">'+body+'</div>'+side()+'</div>':body)+bar);
+    wire();draw();try{ROOT.host.scrollIntoView({block:"start"})}catch(e){}
+  };
+  const err=t=>{const e=$("#err");if(e)e.textContent=t||""};
+  const goTo=n=>{if(n===step)return;if(n>step){for(let k=step;k<n;k++){const e=check(k);if(e){step=k;render();err(e);return}}}openIdx=-1;step=n;render()};
+  const wire=()=>{
     $("#bk").onclick=()=>screenConsole();
-    $("#tp").onchange=e=>{load(allTemplates().find(t=>t.id===e.target.value));render()};
-    const pj=$("#pj");if(pj)pj.onchange=e=>{const p=(WS.projects||[]).find(x=>x.id===e.target.value);B.meta=p?{projectId:p.id,projectName:p.name,clientName:p.client||""}:{projectId:"",projectName:"",clientName:""}};
-    document.querySelectorAll("[data-pick]").forEach(s=>s.onchange=e=>{const v=e.target.value;if(!v)return;const [k,n]=v.split(":"),x=(k==="c"?WS.clients:WS.team).filter(y=>y.name)[+n];const r=B.roles[+s.dataset.pick];r.name=x.name||"";r.email=x.email||"";r.phone=x.phone||"";render()});
-    $("#ti").oninput=e=>{B.title=e.target.value;draw()};$("#su").oninput=e=>{B.subtitle=e.target.value;draw()};
-    $("#md").oninput=e=>{B.md=e.target.value;draw()};$("#md").onchange=()=>{$("#vs").innerHTML=varsHtml();wireVars();$("#ch").innerHTML=chipsHtml();wireChips()};
-    const wireVars=()=>document.querySelectorAll("[data-v]").forEach(i=>i.oninput=e=>{B.vars[i.dataset.v]=e.target.value;draw()});wireVars();
-    const wireChips=()=>document.querySelectorAll("[data-tok]").forEach(b=>b.onclick=()=>{const ta=$("#md"),a=ta.selectionStart,z=ta.selectionEnd,ins="{{"+b.dataset.tok+"}}";ta.value=ta.value.slice(0,a)+ins+ta.value.slice(z);ta.focus();ta.selectionStart=ta.selectionEnd=a+ins.length;B.md=ta.value;draw();$("#vs").innerHTML=varsHtml();wireVars()});wireChips();
-    document.querySelectorAll("[data-f]").forEach(i=>i.oninput=e=>{B.roles[+i.dataset.i][i.dataset.f]=e.target.value;if(i.dataset.f==="name"){const c=contacts.find(x=>x.name.toLowerCase()===e.target.value.trim().toLowerCase());if(c){const r=B.roles[+i.dataset.i];if(c.email&&!r.email){r.email=c.email;document.querySelector('[data-i="'+i.dataset.i+'"][data-f=email]').value=c.email}if(c.phone&&!r.phone){r.phone=c.phone;document.querySelector('[data-i="'+i.dataset.i+'"][data-f=phone]').value=c.phone}}}draw();if(i.dataset.f==="label"){$("#ch").innerHTML=chipsHtml();wireChips()}});
-    document.querySelectorAll('[data-f=email]').forEach(i=>i.onchange=()=>{if(isF(B.roles[+i.dataset.i]))render()});document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{B.roles.splice(+b.dataset.del,1);render()});
-    $("#ad").onchange=e=>{const k=e.target.value;if(!k)return;const P={founder:["Founder, Haritt Developers","for Haritt Developers"],team:["Team member, Haritt Developers",""],client:["Client",""],cm:["Client manager",""],owner:["Owner",""],witness:["Witness",""],other:["Signer",""]}[k];
-    const f=(k==="client"||k==="cm")?[{k:"company",l:"Company or business name",opt:1},{k:"addr",l:"Address",multi:1}]:k==="owner"?[{k:"addr",l:"Your address",multi:1}]:[];
-    idc++;B.roles.push({kind:k,alt:"",id:"x"+idc+Math.random().toString(36).slice(2,5),label:P[0],labelHi:"",note:P[1],fields:f,name:"",email:"",phone:""});render()};
-    $("#st").onclick=async()=>{const nm=prompt("Template name",B.title);if(!nm)return;const d=mkDoc();
-      const r=await api({action:"tpl_save",sess:SESS,tpl:{name:nm,title:d.title,subtitle:d.subtitle,md:B.md,vars:varDefs().map(v=>({k:v.k,l:v.l,def:B.vars[v.k]||"",multi:!!v.multi})),roles:B.roles.map(x=>({id:x.id,label:x.label,labelHi:x.labelHi||"",note:x.note||"",fields:x.fields||[]}))}});
-      if(r.ok){await reloadAdm();toast("Template saved")}else toast("Could not save")};
-    const dt=$("#dt");if(dt)dt.onclick=async()=>{if(!confirm("Delete this saved template?"))return;await api({action:"tpl_delete",sess:SESS,id:tpl.id});await reloadAdm();screenBuilder()};
-    $("#go").onclick=async()=>{if(busy)return;const d=mkDoc(),err=t=>$("#err").textContent=t;err("");
-      if(d.title.length<3)return err("Add a title.");if(!d.items.length)return err("The text is empty.");if(B.roles.length<1)return err("Add at least one signer.");
-      for(const r of B.roles){if(r.label.trim().length<2||r.name.trim().length<2)return err("Fill the role and full name of every signer.");if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(r.email.trim()))return err("Check the email of "+r.name+".");if(r.phone.replace(/\D/g,"").length<8)return err("Add a mobile number for "+r.name+".")}
-      const miss=varDefs().filter(v=>!String(B.vars[v.k]||"").trim());if(miss.length)return err("Fill in: "+miss.map(v=>v.l).join(", ")+".");
-      busy=true;$("#go").disabled=true;$("#go").textContent="Sending...";
-      try{const r=await api({action:"create",sess:SESS,ua:navigator.userAgent,doc:d,roles:B.roles.map(x=>({id:x.id,label:x.label.trim(),labelHi:x.labelHi||"",note:x.note||"",fields:x.fields||[],name:x.name.trim(),email:x.email.trim(),alt:(x.alt||'').trim(),phone:x.phone.trim()}))});
-        if(!r.ok){err(r.error==="auth"?"Your sign-in expired. Open the console again.":"Could not send. Check the details and try again.");return}
+    ROOT.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>goTo(+b.dataset.go));
+    $("#bk2").onclick=()=>goTo(step-1);const nx=$("#nx");if(nx)nx.onclick=()=>goTo(step+1);
+    const pvo=$("#pvo");if(pvo)pvo.onclick=()=>{const ov=document.createElement("div");ov.className="ov";ov.innerHTML='<div class="ovh"><b>Preview</b><span class="pgs sub"></span><button class="btn ghost sm" id="ovc">Close</button></div><div class="ovb"><div class="pvbox">'+sheet()+'</div></div>';ROOT.querySelector(".hdroot").appendChild(ov);ov.querySelector("#ovc").onclick=()=>ov.remove();draw()};
+    const tp=$("#tp");if(tp)tp.onchange=e=>{load(allTemplates().find(t=>t.id===e.target.value));render()};
+    const pj=$("#pj");if(pj)pj.onchange=e=>{const p=(WS.projects||[]).find(x=>x.id===e.target.value);B.meta.projectId=p?p.id:"";B.meta.projectName=p?p.name:"";
+      if(p&&p.client&&!B.meta.clientId){const c=(WS.clients||[]).find(x=>x.company===p.client||x.name===p.client);if(c){B.meta.clientId=c.id||"i"+WS.clients.indexOf(c);B.meta.clientName=c.company||c.name}else B.meta.clientName=p.client}
+      render()};
+    const cl=$("#cl");if(cl)cl.onchange=e=>{const v=e.target.value,c=(WS.clients||[]).find((x,n)=>(x.id||"i"+n)===v);B.meta.clientId=c?v:"";B.meta.clientName=c?(c.company||c.name):""};
+    const ti=$("#ti");if(ti){ti.oninput=e=>{B.title=e.target.value;draw()};$("#su").oninput=e=>{B.subtitle=e.target.value;draw()}}
+    ROOT.querySelectorAll("[data-pick]").forEach(s=>s.onchange=e=>{const v=e.target.value;if(!v)return;const [k,n]=v.split(":"),x=(k==="t"?WS.team:WS.clients).filter(y=>y.name)[+n];const r=B.roles[+s.dataset.pick];
+      r.name=x.name||"";r.email=x.email||"";r.alt=x.alt||"";r.phone=x.phone||"";
+      if(k==="t"){r.kind="team";if(/^(signer|team member, haritt developers)$/i.test(r.label.trim()))r.label=(x.role||"Team member")+", Haritt Developers"}
+      else{if(!r.kind)r.kind="client";if(!B.meta.clientId){B.meta.clientId=x.id||"i"+WS.clients.indexOf(x);B.meta.clientName=x.company||x.name}}
+      render()});
+    const md=$("#md");if(md){md.oninput=e=>{B.md=e.target.value;draw()};md.onchange=()=>{$("#vs").innerHTML=varsHtml();wireVars();$("#ch").innerHTML=chipsHtml();wireChips()}}
+    const et=$("#et");if(et)et.onclick=()=>{editText=!editText;render()};
+    const wireVars=()=>ROOT.querySelectorAll("[data-v]").forEach(i=>i.oninput=e=>{B.vars[i.dataset.v]=e.target.value;draw()});wireVars();
+    const wireChips=()=>ROOT.querySelectorAll("[data-tok]").forEach(b=>b.onclick=()=>{const ta=$("#md"),a=ta.selectionStart,z=ta.selectionEnd,ins="{{"+b.dataset.tok+"}}";ta.value=ta.value.slice(0,a)+ins+ta.value.slice(z);ta.focus();ta.selectionStart=ta.selectionEnd=a+ins.length;B.md=ta.value;draw();$("#vs").innerHTML=varsHtml();wireVars()});wireChips();
+    ROOT.querySelectorAll("[data-f]").forEach(i=>i.oninput=e=>{const r=B.roles[+i.dataset.i];r[i.dataset.f]=e.target.value;if(i.dataset.f==="name"){const c=contacts.find(x=>x.name.toLowerCase()===e.target.value.trim().toLowerCase());if(c){if(c.email&&!r.email){r.email=c.email;ROOT.querySelector('[data-i="'+i.dataset.i+'"][data-f=email]').value=c.email}if(c.phone&&!r.phone){r.phone=c.phone;ROOT.querySelector('[data-i="'+i.dataset.i+'"][data-f=phone]').value=c.phone}}}draw();
+      const h=ROOT.querySelector("#hc .hsub");if(h)h.innerHTML=cp()});
+    ROOT.querySelectorAll('[data-f=email]').forEach(i=>i.onchange=()=>{if(isF(B.roles[+i.dataset.i]))render()});
+    ROOT.querySelectorAll("[data-ed]").forEach(b=>b.onclick=()=>{openIdx=+b.dataset.ed;render()});
+    ROOT.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{B.roles.splice(+b.dataset.del,1);openIdx=-1;render()});
+    ROOT.querySelectorAll("[data-up]").forEach(b=>b.onclick=()=>{const i=+b.dataset.up,x=B.roles.splice(i,1)[0];B.roles.splice(i-1,0,x);openIdx=i-1;render()});
+    ROOT.querySelectorAll("[data-dn]").forEach(b=>b.onclick=()=>{const i=+b.dataset.dn,x=B.roles.splice(i,1)[0];B.roles.splice(i+1,0,x);openIdx=i+1;render()});
+    const cp=()=>"";
+    const hs=$("#hs");if(hs)hs.onchange=e=>{const x=(WS.team||[]).filter(y=>y.name)[+e.target.value];if(!x)return;B.meta.handler={name:x.name||"",role:x.role||"",email:x.email||"",phone:x.phone||"",alt:x.alt||""};render()};
+    [["hn","name"],["hr","role"],["he","email"],["hp","phone"]].forEach(([id,k])=>{const el=$("#"+id);if(el)el.oninput=e=>{B.meta.handler[k]=e.target.value}});
+    const hg=$("#hsig");if(hg)hg.onclick=()=>{const h=B.meta.handler;if(!h.name.trim()||!EMAIL.test(h.email.trim()))return err("Add their name and company email first.");
+      if(B.roles.some(r=>lc(r.email)===lc(h.email.trim())))return err("They are already a signer.");
+      idc++;B.roles.push({kind:"team",alt:h.alt||"",id:"x"+idc+Math.random().toString(36).slice(2,5),label:(h.role||"Team member")+", Haritt Developers",labelHi:"",note:"",fields:[],name:h.name.trim(),email:h.email.trim(),phone:h.phone.trim()});openIdx=-1;render()};
+    const dl=$("#dl");if(dl){dl.onchange=e=>{B.deadline=e.target.value};$("#od").onchange=e=>{B.order=e.target.checked}}
+    ROOT.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{const k=b.dataset.add;const P={founder:["Founder, Haritt Developers","for Haritt Developers"],team:["Team member, Haritt Developers",""],client:["Client",""],cm:["Client manager",""],owner:["Owner",""],witness:["Witness",""],other:["Signer",""]}[k];
+      const f=(k==="client"||k==="cm")?[{k:"company",l:"Company or business name",opt:1},{k:"addr",l:"Address",multi:1}]:k==="owner"?[{k:"addr",l:"Your address",multi:1}]:[];
+      idc++;B.roles.push({kind:k,alt:"",id:"x"+idc+Math.random().toString(36).slice(2,5),label:P[0],labelHi:"",note:P[1],fields:f,name:"",email:"",phone:""});openIdx=B.roles.length-1;render()});
+    $("#sd").onclick=async()=>{if(!can("create"))return err("You do not have rights to save drafts.");const b=$("#sd");b.disabled=true;
+      try{const r=await api({action:"draft_save",sess:SESS,draft:{id:draftId,title:B.title,state:{tplId:tpl.id,B,idc,step}}});if(r.ok){draftId=r.id;await reloadAdm();toast("Draft saved")}else err(r.error==="forbidden"?"You do not have rights to save drafts.":"Could not save. Update the script first.")}catch(e){err("No internet or server problem.")}finally{if($("#sd"))$("#sd").disabled=false}};
+    const go=$("#go");if(go)go.onclick=async()=>{if(busy)return;err("");const d=mkDoc();
+      for(let k=1;k<=3;k++){const e=check(k);if(e){step=k;render();err(e);return}}
+      busy=true;go.disabled=true;go.textContent="Sending...";
+      try{const r=await api({action:"create",sess:SESS,ua:navigator.userAgent,doc:Object.assign({},d,{deadline:B.deadline||"",order:!!B.order}),roles:B.roles.map(x=>({id:x.id,label:x.label.trim(),labelHi:x.labelHi||"",note:x.note||"",fields:x.fields||[],name:x.name.trim(),email:x.email.trim(),alt:(x.alt||'').trim(),phone:x.phone.trim()}))});
+        if(!r.ok){err(r.error==="auth"?"Your sign-in expired. Open the console again.":r.error==="forbidden"?"You do not have rights to send documents. Save it as a draft instead.":"Could not send. Check the details and try again.");return}
+        if(draftId){try{await api({action:"draft_del",sess:SESS,id:draftId})}catch(e){}}
         await reloadAdm();await screenAdmin(r.id)}
-      catch(e){err("No internet or server problem. Try again.")}finally{busy=false;if($("#go")){$("#go").disabled=false;$("#go").textContent="Send for signature"}}};
+      catch(e){err("No internet or server problem. Try again.")}finally{busy=false;const g=$("#go");if(g){g.disabled=false;g.textContent="Send for signature"}}};
   };
   render()}
 
@@ -322,6 +441,7 @@ function fieldHtml(f){const lab='<label>'+B(esc(f.l),esc(f.lh||f.l))+(f.h?'<span
   return lab+(f.multi?'<textarea id="f_'+f.k+'"></textarea>':'<input id="f_'+f.k+'"'+(f.tel?' inputmode="tel"':'')+(f.ph?' placeholder="'+esc(f.ph)+'"':'')+' value="'+esc(f.def||"")+'">')}
 function screenSign(){
   const role=S.role,me=S.parties[role],rd=roleDef(role),flds=rd.fields||[],first=esc((me.name||"").split(" ")[0]);
+  if(S.order&&S.turn&&S.turn!==role&&S.parties[S.turn])return fail("It is not your turn yet","अभी आपकी बारी नहीं है","Please wait. "+(S.parties[S.turn].name||"The other person")+" signs first. You will get an email when it is your turn, and you can then open this same link.","कृपया रुकें. पहले "+(S.parties[S.turn].name||"दूसरे व्यक्ति")+" साइन करेंगे. आपकी बारी आने पर आपको ईमेल मिलेगा और आप यही लिंक फिर खोल सकते हैं.");
   show('<div class="card top"><div class="eyebrow">'+B("— Agreement to sign","— साइन के लिए एग्रीमेंट")+'</div><h1>'+B("Hi "+first+", please review and sign","नमस्ते "+first+", कृपया पढ़ें और साइन करें")+'</h1>'+
   '<p>'+B("Haritt Developers sent you <b>"+esc(DOC.title)+"</b> to sign.","Haritt Developers ने आपको <b>"+esc(DOC.title)+"</b> साइन के लिए भेजा है.")+'</p>'+
   (DOC.hi?'<p style="color:var(--acc);font-weight:600">'+B("To read in Hindi, tap हिंदी at the top.","हिंदी में पढ़ने के लिए ऊपर <b>हिंदी</b> दबाएँ. English पढ़ने के लिए <b>English</b> दबाएँ.")+'</p>':'')+
@@ -344,7 +464,7 @@ function screenSign(){
     if(busy)return;busy=true;$("#go").disabled=true;$("#go").innerHTML=B("Saving...","सेव हो रहा है...");$("#err").textContent="";
     const data={name:g("n")};for(const x of flds)data[x.k]=g("f_"+x.k);
     try{const r=await api({action:"sign",id:ID,t:TOK,v:getProof(),data,sig:$("#pad").export(),ua:navigator.userAgent});
-      if(!r.ok){$("#err").textContent=r.error==="already"?tt("You have already signed.","आप पहले ही साइन कर चुके हैं."):tt("Could not save. Check all details and try again.","सेव नहीं हो पाया. सारी जानकारी जाँचकर फिर कोशिश करें.");$("#go").innerHTML=B("Sign and save","साइन करें और सेव करें");return}
+      if(!r.ok){$("#err").textContent=r.error==="already"?tt("You have already signed.","आप पहले ही साइन कर चुके हैं."):r.error==="not_turn"?tt("It is not your turn yet. You will get an email when it is.","अभी आपकी बारी नहीं है. बारी आने पर आपको ईमेल मिलेगा."):r.error==="void"?tt("This document was cancelled.","यह डॉक्यूमेंट रद्द हो गया है."):tt("Could not save. Check all details and try again.","सेव नहीं हो पाया. सारी जानकारी जाँचकर फिर कोशिश करें.");$("#go").innerHTML=B("Sign and save","साइन करें और सेव करें");return}
       S=r.view;DOC=S.doc;await afterSign();
     }catch(e){$("#err").textContent=tt("No internet or server problem. Try again.","इंटरनेट या सर्वर की समस्या. फिर कोशिश करें.");$("#go").innerHTML=B("Sign and save","साइन करें और सेव करें")}finally{busy=false;upd()}};
 }
@@ -372,8 +492,8 @@ function statusCard(){
   let h='<div class="card"><h2>'+B("Signing status","साइन की स्थिति")+'</h2>';
   for(const k of roleIds()){const p=S.parties[k];
     h+='<div class="party"><div><div class="nm">'+esc(p.name)+'</div><div class="sub">'+B(esc(rl(k)),esc(rlh(k)))+" · "+esc(p.email)+'</div>'+
-    (p.signedAt?'<div class="sub">'+B("Signed ","साइन: ")+esc(fmtTime(p.signedAt))+'</div>':'<div class="acts"><button class="btn ghost sm" data-copy="'+k+'">'+B("Copy link","लिंक कॉपी करें")+'</button><a class="btn ghost sm" target="_blank" rel="noopener" href="https://wa.me/?text='+enc("Please sign this document from Haritt Developers: "+S.links[k])+'">WhatsApp</a><button class="btn ghost sm" data-rem="'+k+'">'+B("Resend email","ईमेल दोबारा भेजें")+'</button></div>')+
-    '</div><span class="pill '+(p.signedAt?"ok":"wait")+'">'+(p.signedAt?B("Signed","साइन हुआ"):B("Waiting","इंतज़ार"))+'</span></div>'}
+    (p.signedAt?'<div class="sub">'+B("Signed ","साइन: ")+esc(fmtTime(p.signedAt))+'</div>':S.voided?'':'<div class="acts"><button class="btn ghost sm" data-copy="'+k+'">'+B("Copy link","लिंक कॉपी करें")+'</button><a class="btn ghost sm" target="_blank" rel="noopener" href="https://wa.me/?text='+enc("Please sign this document from Haritt Developers: "+S.links[k])+'">WhatsApp</a><button class="btn ghost sm" data-rem="'+k+'">'+B("Resend email","ईमेल दोबारा भेजें")+'</button></div>')+
+    '</div><span class="pill '+(p.signedAt?"ok":S.voided?"bad":"wait")+'">'+(p.signedAt?B("Signed","साइन हुआ"):S.voided?B("Cancelled","रद्द"):S.order&&S.turn===k?B("Next to sign","अगली बारी"):B("Waiting","इंतज़ार"))+'</span></div>'}
   return h+'</div>'}
 function wireStatus(){
   document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(S.links[b.dataset.copy]);toast(tt("Link copied","लिंक कॉपी हो गया"))}catch(e){prompt("Copy this link",S.links[b.dataset.copy])}});
@@ -384,9 +504,29 @@ async function screenAdmin(id){
     if(!r.ok){if(r.error==="auth"){SESS="";try{sessionStorage.removeItem("hd_sess")}catch(e){}return screenGate("Your sign-in expired. Sign in again.")}return fail("Not found","नहीं मिला","This document was not found.","यह डॉक्यूमेंट नहीं मिला.")}
     S=r.view;DOC=S.doc;if(S.complete&&!S.finalSent){try{await sendFinal()}catch(e){}}screenStatus()}
   catch(e){fail("No connection","इंटरनेट नहीं है","Check your internet and try again.","इंटरनेट जाँचें और फिर कोशिश करें.")}}
+const EVL={created:"Document created",invited:"Link emailed",opened:"Opened the link",verified:"Verified identity",signed:"Signed",reminded:"Reminder emailed",voided:"Document cancelled"};
+function infoHtml(){const m=DOC.meta||{},h=m.handler||{},rows=[];
+  if(m.projectName)rows.push(["Project",esc(m.projectName)]);
+  if(m.clientName)rows.push(["Client",esc(m.clientName)]);
+  if(h.name)rows.push(["Handled by",esc(h.name)+(h.role?' · '+esc(h.role):'')+(h.email?' · '+esc(h.email):'')+(h.phone?' · '+esc(h.phone):'')]);
+  if(S.deadline){const od=!S.complete&&!S.voided&&S.deadline<todayIso();rows.push(["Sign by",esc(S.deadline)+(od?' <span class="pill bad">Overdue</span>':'')])}
+  rows.push(["Signing order",S.order?"One after another, in the order below":"Anyone can sign first"]);
+  if(S.order&&S.turn&&!S.voided&&!S.complete&&S.parties[S.turn])rows.push(["Waiting for",esc(S.parties[S.turn].name)]);
+  return '<div class="card"><h2>Details</h2>'+rows.map(r=>'<div class="party" style="padding:8px 0"><div class="sub" style="min-width:110px">'+r[0]+'</div><div style="flex:1;text-align:right;font-size:14px">'+r[1]+'</div></div>').join("")+'</div>'}
+function auditHtml(){const L=S.log;if(!L||!L.length)return '';
+  return '<div class="card"><h2>Activity</h2>'+L.map(x=>{const who=x.r&&S.parties[x.r]?' · '+esc(S.parties[x.r].name):'';
+    const more=x.e==="created"&&x.x?' · by '+esc(x.x):(x.e==="verified"||x.e==="signed")&&x.x?' · '+esc(x.x):x.e==="voided"&&x.x?' · '+esc(x.x):x.e==="reminded"&&x.x==="auto"?' · automatic':'';
+    return '<div class="party" style="padding:8px 0"><div><div class="nm" style="font-size:14px">'+(EVL[x.e]||esc(x.e))+who+'</div><div class="sub">'+esc(fmtTime(x.t))+more+'</div></div></div>'}).join("")+'</div>'}
 function screenStatus(){
-  show('<div class="card top"><p style="margin:0 0 6px"><button class="link" id="bkc">← All documents</button></p><div class="eyebrow">'+(S.complete?B("— Completed","— पूरा हुआ"):B("— Agreement sent","— एग्रीमेंट भेज दिया गया"))+'</div><h1>'+(S.complete?B("Everyone has signed","सबने साइन कर दिया"):B("Waiting for signatures","साइन का इंतज़ार"))+'</h1>'+(S.complete?'<button class="btn" id="dl" style="margin-top:14px">'+B("Download signed PDF","साइन किया हुआ PDF डाउनलोड करें")+'</button>':'')+'<p>'+B("Each person has been emailed a personal link. Use the buttons below if you want to send the link yourself.","हर व्यक्ति को ईमेल पर अपना लिंक भेज दिया गया है. अगर आप खुद लिंक भेजना चाहें तो नीचे के बटन इस्तेमाल करें.")+'</p></div>'+statusCard()+'<div class="card"><h2>'+B("Preview","झलक")+'</h2><div id="pp"></div></div>');
-  const draw=()=>{$("#pp").innerHTML=paper(values())};redraw=draw;draw();wireStatus();$("#bkc").onclick=async()=>{await reloadAdm();screenConsole()};const d=$("#dl");if(d)d.onclick=async()=>{d.disabled=true;try{const b=await makePDF();download(b.blob)}finally{d.disabled=false}}}
+  const v=S.voided,cmp=S.complete;
+  show('<div class="card top"><p style="margin:0 0 6px"><button class="link" id="bkc">← All documents</button></p><div class="eyebrow">'+(v?B("— Cancelled","— रद्द"):cmp?B("— Completed","— पूरा हुआ"):B("— Agreement sent","— एग्रीमेंट भेज दिया गया"))+'</div><h1>'+(v?B("This document was cancelled","यह डॉक्यूमेंट रद्द कर दिया गया"):cmp?B("Everyone has signed","सबने साइन कर दिया"):B("Waiting for signatures","साइन का इंतज़ार"))+'</h1>'+
+    (v?'<p>Reason: '+esc(v.reason)+'</p>':'')+(cmp?'<button class="btn" id="dl" style="margin-top:14px">'+B("Download signed PDF","साइन किया हुआ PDF डाउनलोड करें")+'</button>':'')+
+    (v?'':'<p>'+B("Each person has been emailed a personal link. Use the buttons below if you want to send the link yourself.","हर व्यक्ति को ईमेल पर अपना लिंक भेज दिया गया है. अगर आप खुद लिंक भेजना चाहें तो नीचे के बटन इस्तेमाल करें.")+'</p>')+
+    ((can("send")&&!cmp&&!v)?'<div class="acts"><button class="btn ghost sm" style="color:#C62828" id="vd">Cancel this document</button></div>':'')+'</div>'+statusCard()+infoHtml()+auditHtml()+'<div class="card"><h2>'+B("Preview","झलक")+'</h2><div id="pp"></div></div>');
+  const draw=()=>{$("#pp").innerHTML=paper(values())};redraw=draw;draw();wireStatus();$("#bkc").onclick=async()=>{await reloadAdm();screenConsole()};
+  const d=$("#dl");if(d)d.onclick=async()=>{d.disabled=true;try{const b=await makePDF();download(b.blob)}finally{d.disabled=false}};
+  const vd=$("#vd");if(vd)vd.onclick=async()=>{const reason=prompt("Why are you cancelling this document? The people who have not signed yet will be emailed this reason.");if(reason===null)return;if(reason.trim().length<3)return toast("Please write a short reason");
+    vd.disabled=true;const r=await api({action:"void",id:S.id,sess:SESS,reason:reason.trim()});if(r.ok){await reloadAdm();screenAdmin(S.id)}else{vd.disabled=false;toast(r.error==="signed"?"Everyone has already signed, it cannot be cancelled.":r.error==="forbidden"?"You do not have rights to cancel.":"Could not cancel. Update the script first.")}}}
 
 /* ---------- PDF ---------- */
 function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src})}
@@ -432,8 +572,8 @@ async function makePDF(){
     else if(it.k==="p"){rich(t,L,CW,9.5,4.7);y+=1.4}
     else{if(y>H-B-10)np();doc.setFont("helvetica","normal");doc.setFontSize(9.5);doc.setTextColor(...MUT);doc.text(it.n,L,y);rich(t,L+11,CW-11,9.5,4.7);y+=1.4}}
   np();doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(...INK);doc.text("SIGNATURES",L,y+2);y+=10;
-  const order=roleIds();const sigImgs={};for(const k of order){sigImgs[k]=await loadImg(S.parties[k].sig)}
-  for(const k of order){const p=S.parties[k];
+  const order=roleIds();const oursK=k=>/founder|team member|^haritt developers/i.test(rl(k))||/@haritt\.com$/i.test(S.parties[k].email||"");const sigImgs={};for(const k of order){sigImgs[k]=await loadImg(S.parties[k].sig)}
+  for(const k of order){const p=S.parties[k];if(y+50>H-B)np();
     doc.setDrawColor(215,215,220);doc.setLineWidth(.25);doc.roundedRect(L,y,CW,44,2,2);
     doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(...INK);doc.text(clean(p.name),L+5,y+8);
     doc.setFont("helvetica","normal");doc.setFontSize(8.5);doc.setTextColor(...MUT);doc.text(rl(k)+(roleDef(k).note?" · "+roleDef(k).note:""),L+5,y+13);
@@ -446,11 +586,14 @@ async function makePDF(){
   const hash=await sha256(TE+"\n"+plain(v));const done=Object.values(S.parties).map(p=>p.signedAt).sort().pop();
   const kv=(k,val,mono)=>{doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.setTextColor(...MUT);doc.text(k,L,y);doc.setFont(mono?"courier":"helvetica","normal");doc.setFontSize(mono?7.6:9.5);doc.setTextColor(...INK);const ls=doc.splitTextToSize(val,CW-42);doc.text(ls,L+42,y);y+=Math.max(6,ls.length*4.4+1.6)};
   kv("Document",TE);kv("Agreement ID","HD-"+S.id.slice(0,8).toUpperCase());kv("Sent by","Haritt Developers, a Haritt Group company");kv("Sent on",fmtTime(S.created));kv("Completed on",fmtTime(done));kv("Status","Signed by all parties");kv("Fingerprint (SHA-256)",hash,true);
+  {const HH=(DOC.meta&&DOC.meta.handler)||{};if(HH.name){const cps=order.filter(k=>!oursK(k)).map(k=>clean(S.parties[k].name));kv("Handled by",clean(HH.name)+(HH.role?" ("+clean(HH.role)+")":"")+(HH.phone?", "+HH.phone:"")+(HH.email?", "+HH.email:""));if(cps.length)kv("In conversation with",cps.join(", "))}}
   y+=3;doc.setDrawColor(210,210,215);doc.line(L,y,W-R,y);y+=7;
   doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(...INK);doc.text("Signing record",L,y);y+=6;
-  for(const k of order){const p=S.parties[k];doc.setFont("helvetica","bold");doc.setFontSize(9.5);doc.setTextColor(...INK);doc.text(clean(p.name)+" · "+rl(k),L,y);y+=4.8;
+  for(const k of order){const p=S.parties[k];if(y>H-B-30)np();doc.setFont("helvetica","bold");doc.setFontSize(9.5);doc.setTextColor(...INK);doc.text(clean(p.name)+" · "+rl(k),L,y);y+=4.8;
     doc.setFont("helvetica","normal");doc.setFontSize(8.8);doc.setTextColor(...MUT);doc.text("Email: "+p.email+(ph(p)?"   Mobile: "+ph(p):""),L,y);y+=4.4;if(p.alt){doc.text("Also on record (personal): "+p.alt,L,y);y+=4.4}doc.text("Signed: "+fmtTime(p.signedAt)+" · Drawn signature on the signer's own device",L,y);y+=4.4;
-    doc.text("Access: personal link sent to the signer's email address; identity confirmed with "+(p.via||"email")+".",L,y);y+=7.5}
+    doc.text("Access: personal link sent to the signer's email address; identity confirmed with "+(p.via||"email")+".",L,y);y+=4.4;
+    {const lg=(S.log||[]).filter(x=>x.r===k),fo=lg.find(x=>x.e==="opened"),fv=lg.filter(x=>x.e==="verified").pop();if(fo||fv){doc.text((fo?"Link opened: "+fmtTime(fo.t):"")+(fo&&fv?"   ":"")+(fv?"Verified: "+fmtTime(fv.t):""),L,y);y+=4.4}}
+    y+=3.1;if(y>H-B-30)np()}
   y+=1;const note=doc.splitTextToSize("Each signer opened a personal link sent to their own email address, confirmed their identity with Google sign-in or a one-time code sent to that address, read the agreement, confirmed they understood it and drew their signature. The fingerprint above is calculated from the full English agreement text as signed. If a single word changes, the fingerprint changes."+(DOC.hi?" A Hindi translation follows for understanding; the English text is the agreement.":""),CW);
   doc.setFontSize(8.3);doc.setTextColor(...MUT);doc.text(note,L,y);
   if(DOC.hi)try{const pgs=await hindiPages(v);for(const c of pgs){np();doc.addImage(c.toDataURL("image/jpeg",.9),"JPEG",L,20,CW,CW*c.height/c.width)}}catch(e){}
@@ -468,6 +611,7 @@ function download(blob){const a=document.createElement("a");a.href=URL.createObj
   if(!TOK)return screenCode();
   try{const r=await getView();
     if(!r.ok&&r.error==="verify")return screenVerify(r);
+    if(!r.ok&&r.error==="void")return fail("This document was cancelled","यह डॉक्यूमेंट रद्द हो गया","It does not need your signature any more. If you have questions, write to developers@haritt.com.","अब आपके साइन की ज़रूरत नहीं है. सवाल हों तो developers@haritt.com पर लिखें.");
     if(!r.ok&&(r.error==="bad_link"||r.error==="locked"))return screenCode(r.error);
     if(!r.ok)return fail("This link does not work","यह लिंक काम नहीं कर रहा",r.error==="not_found"?"We could not find this agreement.":"The link is wrong or incomplete. Please open the link from your email again.",r.error==="not_found"?"यह एग्रीमेंट नहीं मिला.":"लिंक गलत या अधूरा है. कृपया अपने ईमेल से लिंक दोबारा खोलें.");
     S=r.view;DOC=S.doc;
