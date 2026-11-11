@@ -201,7 +201,7 @@ function gBtn(host,onCred){if(!GID||GID.indexOf("__")===0)return;
   const go=()=>{try{google.accounts.id.initialize({client_id:GID,callback:r=>onCred(r.credential),ux_mode:"popup"});google.accounts.id.renderButton(host,{theme:"outline",size:"large",shape:"pill",text:"continue_with",width:Math.min(300,host.clientWidth||300)})}catch(e){}};
   if(window.google&&google.accounts)return go();const s=document.createElement("script");s.src="https://accounts.google.com/gsi/client";s.async=true;s.onload=go;document.head.appendChild(s)}
 function screenGate(err,email){
-  show('<div class="card top"><div class="eyebrow">— Founder access</div><h1>Sign in</h1><p>Enter your founder email. We send a one-time code to it.</p>'+
+  show('<div class="card top"><div class="eyebrow">— Founder access</div><h1>Sign in</h1><p>Founders and team: enter your email. We send a one-time code to it.</p><p class="note">Received a document to sign? Open the link from your email or WhatsApp. You do not need to sign in here.</p>'+
   '<label>Email</label><input id="em" type="email" inputmode="email" autocomplete="email" autocapitalize="none" value="'+esc(email||"")+'"><div class="err" id="err">'+(err||"")+'</div><button class="btn" id="go" disabled>Send code</button>'+((GID&&GID.indexOf("__")!==0)?'<p class="or">or</p><div id="gb" class="gb"></div>':'')+'</div>');
   gBtn($("#gb"),async cred=>{if(busy)return;busy=true;try{const r=await api({action:"g_login",credential:cred});
     if(!r.ok){$("#err").textContent=r.error==="not_allowed"?"This Google account is not a founder account.":"Could not sign in.";return}
@@ -434,7 +434,7 @@ function download(blob){const a=document.createElement("a");a.href=URL.createObj
   setLang(LANG);
   if(!API||API.startsWith("__"))return fail("Not ready yet","अभी तैयार नहीं है","This signing page is not connected yet. Please try again later.","यह साइनिंग पेज अभी जुड़ा नहीं है. कृपया बाद में कोशिश करें.");
   if(qp.has("new"))return resume();
-  if(!ID)return screenHome();
+  if(!ID)return resume();
   if(!TOK)return screenCode();
   try{const r=await getView();
     if(!r.ok&&(r.error==="bad_link"||r.error==="locked"))return screenCode(r.error);
