@@ -167,11 +167,15 @@ const langNoteHtml=()=>!DOC.hi?'':'<div class="note">'+B("A Hindi translation of
 function screenHome(){
   show('<div class="card top"><div class="eyebrow">'+B("— Agreement","— एग्रीमेंट")+'</div><h1>'+B("Open the link from your email","अपने ईमेल या WhatsApp वाला लिंक खोलें")+'</h1><p>'+B("This page opens with the personal link we sent you. If you have a code, open the link first, then type the code.","यह पेज उसी लिंक से खुलता है जो हमने आपको भेजा है. अगर आपके पास code है, तो पहले लिंक खोलें, फिर code डालें.")+'</p></div><p style="font-size:13px"><a class="link" href="?new=1">Haritt founder? Start a new agreement</a></p>')}
 function screenCode(wrong){
-  show('<div class="card top"><div class="eyebrow">'+B("— Agreement to sign","— साइन के लिए एग्रीमेंट")+'</div><h1>'+B("Enter your code","अपना code डालें")+'</h1><p>'+B("Haritt Developers sent you a 6-digit code with this link. Type it to open the agreement.","Haritt Developers ने इस लिंक के साथ 6 अंकों का code भेजा है. एग्रीमेंट खोलने के लिए उसे डालें.")+'</p>'+
-  '<input id="cd" class="codebox" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="••••••"><div class="err" id="err">'+(wrong==="locked"?tt("Too many wrong tries. Try again in an hour.","बहुत ज़्यादा गलत कोशिशें. एक घंटे बाद फिर कोशिश करें."):wrong?tt("This code is wrong. Please check and try again.","यह code गलत है. कृपया जाँचकर फिर कोशिश करें."):"")+'</div>'+
+  show('<div class="card top"><div class="eyebrow">'+B("— Agreement to sign","— साइन के लिए एग्रीमेंट")+'</div><h1>'+B("Enter your email","अपना ईमेल डालें")+'</h1><p>'+B("Type the email address Haritt Developers sent this agreement to. If it matches, the agreement opens.","जिस ईमेल पर Haritt Developers ने यह एग्रीमेंट भेजा है वही ईमेल डालें. मिल जाने पर एग्रीमेंट खुल जाएगा.")+'</p>'+
+  '<label>'+B("Email","ईमेल")+'</label><input id="em" type="email" inputmode="email" autocomplete="email" autocapitalize="none"><div class="err" id="err">'+(wrong==="locked"?tt("Too many wrong tries. Try again in an hour.","बहुत ज़्यादा गलत कोशिशें. एक घंटे बाद फिर कोशिश करें."):wrong?tt("This email is not on this agreement. Check it and try again.","यह ईमेल इस एग्रीमेंट में नहीं है. जाँचकर फिर कोशिश करें."):"")+'</div>'+
   '<button class="btn" id="go" disabled>'+B("Open agreement","एग्रीमेंट खोलें")+'</button></div>');
-  const c=$("#cd"),b=$("#go");c.addEventListener("input",()=>{c.value=c.value.replace(/\D/g,"").slice(0,6);b.disabled=c.value.length!==6});
-  const go=()=>{if(c.value.length===6)location.href=location.pathname+"?a="+enc(ID)+"&t="+c.value};b.onclick=go;c.addEventListener("keydown",e=>{if(e.key==="Enter")go()});c.focus();
+  const c=$("#em"),b=$("#go"),ok=()=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.value.trim());c.addEventListener("input",()=>{b.disabled=!ok()});
+  const go=async()=>{if(!ok()||busy)return;busy=true;b.disabled=true;try{const r=await api({action:"enter",id:ID,email:c.value.trim()});
+    if(r.ok&&r.t){location.href=location.pathname+"?a="+enc(ID)+"&t="+enc(r.t);return}
+    if(r.error==="not_found")return fail("This link does not work","यह लिंक काम नहीं कर रहा","We could not find this agreement.","यह एग्रीमेंट नहीं मिला.");
+    screenCode(r.error==="locked"?"locked":"bad")}catch(e){$("#err").textContent=tt("No internet or server problem. Try again.","इंटरनेट या सर्वर की समस्या. फिर कोशिश करें.");b.disabled=false}finally{busy=false}};
+  b.onclick=go;c.addEventListener("keydown",e=>{if(e.key==="Enter")go()});c.focus();
 }
 function ph(p){return (p&&(p.phone||(p.data&&(p.data.mobile||p.data.phone))))||""}
 /* ---------- document builder (founder console) ---------- */
@@ -319,7 +323,7 @@ function statusCard(){
   let h='<div class="card"><h2>'+B("Signing status","साइन की स्थिति")+'</h2>';
   for(const k of roleIds()){const p=S.parties[k];
     h+='<div class="party"><div><div class="nm">'+esc(p.name)+'</div><div class="sub">'+B(esc(rl(k)),esc(rlh(k)))+" · "+esc(p.email)+'</div>'+
-    (p.signedAt?'<div class="sub">'+B("Signed ","साइन: ")+esc(fmtTime(p.signedAt))+'</div>':'<div class="sub">'+B("Access code: ","Access code: ")+'<b>'+codeOf(k)+'</b></div><div class="acts"><button class="btn ghost sm" data-copy="'+k+'">'+B("Copy link","लिंक कॉपी करें")+'</button><a class="btn ghost sm" target="_blank" rel="noopener" href="https://wa.me/?text='+enc("Please sign this agreement from Haritt Developers: "+S.links[k]+" (access code "+codeOf(k)+")")+'">WhatsApp</a><button class="btn ghost sm" data-rem="'+k+'">'+B("Resend email","ईमेल दोबारा भेजें")+'</button></div>')+
+    (p.signedAt?'<div class="sub">'+B("Signed ","साइन: ")+esc(fmtTime(p.signedAt))+'</div>':'<div class="acts"><button class="btn ghost sm" data-copy="'+k+'">'+B("Copy link","लिंक कॉपी करें")+'</button><a class="btn ghost sm" target="_blank" rel="noopener" href="https://wa.me/?text='+enc("Please sign this document from Haritt Developers: "+S.links[k])+'">WhatsApp</a><button class="btn ghost sm" data-rem="'+k+'">'+B("Resend email","ईमेल दोबारा भेजें")+'</button></div>')+
     '</div><span class="pill '+(p.signedAt?"ok":"wait")+'">'+(p.signedAt?B("Signed","साइन हुआ"):B("Waiting","इंतज़ार"))+'</span></div>'}
   return h+'</div>'}
 function wireStatus(){
