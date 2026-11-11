@@ -504,7 +504,7 @@ async function afterSign(){
   if(S.complete&&!S.finalSent){show('<div class="spin"></div><p style="text-align:center">'+B("Preparing the signed PDF...","साइन किया हुआ PDF तैयार हो रहा है...")+'</p>');try{await sendFinal()}catch(e){}}
   screenDone();
 }
-async function sendFinal(){const b=await makePDF();const r=await api(S.role==="admin"?{action:"final",id:S.id,sess:SESS,pdf:b.base64}:{action:"final",id:ID,t:TOK,v:getProof(),pdf:b.base64});if(r.ok)S.finalSent=true;return r}
+async function sendFinal(){const b=await makePDF();const r=await api(S.role==="admin"?{action:"final",id:S.id,sess:SESS,pdf:b.base64,fp:b.fp}:{action:"final",id:ID,t:TOK,v:getProof(),pdf:b.base64,fp:b.fp});if(r.ok)S.finalSent=true;return r}
 
 function screenDone(){
   redraw=()=>{};
@@ -576,8 +576,9 @@ async function hindiPages(v){
   DOC.items.forEach((it,i)=>{const t=fill(DOC.hi[i],v,"pdf","hi").replace(/\*\*/g,"");
     if(it.k==="h")y+=8,para(t,{size:24,lh:40,bold:true,color:"#8B0D0D",gap:4});else if(it.k==="p")para(t);else para(t,{num:it.n})});
   return pages}
+function qrLib(){return window.qrcode?Promise.resolve():new Promise(r=>{const s=document.createElement("script");s.src="https://developers.haritt.com/assets/qrcode-1.4.4.js";s.onload=r;s.onerror=r;document.head.appendChild(s)})}
 async function makePDF(){
-  const {jsPDF}=window.jspdf,doc=new jsPDF({unit:"mm",format:"a4",compress:true});
+  const {jsPDF}=window.jspdf,doc=new jsPDF({unit:"mm",format:"a4",compress:true});try{doc.setFileId((S.id+S.id+"00000000000000000000000000000000").slice(0,32).toUpperCase())}catch(e){}
   const W=210,H=297,L=20,R=20,T=24,B=22,CW=W-L-R,v=values(),TE=DOC.title;
   const clean=t=>t.replace(/₹/g,"Rs. ");
   let y=T+3;const RED=[139,13,13],ORG=[232,70,31],INK=[27,27,31],MUT=[110,110,120];
@@ -618,6 +619,10 @@ async function makePDF(){
   const kv=(k,val,mono)=>{doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.setTextColor(...MUT);doc.text(k,L,y);doc.setFont(mono?"courier":"helvetica","normal");doc.setFontSize(mono?7.6:9.5);doc.setTextColor(...INK);const ls=doc.splitTextToSize(val,CW-42);doc.text(ls,L+42,y);y+=Math.max(6,ls.length*4.4+1.6)};
   kv("Document",TE);kv("Agreement ID","HD-"+S.id.slice(0,8).toUpperCase());kv("Sent by","Haritt Developers, a Haritt Group company");kv("Sent on",fmtTime(S.created));kv("Completed on",fmtTime(done));kv("Status","Signed by all parties");kv("Fingerprint (SHA-256)",hash,true);
   {const HH=(DOC.meta&&DOC.meta.handler)||{};if(HH.name){const cps=order.filter(k=>!oursK(k)).map(k=>clean(S.parties[k].name));kv("Handled by",clean(HH.name)+(HH.role?" ("+clean(HH.role)+")":"")+(HH.phone?", "+HH.phone:"")+(HH.email?", "+HH.email:""));if(cps.length)kv("In conversation with",cps.join(", "))}}
+  {await qrLib();const VU="https://developers.haritt.com/verify/?id="+S.id;if(window.qrcode){try{const q=qrcode(0,"M");q.addData(VU);q.make();const n=q.getModuleCount(),sz=26,c=sz/n;if(y>H-B-40)np();y+=2;const qy=y;doc.setFillColor(...INK);for(let r=0;r<n;r++)for(let k=0;k<n;k++)if(q.isDark(r,k))doc.rect(L+k*c,qy+r*c,c+.03,c+.03,"F");
+    const tx=L+sz+7;doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(...INK);doc.text("Verify this agreement",tx,qy+5);doc.setFont("helvetica","normal");doc.setFontSize(8.6);doc.setTextColor(...MUT);
+    doc.text(doc.splitTextToSize("Scan the QR code, or open the link below, to check on Haritt Developers' website that this agreement is genuine and who signed it. You can also check that this PDF file is unchanged.",CW-sz-7),tx,qy+10.5);
+    doc.setTextColor(...ORG);doc.textWithLink("developers.haritt.com/verify/?id="+S.id,tx,qy+23,{url:VU});y=qy+sz+4}catch(e){}}}
   y+=3;doc.setDrawColor(210,210,215);doc.line(L,y,W-R,y);y+=7;
   doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(...INK);doc.text("Signing record",L,y);y+=6;
   for(const k of order){const p=S.parties[k];if(y>H-B-30)np();doc.setFont("helvetica","bold");doc.setFontSize(9.5);doc.setTextColor(...INK);doc.text(clean(p.name)+" · "+rl(k),L,y);y+=4.8;
@@ -628,9 +633,9 @@ async function makePDF(){
   y+=1;const note=doc.splitTextToSize("Each signer opened a personal link sent to their own email address, confirmed their identity with Google sign-in or a one-time code sent to that address, read the agreement, confirmed they understood it and drew their signature. The fingerprint above is calculated from the full English agreement text as signed. If a single word changes, the fingerprint changes."+(DOC.hi?" A Hindi translation follows for understanding; the English text is the agreement.":""),CW);
   doc.setFontSize(8.3);doc.setTextColor(...MUT);doc.text(note,L,y);
   if(DOC.hi)try{const pgs=await hindiPages(v);for(const c of pgs){np();doc.addImage(c.toDataURL("image/jpeg",.9),"JPEG",L,20,CW,CW*c.height/c.width)}}catch(e){}
-  const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUT);doc.text("Agreement ID HD-"+S.id.slice(0,8).toUpperCase()+" · Signed electronically",L,H-10);doc.text("Page "+i+" of "+n,W-R,H-10,{align:"right"})}
+  const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUT);doc.text("Agreement ID HD-"+S.id.slice(0,8).toUpperCase()+" · Signed electronically · Verify at developers.haritt.com/verify",L,H-10);doc.text("Page "+i+" of "+n,W-R,H-10,{align:"right"})}
   const blob=doc.output("blob"),buf=doc.output("arraybuffer");let bin="";const u=new Uint8Array(buf);for(let i=0;i<u.length;i+=8192)bin+=String.fromCharCode.apply(null,u.subarray(i,i+8192));
-  return{blob,base64:btoa(bin)}}
+  return{blob,base64:btoa(bin),fp:hash}}
 function download(blob){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(DOC.title||"Agreement").replace(/[^A-Za-z0-9]+/g,"-").replace(/^-|-$/g,"")+"-Signed.pdf";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000)}
 
 /* ---------- start ---------- */
