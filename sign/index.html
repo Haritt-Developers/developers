@@ -245,10 +245,11 @@ async function resume(){
 async function reloadAdm(){const r=await api({action:"list",sess:SESS});if(r.ok)ADM=r}
 function screenConsole(){
   const rows=ADM.docs.map(d=>'<div class="party"><div><div class="nm">'+esc(d.title)+'</div><div class="sub">'+esc(d.names)+'</div>'+((d.project||d.client)?'<div class="sub">'+esc([d.project,d.client].filter(Boolean).join(' · '))+'</div>':'')+'<div class="sub">'+ago(d.created)+' · '+d.signed+' of '+d.total+' signed</div></div>'+
-    '<div style="text-align:right"><span class="pill '+(d.complete?"ok":"wait")+'">'+(d.complete?"Completed":"Waiting")+'</span><div class="acts" style="justify-content:flex-end"><button class="btn ghost sm" data-open="'+d.id+'">Open</button></div></div></div>').join("")||'<p style="color:var(--mut)">Nothing sent yet.</p>';
+    '<div style="text-align:right"><span class="pill '+(d.complete?"ok":"wait")+'">'+(d.complete?"Completed":"Waiting")+'</span><div class="acts" style="justify-content:flex-end"><button class="btn ghost sm" data-open="'+d.id+'">Open</button><button class="btn ghost sm" style="color:#C62828" data-rm="'+d.id+'">Delete</button></div></div></div>').join("")||'<p style="color:var(--mut)">Nothing sent yet.</p>';
   show('<div class="card top">'+(EMB?'':'<div class="eyebrow">— Founder console</div>')+'<h1>Documents</h1><p>Agreements and contracts sent from Haritt Developers.</p><button class="btn" id="nw">New document</button></div>'+
     '<div class="card"><h2>Sent documents</h2>'+rows+'</div>');
-  $("#nw").onclick=()=>screenBuilder();document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>screenAdmin(b.dataset.open))}
+  $("#nw").onclick=()=>screenBuilder();document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>screenAdmin(b.dataset.open));
+  document.querySelectorAll("[data-rm]").forEach(b=>b.onclick=async()=>{const d=ADM.docs.find(x=>x.id===b.dataset.rm);if(!d||!confirm('Delete "'+d.title+'"? '+(d.complete?'This is a signed document; the signers keep their emailed copy. ':'Its signing links will stop working. ')+'It moves to the Drive bin.'))return;b.disabled=true;const r=await api({action:"del",id:d.id,sess:SESS});if(r.ok){await reloadAdm();screenConsole();toast("Deleted")}else{b.disabled=false;toast("Could not delete. Update the script first.")}})}
 function allTemplates(){return TPL_BUILTIN.concat((ADM.tpls||[]).map(t=>Object.assign({saved:true,hi:null},t)))}
 function screenBuilder(tid){
   const T=allTemplates();let tpl=T.find(t=>t.id===tid)||T[0];
