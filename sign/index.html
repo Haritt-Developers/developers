@@ -83,6 +83,7 @@ input[readonly]{background:var(--soft);color:var(--mut)}
 select{width:100%;background:#fff;color:var(--txt);border:1px solid var(--line2);border-radius:10px;padding:12px 14px;font:inherit;font-size:16px}
 textarea.mono{font:13.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:320px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--line2);background:#fff;border-radius:99px;padding:7px 12px;font:600 13px Inter,sans-serif;color:var(--txt);cursor:pointer}.chip:hover{border-color:var(--acc);color:var(--acc)}
+.or{text-align:center;color:var(--dim);font-size:13px;margin:16px 0 10px}.gb{display:flex;justify-content:center;min-height:44px}
 </style>
 </head>
 <body>
@@ -94,7 +95,7 @@ textarea.mono{font:13.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monosp
 <div class="toast" id="toast"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-const API="https://script.google.com/macros/s/AKfycbxlnGmdBPvi9BsWG7nxAIY9qWOF2yNGivhxrtj1OSRZ7CZFHkhLCwRcgsUftN_l-c4b/exec";
+const API="https://script.google.com/macros/s/AKfycbxlnGmdBPvi9BsWG7nxAIY9qWOF2yNGivhxrtj1OSRZ7CZFHkhLCwRcgsUftN_l-c4b/exec",GID="__GID__";
 const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const B=(en,hi)=>'<span class="L-en">'+en+'</span><span class="L-hi">'+hi+'</span>';
@@ -169,7 +170,10 @@ function screenHome(){
 function screenCode(wrong){
   show('<div class="card top"><div class="eyebrow">'+B("— Agreement to sign","— साइन के लिए एग्रीमेंट")+'</div><h1>'+B("Enter your email","अपना ईमेल डालें")+'</h1><p>'+B("Type the email address Haritt Developers sent this agreement to. If it matches, the agreement opens.","जिस ईमेल पर Haritt Developers ने यह एग्रीमेंट भेजा है वही ईमेल डालें. मिल जाने पर एग्रीमेंट खुल जाएगा.")+'</p>'+
   '<label>'+B("Email","ईमेल")+'</label><input id="em" type="email" inputmode="email" autocomplete="email" autocapitalize="none"><div class="err" id="err">'+(wrong==="locked"?tt("Too many wrong tries. Try again in an hour.","बहुत ज़्यादा गलत कोशिशें. एक घंटे बाद फिर कोशिश करें."):wrong?tt("This email is not on this agreement. Check it and try again.","यह ईमेल इस एग्रीमेंट में नहीं है. जाँचकर फिर कोशिश करें."):"")+'</div>'+
-  '<button class="btn" id="go" disabled>'+B("Open agreement","एग्रीमेंट खोलें")+'</button></div>');
+  '<button class="btn" id="go" disabled>'+B("Open agreement","एग्रीमेंट खोलें")+'</button>'+((GID&&GID.indexOf("__")!==0)?'<p class="or">'+B("or","या")+'</p><div id="gb" class="gb"></div>':'')+'</div>');
+  gBtn($("#gb"),async cred=>{if(busy)return;busy=true;try{const r=await api({action:"enter",id:ID,credential:cred});
+    if(r.ok&&r.t){location.href=location.pathname+"?a="+enc(ID)+"&t="+enc(r.t);return}
+    screenCode(r.error==="locked"?"locked":"bad")}finally{busy=false}});
   const c=$("#em"),b=$("#go"),ok=()=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.value.trim());c.addEventListener("input",()=>{b.disabled=!ok()});
   const go=async()=>{if(!ok()||busy)return;busy=true;b.disabled=true;try{const r=await api({action:"enter",id:ID,email:c.value.trim()});
     if(r.ok&&r.t){location.href=location.pathname+"?a="+enc(ID)+"&t="+enc(r.t);return}
@@ -190,18 +194,38 @@ function parseMd(md){const out=[];let sec=0,idx=0,ins=false;
   return out}
 const normMd=s=>String(s||"").split("\n").map(x=>x.trim()).filter(Boolean).join("\n");
 const TOKRE=/\{\{(\w+)\}\}/g;
-let PIN="",ADM={docs:[],tpls:[]};
+let SESS="",ADM={docs:[],tpls:[]};
 const ago=d=>fmtDate(d);
-function screenGate(err){
-  show('<div class="card top"><div class="eyebrow">— Founder access</div><h1>Documents</h1><p>Create, send and track agreements and contracts for signature.</p>'+
-  '<label>Founder PIN</label><input id="pin" type="password" inputmode="numeric" autocomplete="off"><div class="err" id="err">'+(err||"")+'</div><button class="btn" id="go">Open</button></div>');
-  const go=async()=>{const b=$("#go");b.disabled=true;b.textContent="Checking...";$("#err").textContent="";
-    try{const r=await api({action:"list",pin:$("#pin").value.trim()});
-      if(!r.ok){$("#err").textContent=r.error==="locked"?"Too many wrong tries. Try again in an hour.":"Wrong PIN.";b.disabled=false;b.textContent="Open";return}
-      PIN=$("#pin").value.trim();ADM=r;screenConsole()}
-    catch(e){$("#err").textContent="No internet or server problem. Try again.";b.disabled=false;b.textContent="Open"}};
-  $("#go").onclick=go;$("#pin").addEventListener("keydown",e=>{if(e.key==="Enter")go()});$("#pin").focus()}
-async function reloadAdm(){const r=await api({action:"list",pin:PIN});if(r.ok)ADM=r}
+function gBtn(host,onCred){if(!GID||GID.indexOf("__")===0)return;
+  const go=()=>{try{google.accounts.id.initialize({client_id:GID,callback:r=>onCred(r.credential),ux_mode:"popup"});google.accounts.id.renderButton(host,{theme:"outline",size:"large",shape:"pill",text:"continue_with",width:Math.min(300,host.clientWidth||300)})}catch(e){}};
+  if(window.google&&google.accounts)return go();const s=document.createElement("script");s.src="https://accounts.google.com/gsi/client";s.async=true;s.onload=go;document.head.appendChild(s)}
+function screenGate(err,email){
+  show('<div class="card top"><div class="eyebrow">— Founder access</div><h1>Sign in</h1><p>Enter your founder email. We send a one-time code to it.</p>'+
+  '<label>Email</label><input id="em" type="email" inputmode="email" autocomplete="email" autocapitalize="none" value="'+esc(email||"")+'"><div class="err" id="err">'+(err||"")+'</div><button class="btn" id="go" disabled>Send code</button>'+((GID&&GID.indexOf("__")!==0)?'<p class="or">or</p><div id="gb" class="gb"></div>':'')+'</div>');
+  gBtn($("#gb"),async cred=>{if(busy)return;busy=true;try{const r=await api({action:"g_login",credential:cred});
+    if(!r.ok){$("#err").textContent=r.error==="not_allowed"?"This Google account is not a founder account.":"Could not sign in.";return}
+    SESS=r.sess;try{sessionStorage.setItem("hd_sess",SESS)}catch(e){}const l=await api({action:"list",sess:SESS});if(!l.ok)return;ADM=l;screenConsole()}finally{busy=false}});
+  const c=$("#em"),b=$("#go"),ok=()=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.value.trim());c.addEventListener("input",()=>{b.disabled=!ok()});b.disabled=!ok();
+  const go=async()=>{if(!ok()||busy)return;busy=true;b.disabled=true;b.textContent="Sending...";$("#err").textContent="";
+    try{const r=await api({action:"otp_send",email:c.value.trim()});
+      if(!r.ok){$("#err").textContent=r.error==="wait"?"Too many codes asked. Try again in an hour.":"Check the email address.";b.disabled=false;b.textContent="Send code";return}
+      screenOtp(c.value.trim())}
+    catch(e){$("#err").textContent="No internet or server problem. Try again.";b.disabled=false;b.textContent="Send code"}finally{busy=false}};
+  b.onclick=go;c.addEventListener("keydown",e=>{if(e.key==="Enter")go()});c.focus()}
+function screenOtp(email,err){
+  show('<div class="card top"><div class="eyebrow">— Founder access</div><h1>Enter the code</h1><p>If <b>'+esc(email)+'</b> is a founder email, a 6-digit code was sent to it. It works for 10 minutes.</p>'+
+  '<input id="cd" class="codebox" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="••••••"><div class="err" id="err">'+(err||"")+'</div><button class="btn" id="go" disabled>Open console</button><div class="acts"><button class="btn ghost sm" id="bk">Use another email</button></div></div>');
+  const c=$("#cd"),b=$("#go");c.addEventListener("input",()=>{c.value=c.value.replace(/\D/g,"").slice(0,6);b.disabled=c.value.length!==6});
+  const go=async()=>{if(c.value.length!==6||busy)return;busy=true;b.disabled=true;b.textContent="Checking...";
+    try{const r=await api({action:"otp_check",email,code:c.value});
+      if(!r.ok){$("#err").textContent=r.error==="locked"?"Too many wrong tries. Try again in an hour.":"Wrong or expired code.";b.disabled=false;b.textContent="Open console";return}
+      SESS=r.sess;try{sessionStorage.setItem("hd_sess",SESS)}catch(e){}
+      const l=await api({action:"list",sess:SESS});if(!l.ok)return screenGate("Could not open. Try again.");ADM=l;screenConsole()}
+    catch(e){$("#err").textContent="No internet or server problem. Try again.";b.disabled=false;b.textContent="Open console"}finally{busy=false}};
+  b.onclick=go;c.addEventListener("keydown",e=>{if(e.key==="Enter")go()});$("#bk").onclick=()=>screenGate("",email);c.focus()}
+async function resume(){let s="";try{s=sessionStorage.getItem("hd_sess")||""}catch(e){}if(!s)return screenGate();
+  try{const l=await api({action:"list",sess:s});if(l.ok){SESS=s;ADM=l;return screenConsole()}}catch(e){}screenGate()}
+async function reloadAdm(){const r=await api({action:"list",sess:SESS});if(r.ok)ADM=r}
 function screenConsole(){
   const rows=ADM.docs.map(d=>'<div class="party"><div><div class="nm">'+esc(d.title)+'</div><div class="sub">'+esc(d.names)+'</div><div class="sub">'+ago(d.created)+' · '+d.signed+' of '+d.total+' signed</div></div>'+
     '<div style="text-align:right"><span class="pill '+(d.complete?"ok":"wait")+'">'+(d.complete?"Completed":"Waiting")+'</span><div class="acts" style="justify-content:flex-end"><a class="btn ghost sm" target="_blank" rel="noopener" href="?a='+d.id+'&t='+d.code+'">Open</a></div></div></div>').join("")||'<p style="color:var(--mut)">Nothing sent yet.</p>';
@@ -254,16 +278,16 @@ function screenBuilder(tid){
     document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{B.roles.splice(+b.dataset.del,1);render()});
     $("#ad").onclick=()=>{idc++;B.roles.push({id:"x"+idc+Math.random().toString(36).slice(2,5),label:"Signer",labelHi:"",note:"",fields:[],name:"",email:"",phone:""});render()};
     $("#st").onclick=async()=>{const nm=prompt("Template name",B.title);if(!nm)return;const d=mkDoc();
-      const r=await api({action:"tpl_save",pin:PIN,tpl:{name:nm,title:d.title,subtitle:d.subtitle,md:B.md,vars:varDefs().map(v=>({k:v.k,l:v.l,def:B.vars[v.k]||"",multi:!!v.multi})),roles:B.roles.map(x=>({id:x.id,label:x.label,labelHi:x.labelHi||"",note:x.note||"",fields:x.fields||[]}))}});
+      const r=await api({action:"tpl_save",sess:SESS,tpl:{name:nm,title:d.title,subtitle:d.subtitle,md:B.md,vars:varDefs().map(v=>({k:v.k,l:v.l,def:B.vars[v.k]||"",multi:!!v.multi})),roles:B.roles.map(x=>({id:x.id,label:x.label,labelHi:x.labelHi||"",note:x.note||"",fields:x.fields||[]}))}});
       if(r.ok){await reloadAdm();toast("Template saved")}else toast("Could not save")};
-    const dt=$("#dt");if(dt)dt.onclick=async()=>{if(!confirm("Delete this saved template?"))return;await api({action:"tpl_delete",pin:PIN,id:tpl.id});await reloadAdm();screenBuilder()};
+    const dt=$("#dt");if(dt)dt.onclick=async()=>{if(!confirm("Delete this saved template?"))return;await api({action:"tpl_delete",sess:SESS,id:tpl.id});await reloadAdm();screenBuilder()};
     $("#go").onclick=async()=>{if(busy)return;const d=mkDoc(),err=t=>$("#err").textContent=t;err("");
       if(d.title.length<3)return err("Add a title.");if(!d.items.length)return err("The text is empty.");if(B.roles.length<2)return err("Add at least two signers.");
       for(const r of B.roles){if(r.label.trim().length<2||r.name.trim().length<2)return err("Fill the role and full name of every signer.");if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(r.email.trim()))return err("Check the email of "+r.name+".");if(r.phone.replace(/\D/g,"").length<8)return err("Add a mobile number for "+r.name+".")}
       const miss=varDefs().filter(v=>!String(B.vars[v.k]||"").trim());if(miss.length)return err("Fill in: "+miss.map(v=>v.l).join(", ")+".");
       busy=true;$("#go").disabled=true;$("#go").textContent="Sending...";
-      try{const r=await api({action:"create",pin:PIN,ua:navigator.userAgent,doc:d,roles:B.roles.map(x=>({id:x.id,label:x.label.trim(),labelHi:x.labelHi||"",note:x.note||"",fields:x.fields||[],name:x.name.trim(),email:x.email.trim(),phone:x.phone.trim()}))});
-        if(!r.ok){err(r.error==="pin"?"PIN not accepted. Open the console again.":"Could not send. Check the details and try again.");return}
+      try{const r=await api({action:"create",sess:SESS,ua:navigator.userAgent,doc:d,roles:B.roles.map(x=>({id:x.id,label:x.label.trim(),labelHi:x.labelHi||"",note:x.note||"",fields:x.fields||[],name:x.name.trim(),email:x.email.trim(),phone:x.phone.trim()}))});
+        if(!r.ok){err(r.error==="auth"?"Your sign-in expired. Open the console again.":"Could not send. Check the details and try again.");return}
         location.href=location.pathname+"?a="+r.id+"&t="+r.t}
       catch(e){err("No internet or server problem. Try again.")}finally{busy=false;if($("#go")){$("#go").disabled=false;$("#go").textContent="Send for signature"}}};
   };
@@ -408,7 +432,7 @@ function download(blob){const a=document.createElement("a");a.href=URL.createObj
 (async function(){
   setLang(LANG);
   if(!API||API.startsWith("__"))return fail("Not ready yet","अभी तैयार नहीं है","This signing page is not connected yet. Please try again later.","यह साइनिंग पेज अभी जुड़ा नहीं है. कृपया बाद में कोशिश करें.");
-  if(qp.has("new"))return screenGate();
+  if(qp.has("new"))return resume();
   if(!ID)return screenHome();
   if(!TOK)return screenCode();
   try{const r=await getView();
