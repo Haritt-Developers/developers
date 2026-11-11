@@ -122,6 +122,21 @@ const getProof=()=>{try{return sessionStorage.getItem(pKey())||""}catch(e){retur
 const setProof=v=>{try{sessionStorage.setItem(pKey(),v)}catch(e){}};
 async function getView(){return api({action:"view",id:ID,t:TOK,v:getProof()})}
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),1900)}
+const QCSS='.hdq{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(12,14,20,.45);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);animation:hdqf .18s ease;font-family:inherit}.hdq.out{opacity:0;transition:opacity .16s}\n.hdq-b{width:100%;max-width:420px;background:var(--card,#fff);color:var(--txt,#14161C);border:1px solid var(--line,#E3E5EA);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.28);padding:22px 22px 18px;animation:hdqs .24s cubic-bezier(.2,.7,.2,1)}\n.hdq h3{margin:0 0 6px;font-size:16.5px;line-height:1.35;font-weight:600;color:var(--txt,#14161C);letter-spacing:-.01em}\n.hdq p{margin:0 0 16px;color:var(--mut,#5B6270);font-size:13.5px;line-height:1.55}\n.hdq input{width:100%;box-sizing:border-box;margin:0 0 16px;background:var(--field,#fff);color:var(--txt,#14161C);border:1px solid var(--line2,#D8DBE2);border-radius:9px;padding:10px 12px;font:inherit;font-size:14.5px;outline:none}\n.hdq input:focus{border-color:var(--acc,#E8461F);box-shadow:0 0 0 3px rgba(232,70,31,.14)}\n.hdq-a{display:flex;justify-content:flex-end;gap:8px}\n.hdq-a button{font:inherit;font-size:13.5px;font-weight:600;border-radius:9px;padding:9px 16px;cursor:pointer;border:1px solid var(--line2,#D8DBE2);background:var(--card,#fff);color:var(--txt,#14161C);margin:0;width:auto;transition:filter .15s,border-color .15s}\n.hdq-a button:hover{border-color:var(--acc,#E8461F)}.hdq-a .ok{background:var(--acc,#E8461F);border-color:var(--acc,#E8461F);color:#fff}.hdq-a .ok.bad{background:#C62828;border-color:#C62828}.hdq-a .ok:hover{filter:brightness(1.07)}\n.hdq-a button:focus-visible{outline:2px solid var(--acc,#E8461F);outline-offset:2px}\n@keyframes hdqf{from{opacity:0}}@keyframes hdqs{from{opacity:0;transform:translateY(10px) scale(.98)}}\n@media(max-width:560px){.hdq{align-items:flex-end;padding:0}.hdq-b{max-width:none;border-radius:18px 18px 0 0;border-bottom:0;padding:22px 18px calc(18px + env(safe-area-inset-bottom,0px));animation-name:hdqm}.hdq-a button{flex:1;padding:12px}}\n@keyframes hdqm{from{transform:translateY(100%)}}';
+/* In-page dialog (replaces the browser's confirm/prompt). Resolves true/false, or the typed text/null when o.input is set. */
+function ask(o){return new Promise(res=>{const host=document.body,src=(ROOT&&ROOT.host)||document.documentElement,cs=getComputedStyle(src);
+  if(!document.getElementById("hdq-css")){const st=document.createElement("style");st.id="hdq-css";st.textContent=QCSS;document.head.appendChild(st)}
+  const w=document.createElement("div");w.className="hdq";["--card","--field","--line","--line2","--txt","--mut","--acc"].forEach(k=>{const v=cs.getPropertyValue(k);if(v)w.style.setProperty(k,v.trim())});w.style.fontFamily=getComputedStyle($("#toast")).fontFamily;
+  w.innerHTML='<div class="hdq-b" role="dialog" aria-modal="true" aria-labelledby="hdq-t"><h3 id="hdq-t">'+esc(o.t||"")+'</h3>'+(o.m?'<p>'+esc(o.m)+'</p>':'')+(o.input?'<input type="text" value="'+esc(o.val||"")+'" placeholder="'+esc(o.ph||"")+'"'+(o.val?' readonly':'')+'>':'')+
+    '<div class="hdq-a">'+(o.noCancel?'':'<button type="button" class="no">'+esc(o.no||"Cancel")+'</button>')+'<button type="button" class="ok'+(o.bad?' bad':'')+'">'+esc(o.ok||"OK")+'</button></div></div>';
+  host.appendChild(w);const inp=w.querySelector("input"),prev=document.activeElement;
+  const end=v=>{document.removeEventListener("keydown",key,true);w.classList.add("out");setTimeout(()=>w.remove(),170);try{prev&&prev.focus&&prev.focus()}catch(e){}res(v)};
+  const okv=()=>o.input&&!o.val?(inp.value.trim()||null):true,nov=o.input&&!o.val?null:false;
+  const key=e=>{if(e.key==="Escape"){e.preventDefault();end(nov)}else if(e.key==="Enter"&&(!inp||document.activeElement===inp||w.contains(document.activeElement))){e.preventDefault();end(okv())}};
+  document.addEventListener("keydown",key,true);
+  w.querySelector(".ok").onclick=()=>end(okv());const nb=w.querySelector(".no");if(nb)nb.onclick=()=>end(nov);
+  w.onclick=e=>{if(e.target===w)end(nov)};
+  setTimeout(()=>{if(inp){inp.focus();if(o.val)inp.select()}else w.querySelector(".ok").focus()},30)})}
 
 /* ---------- agreement text ---------- */
 function roleIds(){return DOC.roles.map(r=>r.id)}
@@ -153,15 +168,31 @@ function plain(v){return DOC.items.map(it=>(it.n?it.n+" ":"")+fill(it.t,v,"pdf")
 /* ---------- signature pad ---------- */
 function pad(host){
   host.innerHTML='<canvas></canvas><div class="baseline"></div><div class="hint"><div>'+B("Sign here with your finger","यहाँ अंगुली से साइन करें")+'</div></div>';
-  const c=$("canvas",host),x=c.getContext("2d");let draw=false,last=null,len=0;sig=null;
-  function size(){const r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;x.setTransform(d,0,0,d,0,0);x.lineWidth=2.6;x.lineCap="round";x.lineJoin="round";x.strokeStyle="#111";x.fillStyle="#111"}
-  size();
-  const pt=e=>{const r=c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}};
-  c.addEventListener("pointerdown",e=>{e.preventDefault();c.setPointerCapture(e.pointerId);draw=true;last=pt(e);x.beginPath();x.arc(last.x,last.y,1.3,0,7);x.fill()});
-  c.addEventListener("pointermove",e=>{if(!draw)return;e.preventDefault();const p=pt(e);x.beginPath();x.moveTo(last.x,last.y);x.lineTo(p.x,p.y);x.stroke();len+=Math.hypot(p.x-last.x,p.y-last.y);last=p;host.classList.add("has");if(len>60)sig=true;upd()});
-  const end=()=>{draw=false};c.addEventListener("pointerup",end);c.addEventListener("pointercancel",end);
-  host.clear=()=>{x.clearRect(0,0,c.width,c.height);len=0;sig=null;host.classList.remove("has");upd()};
-  host.export=()=>{const r=c.getBoundingClientRect(),o=document.createElement("canvas");o.width=600;o.height=Math.round(600*r.height/r.width);o.getContext("2d").drawImage(c,0,0,o.width,o.height);return o.toDataURL("image/png")};
+  /* Smoothed signature: shaky input is filtered, strokes are drawn as curves with pen-like width. Undo removes the last stroke. */
+  const c=$("canvas",host),x=c.getContext("2d"),INK="#16213E";let strokes=[],cur=null;sig=null;
+  const mid=(a,b)=>({x:(a.x+b.x)/2,y:(a.y+b.y)/2});
+  const prep=g=>{g.lineCap="round";g.lineJoin="round";g.strokeStyle=INK;g.fillStyle=INK};
+  function seg(g,P,i){const a=P[i-1],b=P[i],s=i>1?mid(P[i-2],a):a,e=mid(a,b);g.beginPath();g.moveTo(s.x,s.y);g.quadraticCurveTo(a.x,a.y,e.x,e.y);g.lineWidth=(a.w+b.w)/2;g.stroke()}
+  function tail(g,P){const n=P.length;if(n===1){g.beginPath();g.arc(P[0].x,P[0].y,P[0].w*.6,0,7);g.fill();return}const s=mid(P[n-2],P[n-1]);g.beginPath();g.moveTo(s.x,s.y);g.lineTo(P[n-1].x,P[n-1].y);g.lineWidth=P[n-1].w;g.stroke()}
+  function paint(g){strokes.forEach(s=>{for(let i=1;i<s.length;i++)seg(g,s,i);tail(g,s)})}
+  function render(){const r=c.getBoundingClientRect();x.clearRect(0,0,r.width,r.height);paint(x)}
+  function size(){const r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;if(!r.width)return;c.width=r.width*d;c.height=r.height*d;x.setTransform(d,0,0,d,0,0);prep(x);render()}
+  size();window.addEventListener("resize",()=>{if(host.isConnected)size()});
+  const total=()=>strokes.reduce((t,s)=>{for(let i=1;i<s.length;i++)t+=Math.hypot(s[i].x-s[i-1].x,s[i].y-s[i-1].y);return t},0);
+  const state=()=>{sig=total()>60?true:null;host.classList.toggle("has",strokes.length>0);if(host.sync)host.sync(strokes.length);upd()};
+  const pos=e=>{const r=c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top,t:e.timeStamp||Date.now()}};
+  function add(e){const q=pos(e),L=cur[cur.length-1];
+    const p={x:L.x+(q.x-L.x)*.42,y:L.y+(q.y-L.y)*.42,t:q.t};const d=Math.hypot(p.x-L.x,p.y-L.y);if(d<1.2)return;
+    const v=d/Math.max(1,p.t-L.t),tw=Math.max(1.3,Math.min(3.4,3.6-v*1.25));p.w=L.w*.72+tw*.28;cur.push(p);seg(x,cur,cur.length-1)}
+  c.addEventListener("pointerdown",e=>{e.preventDefault();try{c.setPointerCapture(e.pointerId)}catch(_){}const p=pos(e);p.w=2.6;cur=[p];strokes.push(cur);host.classList.add("has")});
+  c.addEventListener("pointermove",e=>{if(!cur)return;e.preventDefault();const list=e.getCoalescedEvents?e.getCoalescedEvents():[e];(list.length?list:[e]).forEach(add)});
+  const soft=P=>{const n=P.length;if(n<5)return P;return P.map((p,i)=>{if(!i||i===n-1)return p;let sx=0,sy=0,k=0;for(let j=Math.max(0,i-2);j<=Math.min(n-1,i+2);j++){sx+=P[j].x;sy+=P[j].y;k++}return{x:sx/k,y:sy/k,w:p.w,t:p.t}})};
+  const end=()=>{if(!cur)return;const i=strokes.indexOf(cur);strokes[i]=soft(soft(cur));cur=null;render();state()};c.addEventListener("pointerup",end);c.addEventListener("pointercancel",end);
+  host.undo=()=>{if(cur)return;strokes.pop();render();state()};
+  host.clear=()=>{cur=null;strokes=[];render();state()};
+  host.export=()=>{let a=1e9,b=1e9,m=-1e9,n=-1e9;strokes.forEach(s=>s.forEach(p=>{a=Math.min(a,p.x);b=Math.min(b,p.y);m=Math.max(m,p.x);n=Math.max(n,p.y)}));
+    const pd=10;a-=pd;b-=pd;m+=pd;n+=pd;const w=m-a,h=n-b,k=Math.min(3,900/w),o=document.createElement("canvas");o.width=Math.round(w*k);o.height=Math.round(h*k);
+    const g=o.getContext("2d");g.setTransform(k,0,0,k,-a*k,-b*k);prep(g);paint(g);return o.toDataURL("image/png")};
 }
 let upd=()=>{};
 
@@ -182,7 +213,7 @@ function screenVerify(info,err){
   show('<div class="card top"><div class="eyebrow">'+B("— Confirm it is you","— पुष्टि करें कि आप ही हैं")+'</div><h1>'+B("Sign in to open the document","डॉक्यूमेंट खोलने के लिए साइन इन करें")+'</h1><p><b>'+esc(info.title||"")+'</b></p>'+
   '<p>'+B("This document was sent to <b>"+esc(info.hint)+"</b>. Confirm it is you.","यह डॉक्यूमेंट <b>"+esc(info.hint)+"</b> पर भेजा गया है. पुष्टि करें कि आप ही हैं.")+'</p>'+
   (g?'<div id="gb" class="gb"></div><p class="or">'+B("or","या")+'</p>':'')+
-  '<button class="btn ghost" id="sc" style="margin-top:0">'+B("Email me a code","मुझे ईमेल पर code भेजें")+'</button><div id="cw"></div><div class="err" id="err">'+(err||"")+'</div></div>');
+  '<button class="btn'+(g?' ghost':'')+'" id="sc" style="margin-top:0">'+B("Email me a code","मुझे ईमेल पर code भेजें")+'</button><div id="cw"></div><div class="err" id="err">'+(err||"")+'</div></div>');
   const done=r=>{setProof(r.v);location.reload()};
   if(g)gBtn($("#gb"),async cred=>{if(busy)return;busy=true;try{const r=await api({action:"v_google",id:ID,t:TOK,credential:cred});
     if(r.ok)return done(r);$("#err").textContent=r.error==="wrong_account"?tt("Please use the Google account "+r.hint+".","कृपया Google account "+r.hint+" इस्तेमाल करें."):tt("Could not sign in. Try again.","साइन इन नहीं हो पाया. फिर कोशिश करें.")}finally{busy=false}});
@@ -265,8 +296,8 @@ function listHtml(){const q=CF.q.trim().toLowerCase(),f=CF.f;
 function wireList(){
   ROOT.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>screenAdmin(b.dataset.open));
   ROOT.querySelectorAll("[data-draft]").forEach(b=>b.onclick=()=>screenBuilder(null,(ADM.drafts||[]).find(x=>x.id===b.dataset.draft)));
-  ROOT.querySelectorAll("[data-dd]").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this draft?"))return;b.disabled=true;const r=await api({action:"draft_del",id:b.dataset.dd,sess:SESS});if(r.ok){await reloadAdm();screenConsole();toast("Draft deleted")}else{b.disabled=false;toast("Could not delete")}});
-  ROOT.querySelectorAll("[data-rm]").forEach(b=>b.onclick=async()=>{const d=ADM.docs.find(x=>x.id===b.dataset.rm);if(!d||!confirm('Delete "'+d.title+'"? '+(d.complete?'This is a signed document; the signers keep their emailed copy. ':'Its signing links will stop working. ')+'It moves to the Drive bin.'))return;b.disabled=true;const r=await api({action:"del",id:d.id,sess:SESS});if(r.ok){await reloadAdm();screenConsole();toast("Deleted")}else{b.disabled=false;toast(r.error==="forbidden"?"You do not have rights to delete.":"Could not delete. Update the script first.")}})}
+  ROOT.querySelectorAll("[data-dd]").forEach(b=>b.onclick=async()=>{if(!await ask({t:"Delete this draft?",m:"The saved draft is removed. You cannot undo this.",ok:"Delete draft",bad:1}))return;b.disabled=true;const r=await api({action:"draft_del",id:b.dataset.dd,sess:SESS});if(r.ok){await reloadAdm();screenConsole();toast("Draft deleted")}else{b.disabled=false;toast("Could not delete")}});
+  ROOT.querySelectorAll("[data-rm]").forEach(b=>b.onclick=async()=>{const d=ADM.docs.find(x=>x.id===b.dataset.rm);if(!d||!await ask({t:'Delete "'+d.title+'"?',m:(d.complete?'This is a signed document. The signers keep their emailed copy. ':'Its signing links will stop working. ')+'It moves to the Drive bin.',ok:"Delete",bad:1}))return;b.disabled=true;const r=await api({action:"del",id:d.id,sess:SESS});if(r.ok){await reloadAdm();screenConsole();toast("Deleted")}else{b.disabled=false;toast(r.error==="forbidden"?"You do not have rights to delete.":"Could not delete. Update the script first.")}})}
 function screenConsole(){
   try{localStorage.setItem("hd_adm",JSON.stringify(ADM))}catch(e){}
   const cnt=f=>f==="all"?ADM.docs.length:f==="drafts"?(ADM.drafts||[]).length:ADM.docs.filter(d=>{const s=docState(d);return f==="wait"?(s==="wait"||s==="overdue"):s===f}).length;
@@ -451,10 +482,10 @@ function screenSign(){
   '<label>'+B("Email","ईमेल")+'<span class="sl">'+B("signed PDF comes here","PDF यहीं आएगा")+'</span></label><input value="'+esc(me.email)+'" readonly>'+
   flds.map(fieldHtml).join("")+'</div>'+
   '<div class="card"><div class="tools"><h2 style="margin:0">'+B("Agreement","एग्रीमेंट")+'</h2><span style="color:var(--dim);font-size:13px">'+B("Scroll to read","पढ़ने के लिए नीचे स्क्रोल करें")+'</span></div>'+langNoteHtml()+'<div id="pp"></div></div>'+
-  '<div class="card"><h2>'+B("Your signature","आपके साइन")+'</h2><p style="margin:2px 0 10px;color:var(--mut);font-size:14px">'+B("Sign inside the box with your finger","डिब्बे के अंदर अपनी अंगुली से साइन करें")+'</p><div class="tools"><span></span><button class="link" id="clr">'+B("Clear","मिटाएँ")+'</button></div><div class="pad" id="pad"></div>'+
+  '<div class="card"><h2>'+B("Your signature","आपके साइन")+'</h2><p style="margin:2px 0 10px;color:var(--mut);font-size:14px">'+B("Sign inside the box with your finger","डिब्बे के अंदर अपनी अंगुली से साइन करें")+'</p><div class="tools"><span></span><span style="display:flex;gap:18px"><button class="link" id="und" disabled style="opacity:.35">'+B("Undo","पीछे लें")+'</button><button class="link" id="clr">'+B("Sign again","फिर से साइन करें")+'</button></span></div><div class="pad" id="pad"></div>'+
   '<label class="chk"><input type="checkbox" id="ok"><span>'+B("I have read and understood this agreement. I sign by my own choice.","मैंने एग्रीमेंट पढ़ और समझ लिया है. मैं अपनी मर्ज़ी से साइन कर रहा/रही हूँ.")+'</span></label>'+
   '<div class="err" id="err"></div><button class="btn" id="go" disabled>'+B("Sign and save","साइन करें और सेव करें")+'</button></div>');
-  pad($("#pad"));$("#clr").onclick=()=>$("#pad").clear();
+  pad($("#pad"));$("#clr").onclick=()=>$("#pad").clear();$("#und").onclick=()=>$("#pad").undo();$("#pad").sync=n=>{const u=$("#und");if(u){u.disabled=!n;u.style.opacity=n?"1":".35"}};
   const need=["n"].concat(flds.filter(f=>!f.opt).map(f=>"f_"+f.k)),all=["n"].concat(flds.map(f=>"f_"+f.k)),g=i=>$("#"+i).value.trim();
   const ov=()=>{const f={};f[role+"_name"]=g("n");for(const x of flds)f[role+"_"+x.k]=g("f_"+x.k);return values(f)};
   const draw=()=>{$("#pp").innerHTML=paper(ov())};redraw=draw;
@@ -478,7 +509,7 @@ async function sendFinal(){const b=await makePDF();const r=await api(S.role==="a
 function screenDone(){
   redraw=()=>{};
   const mine=S.parties[S.role],waiting=Object.entries(S.parties).filter(([k,p])=>!p.signedAt).map(([k,p])=>esc(p.name||rl(k))).join(", ");
-  const tick='<div class="big"><svg viewBox="0 0 24 24" fill="none" stroke="#3DDC97" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>';
+  const tick='<div class="big"><svg viewBox="0 0 24 24" fill="none" stroke="#1B9E63" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>';
   let h='<div class="card top">'+tick+'<div class="eyebrow">'+(S.complete?B("— Completed","— पूरा हुआ"):B("— Signed","— साइन हो गया"))+'</div><h1>'+(S.complete?B("Everyone has signed","सबने साइन कर दिया"):B("Thank you, you have signed","धन्यवाद, आपने साइन कर दिया"))+'</h1>';
   if(S.complete)h+='<p>'+B("The signed PDF with a certificate of completion has been emailed to everyone. You can also download it now.","साइन किया हुआ PDF (certificate के साथ) सबके ईमेल पर भेज दिया गया है. आप इसे अभी डाउनलोड भी कर सकते हैं.")+'</p><button class="btn" id="dl">'+B("Download signed PDF","साइन किया हुआ PDF डाउनलोड करें")+'</button>';
   else h+='<p>'+B("Signed on "+esc(fmtTime(mine.signedAt))+". Waiting for: <b>"+waiting+"</b>.","साइन का समय: "+esc(fmtTime(mine.signedAt))+". इंतज़ार: <b>"+waiting+"</b>.")+'</p><p>'+B("When everyone has signed, the signed PDF will be emailed to <b>"+esc(mine.email)+"</b>.","सबके साइन करने के बाद साइन किया हुआ PDF <b>"+esc(mine.email)+"</b> पर आ जाएगा.")+'</p>';
@@ -496,7 +527,7 @@ function statusCard(){
     '</div><span class="pill '+(p.signedAt?"ok":S.voided?"bad":"wait")+'">'+(p.signedAt?B("Signed","साइन हुआ"):S.voided?B("Cancelled","रद्द"):S.order&&S.turn===k?B("Next to sign","अगली बारी"):B("Waiting","इंतज़ार"))+'</span></div>'}
   return h+'</div>'}
 function wireStatus(){
-  document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(S.links[b.dataset.copy]);toast(tt("Link copied","लिंक कॉपी हो गया"))}catch(e){prompt("Copy this link",S.links[b.dataset.copy])}});
+  document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(S.links[b.dataset.copy]);toast(tt("Link copied","लिंक कॉपी हो गया"))}catch(e){ask({t:"Copy this link",m:"Select the link below and copy it.",input:1,val:S.links[b.dataset.copy],ok:"Done",noCancel:1})}});
   document.querySelectorAll("[data-rem]").forEach(b=>b.onclick=async()=>{b.disabled=true;const r=await api({action:"remind",id:S.id,sess:SESS,who:b.dataset.rem});toast(r.ok?tt("Email sent again","ईमेल दोबारा भेज दिया"):r.error==="wait"?tt("Wait 10 minutes before sending again","दोबारा भेजने से पहले 10 मिनट रुकें"):tt("Could not send","भेज नहीं पाया"));b.disabled=false})}
 async function screenAdmin(id){
   show('<div class="spin"></div>');
@@ -525,7 +556,7 @@ function screenStatus(){
     ((can("send")&&!cmp&&!v)?'<div class="acts"><button class="btn ghost sm" style="color:#C62828" id="vd">Cancel this document</button></div>':'')+'</div>'+statusCard()+infoHtml()+auditHtml()+'<div class="card"><h2>'+B("Preview","झलक")+'</h2><div id="pp"></div></div>');
   const draw=()=>{$("#pp").innerHTML=paper(values())};redraw=draw;draw();wireStatus();$("#bkc").onclick=async()=>{await reloadAdm();screenConsole()};
   const d=$("#dl");if(d)d.onclick=async()=>{d.disabled=true;try{const b=await makePDF();download(b.blob)}finally{d.disabled=false}};
-  const vd=$("#vd");if(vd)vd.onclick=async()=>{const reason=prompt("Why are you cancelling this document? The people who have not signed yet will be emailed this reason.");if(reason===null)return;if(reason.trim().length<3)return toast("Please write a short reason");
+  const vd=$("#vd");if(vd)vd.onclick=async()=>{const reason=await ask({t:"Cancel this document?",m:"The people who have not signed yet will be emailed this reason. Signed copies stay on record.",input:1,ph:"Reason for cancelling",ok:"Cancel document",no:"Keep it",bad:1});if(reason===null)return;if(reason.trim().length<3)return toast("Please write a short reason");
     vd.disabled=true;const r=await api({action:"void",id:S.id,sess:SESS,reason:reason.trim()});if(r.ok){await reloadAdm();screenAdmin(S.id)}else{vd.disabled=false;toast(r.error==="signed"?"Everyone has already signed, it cannot be cancelled.":r.error==="forbidden"?"You do not have rights to cancel.":"Could not cancel. Update the script first.")}}}
 
 /* ---------- PDF ---------- */
@@ -551,7 +582,7 @@ async function makePDF(){
   const clean=t=>t.replace(/₹/g,"Rs. ");
   let y=T+3;const RED=[139,13,13],ORG=[232,70,31],INK=[27,27,31],MUT=[110,110,120];
   let logo=null;try{logo=await loadImg("/assets/logo-256.png")}catch(e){}
-  const brand=()=>{if(logo)doc.addImage(logo,"PNG",L,9,10,10);doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.setTextColor(...INK);doc.setCharSpace(1.2);doc.text("HARITT DEVELOPERS",L+13,13.3);doc.setCharSpace(0);doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUT);doc.text("A Haritt Group company",L+13,17.2);doc.setDrawColor(...ORG);doc.setLineWidth(.5);doc.line(L,21,W-R,21)};
+  const brand=()=>{if(logo)doc.addImage(logo,"PNG",L,9,10,10);doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.setTextColor(...INK);doc.setCharSpace(.55);doc.text("HARITT DEVELOPERS",L+13,13.3);doc.setCharSpace(0);doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUT);doc.text("A Haritt Group company",L+13,17.2);doc.setDrawColor(...ORG);doc.setLineWidth(.5);doc.line(L,21,W-R,21)};
   brand();
   const np=()=>{doc.addPage();doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...MUT);doc.text("Haritt Developers · "+TE,L,12);doc.setDrawColor(215,215,220);doc.setLineWidth(.2);doc.line(L,15,W-R,15);y=24};
   function rich(text,x,maxW,size,lh,color){
@@ -578,7 +609,7 @@ async function makePDF(){
     doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(...INK);doc.text(clean(p.name),L+5,y+8);
     doc.setFont("helvetica","normal");doc.setFontSize(8.5);doc.setTextColor(...MUT);doc.text(rl(k)+(roleDef(k).note?" · "+roleDef(k).note:""),L+5,y+13);
     doc.text(p.email+(ph(p)?" · "+ph(p):""),L+5,y+17.5);doc.text("Signed on "+fmtTime(p.signedAt),L+5,y+22);
-    const im=sigImgs[k],ww=Math.min(17*im.width/im.height,60);doc.addImage(p.sig,"PNG",L+CW-5-ww,y+6,ww,ww*im.height/im.width);
+    const im=sigImgs[k];let ww=Math.min(17*im.width/im.height,62),hh=ww*im.height/im.width;if(hh>19){hh=19;ww=hh*im.width/im.height}doc.addImage(p.sig,"PNG",L+CW-35-ww/2,y+25.5-hh,ww,hh);
     doc.setDrawColor(150,150,160);doc.line(L+CW-65,y+26,L+CW-5,y+26);doc.setFontSize(7.5);doc.text("Signature",L+CW-65,y+30);
     doc.setFontSize(8);doc.text("Date: "+fmtDate(p.signedAt),L+5,y+38);
     y+=50}
