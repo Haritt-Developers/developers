@@ -1,0 +1,88 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Project Space · Progress</title>
+<link rel="icon" href="/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../m.css"><link rel="stylesheet" href="../f.css">
+<style>
+.ph{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:22px 0 18px}
+.bk{display:inline-flex;align-items:center;gap:6px;color:var(--mu);text-decoration:none;font-size:14px;font-weight:500;margin-bottom:10px}.bk svg{font-size:16px}
+.ph h1{font-family:Montserrat,sans-serif;font-size:28px;letter-spacing:-.02em;margin:0;line-height:1.2}.ph p{margin:4px 0 0;color:var(--mu);font-size:14px}
+.rib{background:var(--card);border:1px solid var(--ln);border-radius:28px;box-shadow:var(--sh);padding:34px 28px 24px}
+.segs{display:flex;gap:10px;align-items:flex-end}
+.seg{flex:var(--f) 1 0;min-width:0;display:flex;flex-direction:column;gap:10px;position:relative;padding:0 2px}
+.sh{display:flex;gap:8px;align-items:center;min-width:0}
+.si{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:700;flex:none;background:var(--ln2);color:var(--mu)}
+.seg.done .si{background:var(--dn);color:#fff}
+.sn{min-width:0;display:flex;flex-direction:column;line-height:1.25}.sn b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sn span{font-size:11.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seg.later .sn>span{display:none}.seg.later .si{width:24px;height:24px;font-size:12px}.seg.done .sn span{color:var(--dn)}.sn span em{font-style:normal;color:var(--am)}
+.seg .cells{height:30px}
+.sd{font-size:11.5px;color:var(--mu);white-space:nowrap}
+.seg.on{background:var(--accs);border-radius:20px;padding:14px 14px 12px;box-shadow:inset 0 0 0 1.5px var(--acc)}
+.seg.on .cells{height:44px}.seg.on .si{background:var(--acc);color:#fff;width:34px;height:34px;font-size:19px}.seg.on .sn b{font-size:17px;color:var(--acc)}.seg.on .sn span{color:var(--ink);font-weight:500}.seg.on .sd{color:var(--ink2)}
+.here{position:absolute;top:-12px;left:14px;background:var(--acc);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.12em;padding:3px 10px;border-radius:99px;display:flex;gap:5px;align-items:center;white-space:nowrap}.here svg{font-size:12px}
+.ml{display:none}
+.call{position:relative;margin-top:22px;background:var(--ln2);border-radius:20px;padding:18px 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.call:before{content:"";position:absolute;top:-9px;left:var(--px,50%);width:18px;height:18px;background:var(--ln2);transform:translateX(-50%) rotate(45deg);border-radius:3px}
+.cb{display:flex;gap:12px;align-items:flex-start;position:relative}.cb>svg{font-size:28px;flex:none;color:var(--acc)}.cb:nth-child(2)>svg{color:var(--ink2)}.cb.ok>svg{color:var(--dn)}
+.cb small{display:block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mu)}.cb b{display:block;font-size:15px;margin:2px 0}.cb span{font-size:13px;color:var(--mu)}.cb.act b{color:var(--acc)}
+.h2{display:flex;justify-content:space-between;align-items:baseline;margin:40px 0 14px}.h2 h2{font-family:Montserrat,sans-serif;font-size:13px;letter-spacing:.2em;text-transform:uppercase;margin:0}.h2 span{font-size:13px;color:var(--mu)}
+.st{display:grid;grid-template-columns:260px 1fr;gap:28px;padding:24px 26px;background:var(--card);border:1px solid var(--ln);border-radius:22px;margin-bottom:12px}
+.st.now{box-shadow:var(--sh);border-color:color-mix(in srgb,var(--acc) 45%,var(--ln))}
+.sl{display:flex;flex-direction:column;gap:8px}.sno{font-family:Montserrat,sans-serif;font-size:12px;font-weight:700;color:var(--mu);letter-spacing:.12em}
+.sl h3{margin:0;font-size:21px;display:flex;align-items:center;gap:10px}.sl h3 svg{font-size:26px;color:var(--mu)}.st.done .sl h3 svg{color:var(--dn)}.st.now .sl h3 svg{color:var(--acc)}
+.mean{font-size:13px;color:var(--mu);line-height:1.45}
+.dl{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--ink2)}.dl span{display:flex;gap:6px;align-items:center}.dl svg{font-size:15px;color:var(--mu);flex:none}
+.tl{list-style:none;margin:0;padding:0}.tl li{display:flex;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--ln2)}.tl li:last-child{border-bottom:0}
+.tl li>svg{font-size:21px;flex:none;color:var(--mu)}.tl li.d>svg{color:var(--dn)}.tl li.n>svg{color:var(--acc)}.tl li.a>svg{color:var(--am)}
+.tt{flex:1;min-width:0}.tt b{display:block;font-weight:500}.tl li.d .tt b{color:var(--ink2)}.tt small{display:none;font-size:12.5px;color:var(--mu)}
+.tr{display:flex;align-items:center;gap:10px;flex:none}.tr .dt{font-size:12.5px;color:var(--mu);white-space:nowrap}
+.tl li.a{flex-wrap:wrap;background:var(--ams);border-radius:14px;padding:12px 14px;margin-top:8px;border-bottom:0}
+.tl li.a .why{flex-basis:100%;padding-left:33px;font-size:13px;color:var(--ink2);margin-top:-2px}.tl li.a .why b{color:var(--am);font-weight:600}
+.fold{border:0;background:none;color:var(--mu);font-size:13.5px;font-weight:500;padding:6px 0;display:flex;align-items:center;gap:6px}.fold svg{transition:transform .2s}
+.st.fd .tl{display:none}.st.fd.op .tl{display:block}.st.fd.op .fold svg{transform:rotate(180deg)}
+.empty{color:var(--mu);font-size:14px;display:flex;gap:10px;align-items:center;padding:6px 0}.empty svg{font-size:20px}
+.chg{display:flex;gap:16px;background:var(--card);border:1px solid var(--ln);border-radius:18px;padding:14px 18px}.lgd{font-size:13px;font-weight:700;color:var(--am);white-space:nowrap}.chg b{display:block;font-weight:600;font-size:14.5px}.chg>div span{font-size:13px;color:var(--mu)}
+.rep{margin-top:14px;display:flex;align-items:center;gap:8px}.rep svg{font-size:18px}
+@media (max-width:860px){.st{grid-template-columns:1fr;gap:14px;padding:20px}}
+@media (max-width:720px){
+ .ph{flex-direction:column;align-items:flex-start;gap:12px;padding:16px 0 14px}.ph h1{font-size:24px}
+ .rib{padding:22px 14px 16px;border-radius:22px}
+ .segs{gap:4px;align-items:flex-start}.seg,.seg.on{flex:var(--fm) 1 0;padding:0;background:none;box-shadow:none;gap:8px}.seg .sh,.seg .sd,.here{display:none}
+ .seg .cells,.seg.on .cells{height:12px;gap:2px}.seg .cell{border-radius:3px!important}.seg .cells .cell:first-child{border-radius:6px 3px 3px 6px!important}.seg .cells .cell:last-child{border-radius:3px 6px 6px 3px!important}.seg .cell svg{display:none}
+ .seg.on .cells{box-shadow:0 0 0 3px var(--card),0 0 0 5px var(--acc);border-radius:6px}
+ .ml{display:flex;justify-content:center;font-size:12px;font-weight:700;color:var(--mu);white-space:nowrap}.seg.done .ml{color:var(--dn);font-size:15px}.seg.on .ml{color:var(--acc);font-size:13px;margin-top:2px}
+ .call{grid-template-columns:1fr;gap:14px;padding:16px;margin-top:18px}.cb>svg{font-size:24px}
+ .h2{margin-top:30px}.st{padding:18px 16px}
+ .tr .dt{display:none}.tt small{display:block}.tr .chip{display:none}.tl li.a .why{padding-left:0}
+ .rep{width:100%;justify-content:center}
+}
+</style></head><body>
+<div id="app"></div>
+<script src="../../ic.js"></script><script src="../../m.js"></script><script src="../d.js"></script>
+<script>
+window.OPTS=[['../f','Home',1],['../f/details','Full progress',1]];
+const NX=S[CUR.i+1],NT=CUR.t.find(x=>x[1]==='n');
+const chip=k=>{const t=T[L];return k==='d'?`<span class="chip c-ok">${t.sDone}</span>`:k==='n'?`<span class="chip c-acc">${t.sNow}</span>`:k==='a'?`<span class="chip c-am">${t.sAdd}</span>`:k==='y'?`<span class="chip c-acc">${t.sYou}</span>`:`<span class="chip c-mu">${t.sNot}</span>`};
+function cells(s){if(!s.total)return `<div class="cells"><div class="cell e">${ic('r:flag')}</div></div>`;return `<div class="cells">${s.t.map(x=>`<div class="cell ${x[1]==='d'?'d':x[1]==='a'?'a':x[1]==='n'?'n':''}" title="${tn(x)}">${x[1]==='d'?ic('r:check'):x[1]==='a'?ic('r:plus'):''}</div>`).join('')}</div>`}
+function ribbon(){const t=T[L];return `<div class="rib"><div class="segs">${S.map(s=>{const on=s.st==='now';const f=on?Math.max(s.total,1)*1.6:Math.max(s.total,3.2);const fm=on?Math.max(s.total,1)*1.7:Math.max(s.total,1.4);
+ return `<div class="seg ${isDone(s)?'done':on?'':'later'} ${on?'on':''}" style="--f:${f};--fm:${fm}">${on?`<span class="here">${ic('r:flag')} ${t.here}</span>`:''}
+ <div class="sh"><span class="si">${isDone(s)?ic('r:check'):on?ic('d:'+s.ic):s.i+1}</span><span class="sn"><b>${s[L][0]}</b><span>${isDone(s)?t.sDone+(s.added.length?` <em>· +1</em>`:''):on?t.stNow(s.done,s.total):t.stLater(D(s.from))}</span></span></div>
+ ${cells(s)}<div class="ml">${isDone(s)?ic('r:check'):on?s[L][0]:s.i+1}</div><div class="sd">${isDone(s)?t.stDone(D(s.to)):t.dates(D(s.from),D(s.to))}</div></div>`}).join('')}</div>
+ <div class="call" id="call"><div class="cb">${ic('d:hourglass-medium')}<div><small>${t.hNow}</small><b>${tn(NT)}</b><span>${CUR[L][1]}</span></div></div>
+ <div class="cb">${ic('d:'+NX.ic)}<div><small>${t.hNext}</small><b>${NX[L][0]} · ${D(NX.from)}</b><span>${NX.m[L]}</span></div></div>
+ ${PAY==='due'?`<div class="cb act">${ic('d:currency-inr')}<div><small>${t.hYou}</small><b>${t.pay}</b><span>${t.payS}</span></div></div>`:`<div class="cb ok">${ic('d:thumbs-up')}<div><small>${t.hYou}</small><b>${t.nothing}</b></div></div>`}</div></div>`}
+function stages(){const t=T[L];return S.map(s=>{
+ const fold=false,on=s.st==='now';
+ const rows=s.t.map(x=>{const k=x[1];const ico=k==='d'?ic('d:check-circle'):k==='a'?ic('d:plus-circle'):k==='n'?ic('r:circle-notch'):ic('r:circle');
+  const dt=k==='d'?D(x[2]):k==='a'?t.readyBy(D(x[3])):'';const sm=k==='d'?t.tdone(D(x[2])):k==='n'?t.tnow:k==='y'?t.tyou:k==='a'?'':t.tnot;
+  return `<li class="${k}">${ico}<div class="tt"><b>${tn(x)}</b>${sm?`<small>${sm}</small>`:''}</div><div class="tr"><span class="dt">${dt}</span>${chip(k)}</div>${k==='a'?`<div class="why">${t.news(D(x[2]))} <b>${t.newe(D(x[3]))}</b></div>`:''}</li>`}).join('');
+ return `<section class="st ${isDone(s)?'done':''} ${on?'now':''} ${fold?'fd':''}"><div class="sl"><span class="sno">${L==='en'?'STEP':'स्टेप'} ${s.i+1}</span><h3>${ic('d:'+s.ic)}${s[L][0]}</h3><div class="mean">${s.m[L]}</div>
+ <div class="dl"><span>${ic('r:calendar-blank')}${t.plan(D(s.from),D(s.to))}</span>${isDone(s)?`<span>${ic('r:check')}${t.fin(D(s.to))} · ${t.ontime}</span>`:''}${s.ok?`<span>${ic('r:thumbs-up')}${t.appr(D(s.ok))}</span>`:''}${s.added.length?`<span style="color:var(--am)">${ic('r:plus')}${t.newt} · ${D(s.added[0][2])}</span>`:''}</div></div>
+ <div>${fold?`<button class="fold" onclick="this.closest('.st').classList.toggle('op')">${t.showf(s.total)} ${ic('r:caret-down')}</button>`:''}${s.total?`<ul class="tl">${rows}</ul>`:`<div class="empty">${ic('d:calendar-dots')}${L==='en'?'We will share the details closer to the date.':'तारीख पास आने पर हम पूरी जानकारी देंगे।'}</div>`}</div></section>`}).join('')}
+function render(){const t=T[L];document.documentElement.lang=L;document.getElementById('main').innerHTML=`
+ <div class="ph"><div><a class="bk" href="../">${ic('r:caret-left')}${t.back}</a><h1>${t.title}</h1><p>${P.name} · ${PCT}% · ${t.upd}</p></div>${langSw()}</div>
+ ${ribbon()}<div class="h2"><h2>${t.allSt}</h2></div>${stages()}
+ <div class="h2"><h2>${t.log}</h2></div><div class="chg"><span class="lgd">${D('14 Nov')}</span><div><b>${t.newh(L==='en'?'Festive offers banner':'त्योहार ऑफ़र बैनर')} · ${S[1][L][0]}</b><span>${t.logr}</span></div></div>
+ <button class="btn gh rep">${ic('d:receipt')}${t.rep}</button><div class="foot">Preview with sample data · Haritt Developers</div>`;point()}
+function point(){const c=document.getElementById('call'),o=document.querySelector('.seg.on');if(!c||!o)return;const r=c.getBoundingClientRect(),q=o.getBoundingClientRect();c.style.setProperty('--px',(q.left+q.width/2-r.left)+'px')}
+addEventListener('resize',point);
+document.getElementById('app').innerHTML=shell('../f/details')+`<main class="w" id="main"></main>`;render();
+</script></body></html>

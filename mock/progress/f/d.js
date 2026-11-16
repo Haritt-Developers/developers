@@ -1,0 +1,41 @@
+let L='en';try{L=localStorage.getItem('hdL')||'en'}catch(e){}
+const T={
+ en:{see:'See full progress',back:'Home',title:'Project progress',upd:'Updated today, 16 Nov',here:'YOU ARE HERE',sDone:'Done',sNow:'In progress',sNot:'Not started',sAdd:'Added later',sYou:'Your turn',stDone:d=>`Finished ${d}`,stNow:(a,b)=>`${a} of ${b} done`,stLater:d=>`From ${d}`,dates:(a,b)=>`${a} – ${b}`,addedOn:d=>`Added ${d}`,readyBy:d=>`Ready by ${d}`,allSt:'All stages',hNow:'Happening now',hNext:'Coming next',hYou:'Needed from you',fin2:'Final step',ready:'of your website is ready',step:(i,n,s)=>`Step ${i} of ${n}: ${s}`,now:'We are working on',launch:'Your site goes live on',days:d=>`${d} days to go`,you:'What you need to do',nothing:'Nothing right now. We will tell you.',pay:'Pay ₹25,000 by 19 Nov (for the design work)',
+  help:'Any question? We are here to help.',helps:'Your project manager replies within a few hours',wa:'WhatsApp',msg:'Message',stages:'Step by step',stagesS:'Tap any step to see the work inside it',simple:'Simple',det:'Detailed',plan:(a,b)=>`Planned ${a} – ${b}`,ontime:'on time',appr:d=>`Approved by you on ${d}`,log:'Changes after approval',logr:'Requested by you · launch date not affected',rep:'Download progress report (PDF)',
+  fin:d=>`Finished on ${d}`,newt:'1 new item',inp:(a,b)=>`Working on it now · ${a} of ${b} done`,starts:d=>`Will start around ${d}`,
+  tdone:d=>`Done on ${d}`,tnow:'We are doing this now',tnot:'Not started yet',tyou:'You will do this. We will send you a link.',
+  newh:t=>`New: ${t}`,news:d=>`You asked for this on ${d}, so we added it. The rest of the design is finished and you approved it.`,newe:d=>`Ready by ${d}. Your launch date does not change.`,showf:n=>`See ${n} finished items`,
+  payT:'Design is finished. Please pay ₹25,000.',payS:'Please pay by 19 Nov. This is payment 2 of 3.',payN:'Pay now',payI:'See bill',paidT:'Payment received. Thank you!',paidS:'We got ₹25,000 for the design work on 15 Nov. Your receipt is in Files & payments.'},
+ hi:{see:'पूरी प्रोग्रेस देखें',back:'होम',title:'प्रोजेक्ट प्रोग्रेस',upd:'आज, 16 नवंबर को अपडेट',here:'आप यहाँ हैं',sDone:'पूरा',sNow:'चल रहा है',sNot:'शुरू नहीं',sAdd:'बाद में जोड़ा',sYou:'आपकी बारी',stDone:d=>`${d} को पूरा`,stNow:(a,b)=>`${b} में से ${a} पूरे`,stLater:d=>`${d} से`,dates:(a,b)=>`${a} – ${b}`,addedOn:d=>`${d} को जोड़ा`,readyBy:d=>`${d} तक तैयार`,allSt:'सारे स्टेप',hNow:'अभी चल रहा है',hNext:'आगे क्या है',hYou:'आपसे क्या चाहिए',fin2:'आख़िरी स्टेप',ready:'आपकी वेबसाइट तैयार हो चुकी है',step:(i,n,s)=>`स्टेप ${i} / ${n}: ${s}`,now:'अभी हम कर रहे हैं',launch:'आपकी साइट लाइव होगी',days:d=>`${d} दिन बाकी`,you:'आपको क्या करना है',nothing:'अभी कुछ नहीं। ज़रूरत होगी तो हम बताएँगे।',pay:'19 नवंबर तक ₹25,000 का भुगतान (डिज़ाइन का काम)',
+  help:'कोई सवाल है? हम मदद के लिए हैं।',helps:'आपके प्रोजेक्ट मैनेजर कुछ घंटों में जवाब देंगे',wa:'WhatsApp',msg:'मैसेज',stages:'स्टेप बाय स्टेप',stagesS:'किसी भी स्टेप पर टैप करके उसका काम देखें',simple:'आसान',det:'पूरी जानकारी',plan:(a,b)=>`योजना ${a} – ${b}`,ontime:'समय पर',appr:d=>`आपने ${d} को पास किया`,log:'पास होने के बाद बदलाव',logr:'आपके कहने पर · लॉन्च की तारीख पर कोई असर नहीं',rep:'प्रोग्रेस रिपोर्ट डाउनलोड करें (PDF)',
+  fin:d=>`${d} को पूरा हुआ`,newt:'1 नया काम',inp:(a,b)=>`अभी चल रहा है · ${b} में से ${a} पूरे`,starts:d=>`लगभग ${d} से शुरू`,
+  tdone:d=>`${d} को पूरा`,tnow:'यह अभी चल रहा है',tnot:'अभी शुरू नहीं हुआ',tyou:'यह आप करेंगे। हम आपको लिंक भेजेंगे।',
+  newh:t=>`नया: ${t}`,news:d=>`आपने ${d} को यह माँगा, इसलिए हमने जोड़ दिया। बाकी डिज़ाइन पूरा है और आपने उसे पास कर दिया है।`,newe:d=>`${d} तक तैयार। आपकी लॉन्च की तारीख नहीं बदलेगी।`,showf:n=>`${n} पूरे हुए काम देखें`,
+  payT:'डिज़ाइन पूरा हो गया। कृपया ₹25,000 का भुगतान करें।',payS:'19 नवंबर तक भुगतान करें। यह 3 में से दूसरा भुगतान है।',payN:'अभी भुगतान करें',payI:'बिल देखें',paidT:'भुगतान मिल गया। धन्यवाद!',paidS:'डिज़ाइन के काम के ₹25,000 हमें 15 नवंबर को मिल गए। रसीद Files & payments में है।'}
+};
+const D=d=>L==='hi'?d.replace('Nov','नवंबर').replace(' 2026',''):d;
+const S=[
+ {en:['Planning','Understanding your needs'],hi:['प्लानिंग','आपकी ज़रूरत समझना'],m:{en:'We learn what you need and agree on the work and price.',hi:'हम समझते हैं आपको क्या चाहिए, और काम व कीमत तय करते हैं।'},ic:'notepad',st:'done',ok:'6 Nov',from:'2 Nov',to:'6 Nov',t:[
+   [['First meeting with you','आपके साथ पहली मीटिंग'],'d','2 Nov'],[['You told us what you need','आपने अपनी ज़रूरतें बताईं'],'d','4 Nov'],[['Work and price agreed','काम और कीमत तय हुई'],'d','6 Nov']]},
+ {en:['Design','Designing how your site looks'],hi:['डिज़ाइन','साइट कैसी दिखेगी, यह बनाना'],m:{en:'We make the look of your site. You see it and approve it.',hi:'हम आपकी साइट का लुक बनाते हैं। आप देखकर पास करते हैं।'},ic:'palette',st:'done',ok:'12 Nov',from:'7 Nov',to:'12 Nov',t:[
+   [['Home page design','होम पेज का डिज़ाइन'],'d','9 Nov'],[['Product page design','प्रोडक्ट पेज का डिज़ाइन'],'d','10 Nov'],[['Design for phones','मोबाइल के लिए डिज़ाइन'],'d','11 Nov'],[['Payment page design','पेमेंट पेज का डिज़ाइन'],'d','12 Nov'],
+   [['Festive offers banner','त्योहार ऑफ़र बैनर'],'a','14 Nov','19 Nov']]},
+ {en:['Building','Building your website'],hi:['बनाना','आपकी वेबसाइट बनाना'],m:{en:'We turn the approved design into a working website.',hi:'पास किए गए डिज़ाइन से हम चलने वाली वेबसाइट बनाते हैं।'},ic:'code',st:'now',from:'13 Nov',to:'22 Nov',t:[
+   [['All pages made','सारे पेज बन गए'],'d','14 Nov'],[['Online payment set up','ऑनलाइन पेमेंट जुड़ गया'],'d','15 Nov'],[['Adding your products','आपके प्रोडक्ट डालना'],'n'],[['Making the site fast and safe','साइट को तेज़ और सुरक्षित बनाना'],'t']]},
+ {en:['Your check','You check the site'],hi:['आपकी जाँच','आप साइट जाँचेंगे'],m:{en:'You open the site, check everything and tell us what to change.',hi:'आप साइट खोलकर सब देखेंगे और बताएँगे क्या बदलना है।'},ic:'magnifying-glass',st:'next',from:'23 Nov',to:'25 Nov',t:[
+   [['You check the full site','आप पूरी साइट देखेंगे'],'y'],[['We make your changes','हम आपके बदलाव करेंगे'],'t']]},
+ {en:['Going live','Putting your site live'],hi:['लाइव','साइट लाइव करना'],m:{en:'Your site opens for customers on your web address.',hi:'आपकी साइट आपके वेब पते पर ग्राहकों के लिए खुलेगी।'},ic:'rocket-launch',st:'later',from:'26 Nov',to:'28 Nov',t:[
+   [['Site opens on your web address','साइट आपके वेब पते पर खुलेगी'],'t'],[['Last check after going live','लाइव होने के बाद आख़िरी जाँच'],'t']]},
+ {en:['Handover','Handing everything to you'],hi:['सौंपना','सब कुछ आपको सौंपना'],m:{en:'We give you the logins, files and a short guide.',hi:'हम आपको लॉगिन, फ़ाइलें और एक छोटी गाइड देंगे।'},ic:'handshake',st:'later',from:'29 Nov',to:'30 Nov',t:[]}
+];
+S.forEach((s,i)=>{s.i=i;s.done=s.t.filter(x=>x[1]==='d').length;s.total=s.t.length;s.added=s.t.filter(x=>x[1]==='a');});
+const TOT=S.reduce((a,s)=>a+s.total,0),DONE=S.reduce((a,s)=>a+s.done,0),PCT=Math.round(DONE/TOT*100),CUR=S.find(s=>s.st==='now');
+const isDone=s=>s.st==='done',fr=s=>isDone(s)?1:s.st==='now'?s.done/s.total:0;
+function payCard(){const t=T[L];if(PAY==='none')return'';
+ if(PAY==='paid')return`<div class="pay paid"><span class="pi">${ic('d:seal-check')}</span><div class="pt"><b>${t.paidT}</b><span>${t.paidS}</span></div><button class="px" onclick="setPay('none')" aria-label="Dismiss">${ic('r:x')}</button></div>`;
+ return`<div class="pay"><span class="pi">${ic('d:currency-inr')}</span><div class="pt"><b>${t.payT}</b><span>${t.payS}</span></div><div class="pa"><button class="btn pri">${t.payN}</button><button class="btn gh">${t.payI}</button></div></div>`}
+function setL(l){L=l;try{localStorage.setItem('hdL',l)}catch(e){};render()}
+const _sp=setPay;setPay=v=>{_sp(v);render()};
+function paint(){}
+const langSw=()=>`<div class="lang"><button class="${L==='en'?'on':''}" onclick="setL('en')">English</button><button class="${L==='hi'?'on':''}" onclick="setL('hi')">हिंदी</button></div>`;
+const tn=x=>x[0][L==='en'?0:1];

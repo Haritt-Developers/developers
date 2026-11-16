@@ -1,0 +1,21 @@
+:root{--dn:#1F9D6B;--dn2:#2DBE84}[data-t=dark]{--dn:#3CCB8E;--dn2:#5FDDA6}
+html[lang=hi] body{font-family:Inter,"Noto Sans Devanagari",system-ui,sans-serif}
+.w{max-width:1040px}
+#payslot{margin:24px 0 14px}#payslot:empty{margin:24px 0 0;display:block}
+.lang{display:flex;background:var(--ln2);border-radius:99px;padding:3px;flex:none}.lang button{border:0;background:none;padding:5px 12px;border-radius:99px;font-size:13px;font-weight:600;color:var(--mu)}.lang button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.cells{display:flex;gap:4px}
+.cell{flex:1;min-width:5px;border-radius:7px;background:var(--track);display:grid;place-items:center;color:#fff;font-size:13px}
+.cells .cell:first-child{border-top-left-radius:12px;border-bottom-left-radius:12px}.cells .cell:last-child{border-top-right-radius:12px;border-bottom-right-radius:12px}
+.cell.d{background:linear-gradient(180deg,var(--dn2),var(--dn))}
+.cell.n{background:repeating-linear-gradient(-45deg,var(--acc) 0 7px,var(--acc2) 7px 14px);background-size:200% 100%;animation:mv 2.4s linear infinite}
+.cell.a{background:repeating-linear-gradient(-45deg,var(--hatch) 0 5px,transparent 5px 10px),var(--ams);box-shadow:inset 0 0 0 1.5px var(--am);color:var(--am)}
+.cell.e{background:transparent;border:1.5px dashed var(--ln);color:var(--mu);font-size:16px}
+@keyframes mv{to{background-position:-28px 0}}
+.f{display:flex;gap:14px;align-items:center;padding:13px 0}.facts>*+*{border-top:1px solid var(--ln)}
+.fi{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:22px;flex:none;background:var(--card);color:var(--ink2)}
+.f.now .fi,.f.act .fi{background:var(--accs);color:var(--acc)}.f.ok .fi{background:var(--oks);color:var(--dn)}
+.f small{display:block;font-size:12.5px;color:var(--mu)}.f b{display:block;font-size:15.5px;font-weight:600}.f.act b{color:var(--acc)}
+.help{display:flex;align-items:center;gap:12px}
+.help>svg{font-size:26px;color:var(--ink2);flex:none}.help .ht{flex:1;min-width:0}.help b{display:block;font-size:14.5px}.help span{font-size:12.5px;color:var(--mu)}
+.hb{display:flex;gap:8px}.hb .btn{display:flex;align-items:center;gap:6px;padding:9px 14px}.hb .btn svg{font-size:18px}.wa{background:#1FA855;color:#fff}
+.foot{color:var(--mu);font-size:12.5px;text-align:center;padding:30px 0 60px}
