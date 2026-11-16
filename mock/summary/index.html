@@ -41,7 +41,7 @@ function icons(r){(r||document).querySelectorAll('i.ph').forEach(e=>{const n=[..
 .lg time{color:var(--mu);font-size:12px;white-space:nowrap}.lg .t{font-weight:500}.lg .t small{font-weight:400}
 .dr .need{background:var(--wrs);color:var(--wr);border-radius:12px;padding:12px 14px;margin:10px 0}.dr .need li{margin:4px 0}.btn[disabled]{opacity:.45;cursor:not-allowed}
 @media(max-width:760px){.dates{grid-template-columns:1fr}.info{left:12px;right:12px;width:auto}}
-</style>
+.go{color:var(--acc);font-weight:600;font-size:12.5px;cursor:pointer;white-space:nowrap}.dr .ck{align-items:center}.dr .ck .b{cursor:pointer}.top{flex-wrap:wrap}@media(max-width:760px){.top .sp{display:none}.top h1{flex:1 1 auto}.top .tg{font-size:13px;padding:7px 10px}.top .chip{order:3}}.ck.d span.b{color:#fff;text-decoration:none}</style>
 <div class=wrap id=app>
 <div class=top><h1>Online store</h1><span class="chip ac">Waiting on client</span><div class=sp></div><button class=tg id=cpb onclick="op('done')"><i class="ph ph-flag-checkered"></i> Complete project</button><button class=tg onclick="document.documentElement.dataset.t=document.documentElement.dataset.t=='dark'?'light':'dark'"><i class="ph ph-circle-half"></i> Theme</button></div>
 <div class=facts>
@@ -93,13 +93,13 @@ function icons(r){(r||document).querySelectorAll('i.ph').forEach(e=>{const n=[..
 
 <div class=ov id=ov onclick="if(event.target==this)cl()"><div class=dr id=dr></div></div>
 <script>
-const ck=[["Client approved the content and design",1],["Domain and hosting are ready",1],["Forms, payments and links tested",1],["Checked on mobile and desktop",1],["Backup taken",1],["Final payment received",0],["Client told the launch date",0],["Login details and handover shared with the client",0]];
+const ck=[["Client approved the content and design",1],["Domain and hosting are ready",1],["Forms, payments and links tested",1],["Checked on mobile and desktop",1],["Backup taken",1],["Final payment received",0,"Billing"],["Client told the launch date",0,"Details"],["Login details and handover shared with the client",0,"Messages"]];
 const H=(i,t,s)=>`<h2><i class="ph ${i}" style="color:var(--acc)"></i>${t}<button class=x onclick=cl()><i class="ph ph-x"></i></button></h2><p>${s}</p>`;
 function op(k){const d=document.getElementById('dr');
 if(k=='ask')d.innerHTML=H('ph-hand-waving','Ask the client','They see it as a task on their Home, with a Done button.')+`<label>What do you need?</label><input placeholder="e.g. Send your logo files"><label>Details (optional)</label><textarea rows=3></textarea><label>Needed by</label><input type=date><button class=btn onclick=cl()>Send request</button>`;
 if(k=='upd')d.innerHTML=H('ph-megaphone-simple','Give an update','Shows in the client\'s Latest updates. To chat, use Messages.')+`<label>Title</label><input placeholder="e.g. Homepage design is ready"><label>What happened, in simple words</label><textarea rows=4></textarea><button class=btn onclick=cl()>Post update</button>`;
 if(k=='ck'){d.innerHTML=H('ph-rocket-launch','Before launch','Check these before the project goes live. Only your team sees this.')+'<div class=pb><i id=pr></i></div><div id=pt style="color:var(--mu);font-size:12.5px;margin-bottom:6px"></div><div id=li></div><div style="display:flex;gap:8px;margin-top:12px"><input id=ni placeholder="Add an item and press Enter"><button class="btn g" style="margin:0" onclick=ad()>Add</button></div>';rl();document.getElementById('ni').onkeydown=e=>{if(e.key=='Enter')ad()};}
-icons(d);if(k=='done'){const o=ck.filter(x=>!x[1]);d.innerHTML=H('ph-flag-checkered','Complete project','Marks the project as finished and records the completion date in the log.')+(o.length?'<div class=need><b>'+o.length+' item'+(o.length>1?'s':'')+' still open in Before launch:</b><ul style="margin:6px 0 0;padding-left:18px">'+o.map(x=>'<li>'+x[0]+'</li>').join('')+'</ul></div><p>Finish the checklist first. You cannot complete the project until every item is done.</p><button class="btn g" onclick="op(\'ck\')">Open checklist</button> <button class=btn disabled>Complete project</button>':'<div class=need style="background:var(--oks);color:var(--ok)"><b>Checklist complete. Ready to close.</b></div><button class=btn onclick=cl()>Complete project</button>')}
+icons(d);if(k=='done'){d.innerHTML=H('ph-flag-checkered','Complete project','Marks the project as finished and records the completion date in the log.')+'<div id=dn></div>';rd()}
 icons(d);document.getElementById('ov').classList.add('on')}
 function rl(){const n=ck.filter(x=>x[1]).length;document.getElementById('pr').style.width=100*n/ck.length+'%';document.getElementById('pt').textContent=n+' of '+ck.length+' done';document.getElementById('li').innerHTML=ck.map((x,i)=>`<div class="ck ${x[1]?'d':''}" onclick="ck[${i}][1]^=1;rl()"><span class=b>${x[1]?'✓':''}</span><span>${x[0]}</span></div>`).join('')}
 function ad(){const e=document.getElementById('ni'),v=e.value.trim();if(v){ck.push([v,0]);e.value='';rl();e.focus()}}
@@ -107,6 +107,11 @@ function sv(v){for(const x of['sum','msg','log'])document.getElementById('v-'+x)
 document.querySelectorAll('.tab[data-v]').forEach(t=>t.onclick=()=>sv(t.dataset.v));
 function mi(el,a,b,c){const i=document.getElementById('info');i.style.display='block';i.innerHTML='<h4>Message info<span onclick="this.parentNode.parentNode.style.display=\'none\'">✕</span></h4><div><b>Sent</b>'+a+'</div><div><b>Delivered</b>'+b+'</div><div><b>Seen</b>'+c+'</div>'}
 function fl(b){document.querySelectorAll('.fb').forEach(x=>x.classList.toggle('on',x==b));const k=b.textContent;document.querySelectorAll('.lg').forEach(r=>r.style.display=k=='All'||r.dataset.k==k?'flex':'none')}
+function rd(){const o=ck.filter(x=>!x[1]),d=document.getElementById('dn');if(!d)return;
+const row=(x,i)=>`<div class="ck ${x[1]?'d':''}"><span class=b onclick="ck[${i}][1]^=1;rd()">${x[1]?'✓':''}</span><span style="flex:1" onclick="ck[${i}][1]^=1;rd()">${x[0]}</span>${x[1]?'':`<a class=go onclick="gt('${x[2]||'Details'}')">${x[2]||'Details'} →</a>`}</div>`;
+d.innerHTML=(o.length?'<div class=need><b>'+o.length+' of '+ck.length+' items still open.</b> Tick them here, or open the right place to finish them.</div>':'<div class=need style="background:var(--oks);color:var(--ok)"><b>Checklist complete. Ready to close.</b></div>')+'<div style="margin-top:4px">'+ck.map((x,i)=>row(x,i)).join('')+'</div>'+'<button class=btn '+(o.length?'disabled':'')+' onclick="cm()">Complete project</button>'+(o.length?'<p style="margin-top:10px;font-size:12.5px">You cannot complete the project until every item is done.</p>':'<p style="margin-top:10px;font-size:12.5px">Completion date will be saved in the Log with your name and time.</p>')+'<p style="margin-top:14px;font-size:12px"><a class=go onclick="ck.forEach(x=>x[1]=1);rd()">Preview: all done</a> · <a class=go onclick="ck.forEach((x,i)=>x[1]=i<5?1:0);rd()">Preview: 3 open</a></p>';icons(d)}
+function gt(t){cl();const m={Billing:'Billing',Details:'Details',Messages:'msg'};if(t=='Messages')sv('msg');else sv('sum')}
+function cm(){document.getElementById('dr').innerHTML=H('ph-check-circle','Project completed','Saved in the Log with date and time.')+'<button class=btn onclick=cl()>Close</button>';icons(document.getElementById('dr'))}
 function cl(){document.getElementById('ov').classList.remove('on')}
 icons();
 </script>
@@ -117,4 +122,4 @@ icons();
 [data-t=dark] .ck .b{border-color:#5A5D68}
 [data-t=dark] .steps i{background:#33353C}[data-t=dark] .steps i.d{background:var(--ok)}[data-t=dark] .steps i.c{background:var(--acc)}
 [data-t=dark] .tab.on{box-shadow:inset 0 0 0 1px rgba(255,122,79,.35)}
-[data-t=dark] .act:hover{border-color:#FF7A4F}</style>
+[data-t=dark] .act:hover{border-color:#FF7A4F}.ck.d span.b{color:#fff;text-decoration:none}</style>
