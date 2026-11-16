@@ -1,0 +1,54 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Progress preview C · Three zones</title>
+<link rel="icon" href="/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../m.css"><link rel="stylesheet" href="../r.css">
+<style>
+.card{background:var(--card);border:1px solid var(--ln);border-radius:28px;box-shadow:var(--sh);padding:32px 30px 24px}
+.ct{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:34px}
+.ct h1{font-family:Montserrat,sans-serif;font-size:30px;letter-spacing:-.02em;margin:0 0 6px;line-height:1.2}.ct h1 em{font-style:normal;color:var(--acc)}.ct p{margin:0;color:var(--mu)}
+.pc{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:200px}.pc b{font-family:Montserrat,sans-serif;font-size:15px}.pc b span{color:var(--mu);font-weight:600}
+.pbar{width:220px;height:8px;border-radius:8px;background:var(--track);overflow:hidden}.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--dn),var(--acc));border-radius:8px}
+.zones{display:flex;gap:18px}
+.zn{display:flex;flex-direction:column;gap:12px;min-width:0}
+.zh{display:flex;align-items:center;gap:8px;font-family:Montserrat,sans-serif;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap}
+.zh:after{content:"";flex:1;height:2px;border-radius:2px;background:currentColor;opacity:.35}
+.zh svg{font-size:15px}
+.zn.f .zh{color:var(--dn)}.zn.n .zh{color:var(--acc)}.zn.u .zh{color:var(--mu)}
+.zb{display:flex;gap:10px;border-radius:18px}
+.zn.n .zb{background:var(--accs);padding:12px;margin:-12px -12px 0;box-shadow:inset 0 0 0 1.5px var(--acc)}
+.sg{min-width:0;display:flex;flex-direction:column;gap:8px}
+.sg b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sg .cells{height:26px}.sg .cell{font-size:12px}
+.sg small{font-size:11.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sg.now b{font-size:16px;color:var(--acc)}.sg.now .cells{height:34px}.sg.now small{color:var(--ink)}
+.sg.reopened small em{font-style:normal;color:var(--am);font-weight:600}
+.zn.u .sg b{color:var(--ink2)}
+.nowrow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
+.nr{display:flex;gap:12px;align-items:center;border-radius:16px;padding:14px 16px;background:var(--ln2)}.nr>svg{font-size:28px;flex:none}
+.nr small{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}.nr b{display:block;font-size:15px}.nr span{font-size:13px;color:var(--mu)}
+.nr.a>svg{color:var(--acc)}.nr.b>svg{color:var(--ink2)}
+.key{margin-top:18px}
+@media (max-width:720px){
+ .card{padding:22px 14px 16px;border-radius:22px}.ct{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:26px}.ct h1{font-size:23px}
+ .pc{align-items:flex-start;width:100%}.pbar{width:100%}
+ .zones{gap:8px}.zh{font-size:9.5px;letter-spacing:.12em;gap:5px}.zh svg{display:none}.zh:after{display:none}.zh{justify-content:center}
+ .zb{gap:4px}.zn.n .zb{padding:8px;margin:-8px -8px 0}
+ .sg b,.sg small{display:none}.sg .cells{height:16px;gap:2px}.sg.now .cells{height:16px}.sg .cell svg{display:none}.sg .cell{border-radius:3px!important}
+ .nowrow{grid-template-columns:1fr;gap:10px;margin-top:20px}.nr{padding:12px 14px}.nr>svg{font-size:24px}
+ .key{font-size:12px;gap:8px 14px}
+}
+</style></head><body>
+<div id="app"></div>
+<script src="../ic.js"></script><script src="../m.js"></script><script src="../r.js"></script>
+<script>
+const Z=[['f','Finished',ic('r:check'),'Done',P.stages.filter(s=>s.st==='done'||s.st==='reopened')],['n','Working now',ic('r:circle-notch','spin'),'Now: '+P.cur.n,[P.cur]],['u','Coming up',ic('r:clock'),'Next',P.stages.filter(s=>s.st==='next'||s.st==='later')]];
+const fw=s=>Math.max(s.total,1.8)*(s.st==='now'?1.5:1);
+const seg=s=>`<div class="sg ${s.st}" style="flex:${fw(s)} 1 0"><b>${s.n}</b>${cells(s,{icons:1})}<small>${s.st==='reopened'?`Done ${s.to} <em>· +1 new</em>`:s.st==='done'?'Done '+s.to:s.st==='now'?`${s.done} of ${s.total} done · till ${s.to}`:'From '+s.from}</small></div>`;
+const hero=`<div id="payslot">${payCard()}</div><div class="card">
+ <div class="ct"><div><h1>Your site is now in <em>${P.cur.n}</em>.</h1><p>Stage ${P.cur.i+1} of ${P.stages.length}. Brief and Design are finished. Review and Launch come next.</p></div>
+ <div class="pc"><b>${P.pct}% done <span>· launch ${P.launch}</span></b><div class="pbar"><i style="width:${P.pct}%"></i></div></div></div>
+ <div class="zones">${Z.map(z=>`<div class="zn ${z[0]}" style="flex:${z[4].reduce((a,s)=>a+fw(s),0)} 1 0"><div class="zh">${z[2]}<span class="zl">${z[1]}</span></div><div class="zb">${z[4].map(seg).join('')}</div></div>`).join('')}</div>
+ <div class="nowrow"><div class="nr a">${ic('d:hourglass-medium')}<div><small>Right now</small><b>${NOWT.t}</b><span>Then speed and security checks</span></div></div>
+ <div class="nr b">${ic('d:'+NEXT.ic)}<div><small>Next for you</small><b>${NEXT.n}, from ${NEXT.from}</b><span>You check the site. Nothing needed today.</span></div></div></div>
+ <div class="key"><span><i class="k-d"></i>Done</span><span><i class="k-n"></i>Working on it</span><span><i class="k-a"></i>Added later</span><span><i class="k-t"></i>Not started</span></div></div>`;
+page('c',hero);
+if(innerWidth<=720)document.querySelectorAll('.zn').forEach((e,i)=>e.querySelector('.zl').textContent=Z[i][3]);
+</script></body></html>

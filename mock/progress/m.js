@@ -36,7 +36,7 @@ function payCard(){
 function setPay(v){PAY=v;document.querySelectorAll('[data-pay]').forEach(b=>b.classList.toggle('on',b.dataset.pay===v));const el=document.getElementById('payslot');if(el)el.innerHTML=payCard();}
 
 function shell(opt,title){
- const opts=[['1','Task ribbon'],['2','Skyline'],['3','Chapters']];
+ const opts=window.OPTS||[['1','Task ribbon'],['2','Skyline'],['3','Chapters']];
  return`<div class="demo"><div class="dw"><span class="dl">Preview</span>${opts.map(o=>`<a href="../${o[0]}/" class="${o[0]===opt?'on':''}">${o[0]} · ${o[1]}</a>`).join('')}
  <span class="sp"></span><span class="dl">Payment card</span>${[['due','Pending'],['paid','Received'],['none','None']].map(p=>`<button data-pay="${p[0]}" class="${p[0]===PAY?'on':''}" onclick="setPay('${p[0]}')">${p[1]}</button>`).join('')}</div></div>
  <header class="top"><div class="tw"><img src="/img/logo-3d.png" alt="" class="lg"><div class="brand"><b>HARITT DEVELOPERS</b><span>Project Space</span></div><span class="sp"></span>

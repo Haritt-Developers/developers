@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Progress preview B · Dark stage</title>
+<link rel="icon" href="/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../m.css"><link rel="stylesheet" href="../r.css">
+<style>
+.band{--bx:#F3F0EB;--bm:#9C978F;--bl:rgba(255,255,255,.1);background:#121316;color:var(--bx);border-radius:30px;padding:34px 34px 26px;position:relative;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
+[data-t=dark] .band{background:#18191D;box-shadow:inset 0 0 0 1px #2A2B30}
+.band:before{content:"";position:absolute;width:640px;height:640px;left:var(--gx,50%);top:-120px;transform:translateX(-50%);background:radial-gradient(circle,rgba(232,70,31,.28),transparent 62%);pointer-events:none}
+.band>*{position:relative}
+.bt{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:40px}
+.eb{font-family:Montserrat,sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.22em;color:var(--bm);text-transform:uppercase}
+.bt h1{font-family:Montserrat,sans-serif;font-size:34px;letter-spacing:-.02em;margin:8px 0 6px;line-height:1.1}.bt h1 em{font-style:normal;color:#FF7A4F}.bt p{margin:0;color:var(--bm)}
+.cd{text-align:right;flex:none}.cd b{font-family:Montserrat,sans-serif;font-size:46px;font-weight:800;letter-spacing:-.03em;line-height:1;display:block}.cd span{font-size:13px;color:var(--bm)}
+.trk{display:flex;gap:12px;align-items:flex-end}
+.sg{min-width:0;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative}
+.ico{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:20px;border:1.5px solid var(--bl);color:var(--bm);background:#121316;position:relative}
+[data-t=dark] .ico{background:#18191D}
+.sg.done .ico,.sg.reopened .ico{background:rgba(79,211,154,.14);border-color:transparent;color:#4FD39A}
+.sg.now .ico{width:64px;height:64px;font-size:30px;background:#E8461F;border-color:transparent;color:#fff;box-shadow:0 0 0 8px rgba(232,70,31,.18),0 12px 40px rgba(232,70,31,.5)}
+.sg.reopened .ico:after{content:"+1";position:absolute;top:-6px;right:-10px;background:#F2B451;color:#1a1206;font-size:10px;font-weight:800;border-radius:99px;padding:1px 6px}
+.nm{text-align:center;line-height:1.25;min-width:0;max-width:100%}.nm b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nm span{font-size:12px;color:var(--bm);white-space:nowrap}
+.sg.now .nm b{font-size:16px;color:#FF7A4F}.sg.now .nm span{color:var(--bx)}
+.sg.done .nm span,.sg.reopened .nm span{color:#4FD39A}
+.sg .cells{width:100%;height:8px;gap:3px;margin-top:4px}.sg .cell{border-radius:4px!important;background:rgba(255,255,255,.1)}
+.sg .cell.d{background:#4FD39A}.sg .cell.a{background:#F2B451;box-shadow:none}.sg .cell.e{border-color:rgba(255,255,255,.2);height:8px;font-size:0}
+.sg.now .cells{height:10px}
+.pin{position:absolute;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.pin span{background:#fff;color:#121316;font-size:10.5px;font-weight:800;letter-spacing:.1em;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.pin i{width:1.5px;height:8px;background:#fff}
+.stats{display:flex;gap:0;margin-top:30px;padding-top:20px;border-top:1px solid var(--bl)}
+.stats div{flex:1;padding:0 18px}.stats div:first-child{padding-left:0}.stats div+div{box-shadow:-1px 0 0 var(--bl)}
+.stats b{display:block;font-size:20px;font-family:Montserrat,sans-serif;letter-spacing:-.01em}.stats span{font-size:12.5px;color:var(--bm)}
+.stats .now b{color:#FF7A4F}.stats .ok b{color:#4FD39A}
+.what{display:flex;gap:12px;align-items:center;margin-top:18px;background:rgba(255,255,255,.06);border-radius:16px;padding:12px 16px;font-size:14px}.what svg{font-size:22px;color:#FF7A4F;flex:none}.what b{font-weight:600}.what span{color:var(--bm)}
+@media (max-width:720px){
+ .band{padding:24px 16px 18px;border-radius:24px}.bt{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:30px}.bt h1{font-size:26px}
+ .cd{text-align:left;display:flex;gap:8px;align-items:baseline}.cd b{font-size:30px}
+ .trk{gap:5px}.ico{width:34px;height:34px;font-size:15px}.sg.now .ico{width:46px;height:46px;font-size:22px;box-shadow:0 0 0 5px rgba(232,70,31,.18),0 10px 26px rgba(232,70,31,.45)}
+ .sg:not(.now) .nm{display:none}.sg.now .nm span{display:none}.sg.now .nm b{font-size:13px}.sg{gap:8px}
+ .sg.reopened .ico:after{right:-6px;font-size:9px;padding:0 4px}
+ .sg .cells{height:6px;gap:2px}.sg.now .cells{height:8px}.pin{display:none}
+ .stats div{padding:0 10px}.stats b{font-size:17px}.stats span{font-size:11.5px}
+ .what{align-items:flex-start;padding:12px}
+}
+</style></head><body>
+<div id="app"></div>
+<script src="../ic.js"></script><script src="../m.js"></script><script src="../r.js"></script>
+<script>
+const left=P.total-P.done-1;
+const hero=`<div id="payslot">${payCard()}</div><div class="band" id="band">
+ <div class="bt"><div><div class="eb">${P.name} · Your project</div><h1>Stage ${P.cur.i+1} of ${P.stages.length}: <em>${P.cur.n}</em></h1><p>We are building your pages. ${P.cur.done} of ${P.cur.total} build tasks are done.</p></div>
+ <div class="cd"><b>${P.daysLeft} days</b><span>to launch · ${P.launch}</span></div></div>
+ <div class="trk">${P.stages.map(s=>{const on=s.st==='now';return `<div class="sg ${s.st}" style="flex:${on?Math.max(s.total,2)*1.4:Math.max(s.total,2)} 1 0">
+  <span class="ico">${s.st==='done'||s.st==='reopened'?ic('r:check'):ic((on?'d:':'d:')+s.ic)}</span>
+  <div class="nm"><b>${s.n}</b><span>${s.st==='reopened'?'Done · 1 new':on?`${s.done} of ${s.total} done`:s.st==='done'?'Done':'From '+s.from}</span></div>${cells(s)}</div>`}).join('')}</div>
+ <div class="stats"><div class="ok"><b>${P.done} done</b><span>tasks finished</span></div><div class="now"><b>1 now</b><span>in progress</span></div><div><b>${left} to go</b><span>until launch</span></div></div>
+ <div class="what">${ic('d:'+NEXT.ic)}<div><b>Next: ${NEXT.n}, from ${NEXT.from}.</b> <span>You check the full site and tell us any changes. Nothing needed from you right now.</span></div></div>
+</div>`;
+page('b',hero);
+function glow(){const b=document.getElementById('band'),i=document.querySelector('.sg.now .ico');if(!b||!i)return;const r=b.getBoundingClientRect(),q=i.getBoundingClientRect();b.style.setProperty('--gx',(q.left+q.width/2-r.left)+'px')}
+glow();addEventListener('resize',glow);
+</script></body></html>
