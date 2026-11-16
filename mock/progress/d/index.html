@@ -1,0 +1,83 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Progress preview · Simple</title>
+<link rel="icon" href="/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../m.css">
+<style>
+:root{--dn:#1F9D6B}[data-t=dark]{--dn:#3CCB8E}
+.w{max-width:880px}
+#payslot{margin:28px 0 16px}#payslot:empty{margin:28px 0 0;display:block}
+/* status card */
+.st{background:var(--card);border:1px solid var(--ln);border-radius:26px;box-shadow:var(--sh);padding:30px 32px 28px}
+.pn{font-size:13.5px;color:var(--mu);font-weight:500}
+.pct{display:flex;align-items:baseline;gap:12px;margin:4px 0 20px}.pct b{font-family:Montserrat,sans-serif;font-size:64px;font-weight:800;letter-spacing:-.04em;line-height:1}.pct span{font-size:20px;font-weight:600;color:var(--ink2)}
+.bar{display:flex;gap:4px}
+.bs{flex:1;min-width:0}
+.bt{height:10px;border-radius:10px;background:var(--track);overflow:hidden}.bt i{display:block;height:100%;border-radius:10px;background:var(--dn)}
+.bs.now .bt i{background:var(--acc)}
+.bl{margin-top:9px;font-size:12.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:4px}
+.bl svg{font-size:13px;color:var(--dn);flex:none}
+.bs.now .bl{color:var(--acc);font-weight:700}
+.facts{margin-top:26px;display:flex;flex-direction:column;gap:2px}
+.f{display:flex;gap:14px;align-items:center;padding:12px 0}.facts>*+*{border-top:1px solid var(--ln2)}
+.fi{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:22px;flex:none}
+.f4 .fi{background:var(--accs);color:var(--acc)}.f4 b{color:var(--acc)}.f1 .fi{background:var(--accs);color:var(--acc)}.f2 .fi{background:var(--ln2);color:var(--ink2)}.f3 .fi{background:var(--oks);color:var(--dn)}
+.f small{display:block;font-size:12.5px;color:var(--mu)}.f b{display:block;font-size:16px;font-weight:600}
+/* stages */
+.h2{font-size:15px;font-weight:700;margin:36px 0 12px}
+.ls{background:var(--card);border:1px solid var(--ln);border-radius:22px;overflow:hidden}
+.r+.r{border-top:1px solid var(--ln)}
+.rh{display:flex;align-items:center;gap:14px;width:100%;padding:16px 20px;border:0;background:none;text-align:left}
+.ri{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex:none;font-size:13px;font-weight:700;color:var(--mu);box-shadow:inset 0 0 0 1.5px var(--ln)}
+.r.done .ri{background:var(--dn);color:#fff;box-shadow:none;font-size:16px}.r.now .ri{background:var(--acc);color:#fff;box-shadow:0 0 0 5px var(--accs);font-size:16px}
+.rt{flex:1;min-width:0}.rt b{display:flex;align-items:center;gap:8px;font-size:15.5px;font-weight:600}.rt span{display:block;font-size:13px;color:var(--mu)}
+.r.now .rt span{color:var(--acc)}
+.cv{font-size:18px;color:var(--mu);transition:transform .25s;flex:none}.r.open .cv{transform:rotate(180deg)}
+.rb{display:none;padding:0 20px 18px 66px}.r.open .rb{display:block}
+.r.now{background:linear-gradient(180deg,var(--accs),transparent 120px)}
+.tk{list-style:none;margin:0;padding:0}.tk li{display:flex;gap:12px;align-items:flex-start;padding:9px 0}
+.tk li svg{font-size:20px;flex:none;margin-top:1px;color:var(--mu)}.tk li.d svg{color:var(--dn)}.tk li.n svg{color:var(--acc)}
+.tk li b{display:block;font-weight:500}.tk li small{display:block;font-size:12.5px;color:var(--mu)}.tk li.n small{color:var(--acc);font-weight:500}.tk li.d b{color:var(--ink2)}
+.new{display:flex;gap:12px;align-items:flex-start;background:var(--ams);border-radius:14px;padding:12px 14px}
+.new>svg{font-size:22px;color:var(--am);flex:none;margin-top:1px}.new b{display:block;font-weight:600}.new span{display:block;font-size:13px;color:var(--ink2)}.new em{font-style:normal;display:block;font-size:12.5px;color:var(--am);font-weight:600;margin-top:4px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--am);display:inline-block;margin:0 2px 1px}
+.more{border:0;background:none;color:var(--mu);font-size:13px;font-weight:500;padding:10px 0 0;display:flex;align-items:center;gap:4px}
+.tk li.hid{display:none}.showall .tk li.hid{display:flex}
+.foot{color:var(--mu);font-size:12.5px;text-align:center;padding:30px 0 60px}
+@media (max-width:720px){
+ .st{padding:22px 18px 18px;border-radius:22px}.pct b{font-size:52px}.pct span{font-size:17px}.pct{margin-bottom:16px}
+ .bar{gap:3px}.bt{height:8px}.bl{font-size:11px;justify-content:center}.bl svg{display:none}.bs:not(.now) .bl span{display:none}.bs:not(.now) .bl:before{content:attr(data-n)}
+ .bs.done .bl:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--dn)}
+ .facts{margin-top:18px}.f{padding:11px 0;gap:12px}.fi{width:36px;height:36px;font-size:20px}.f b{font-size:15px}
+ .rh{padding:14px 16px;gap:12px}.rb{padding:0 16px 16px 60px}.h2{margin-top:28px}
+}
+</style></head><body>
+<div id="app"></div>
+<script src="../ic.js"></script><script src="../m.js"></script>
+<script>
+window.OPTS=[['d','Simple']];
+const DOING={Brief:'Understanding what you need',Design:'Designing how your site looks',Build:'Building your website',Review:'You check the site',Launch:'Putting your site live',Handover:'Handing everything over to you'};
+const cur=P.cur,next=P.stages[cur.i+1],nowT=cur.tasks.find(t=>t.now&&!t.d);
+const done=s=>s.st==='done'||s.st==='reopened';
+const frac=s=>done(s)?1:s.st==='now'?s.done/s.total:0;
+function bar(){return `<div class="bar">${P.stages.map(s=>`<div class="bs ${done(s)?'done':s.st==='now'?'now':''}" style="flex:${Math.max(s.total,2)} 1 0"><div class="bt"><i style="width:${frac(s)*100}%"></i></div><div class="bl" data-n="${s.i+1}">${done(s)?ic('r:check'):''}<span>${s.n}</span></div></div>`).join('')}</div>`}
+function fromYou(){return PAY==='due'?`<div class="f f4"><span class="fi">${ic('d:currency-inr')}</span><div><small>From you</small><b>Pay ₹25,000 for Design by 19 Nov</b></div></div>`:`<div class="f f3"><span class="fi">${ic('d:thumbs-up')}</span><div><small>From you</small><b>Nothing needed right now</b></div></div>`}
+const _sp=setPay;setPay=v=>{_sp(v);document.getElementById('f3').innerHTML=fromYou()};
+function status(){return `<div class="st"><div class="pn">${P.name}</div>
+ <div class="pct"><b>${P.pct}%</b><span>done</span></div>${bar()}
+ <div class="facts">
+  <div class="f f1"><span class="fi">${ic('d:'+cur.ic)}</span><div><small>Working on now</small><b>${DOING[cur.n]}</b></div></div>
+  <div class="f f2"><span class="fi">${ic('d:calendar-dots')}</span><div><small>Expected launch</small><b>${P.launch} · ${P.daysLeft} days to go</b></div></div>
+  <div id="f3">${fromYou()}</div>
+ </div></div>`}
+function task(t,hid){const c=t.d?'d':t.now?'n':'';return `<li class="${c}${hid?' hid':''}">${t.d?ic('d:check-circle'):t.now?ic('r:circle-notch'):ic('r:circle')}<div><b>${t.t}</b><small>${t.d?'Done '+t.d:t.now?'Working on it now':t.you?'Your turn':'Not started yet'}</small></div></li>`}
+function rows(){return P.stages.map(s=>{
+ const added=s.tasks.filter(t=>t.added),old=s.tasks.filter(t=>!t.added);
+ const open=s.st==='now'||added.length>0;
+ const sub=s.st==='reopened'?`Finished ${s.to} · <i class="dot"></i> 1 new task`:s.st==='done'?`Finished ${s.to}`:s.st==='now'?`In progress · ${s.done} of ${s.total} done`:s.total?`Starts ${s.from}${s.you?' · you check the site':''}`:`Around ${s.to}`;
+ let body='';
+ if(added.length)body=added.map(t=>`<div class="new">${ic('d:plus-circle')}<div><b>New task: ${t.t}</b><span>Added on ${t.added} because you asked for it. The rest of Design is done and approved.</span><em>Ready by ${t.eta} · launch date stays the same</em></div></div>`).join('')+`<div class="showtgt"><ul class="tk">${old.map(t=>task(t,1)).join('')}</ul><button class="more" onclick="this.parentNode.classList.add('showall');this.remove()">Show ${old.length} finished tasks ${ic('r:caret-down')}</button></div>`;
+ else if(s.total)body=`<ul class="tk">${s.tasks.map(t=>task(t)).join('')}</ul>`;
+ else body=`<div class="tk"><small style="color:var(--mu)">We share logins, files and a short guide. Details come closer to the date.</small></div>`;
+ return `<div class="r ${done(s)?'done':s.st==='now'?'now':''} ${open?'open':''}"><button class="rh" onclick="this.parentNode.classList.toggle('open')"><span class="ri">${done(s)?ic('r:check'):s.st==='now'?ic('d:'+s.ic):s.i+1}</span><span class="rt"><b>${s.n}</b><span>${sub}</span></span>${ic('r:caret-down','cv')}</button><div class="rb">${body}</div></div>`}).join('')}
+function paint(){}
+document.getElementById('app').innerHTML=shell('d')+`<main class="w"><div id="payslot">${payCard()}</div>${status()}<div class="h2">Stages</div><div class="ls">${rows()}</div><div class="foot">Preview with sample data · Haritt Developers</div></main>`;
+</script></body></html>
