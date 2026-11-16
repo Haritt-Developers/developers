@@ -38,6 +38,22 @@
 .tl li.a .why{flex-basis:100%;padding-left:33px;font-size:13px;color:var(--ink2);margin-top:-2px}.tl li.a .why b{color:var(--am);font-weight:600}
 .fold{border:0;background:none;color:var(--mu);font-size:13.5px;font-weight:500;padding:6px 0;display:flex;align-items:center;gap:6px}.fold svg{transition:transform .2s}
 .st.fd .tl{display:none}.st.fd.op .tl{display:block}.st.fd.op .fold svg{transform:rotate(180deg)}
+.tl li.has{cursor:pointer;padding-left:10px;padding-right:10px;margin:0 -10px;flex-wrap:wrap;border-radius:12px;transition:background .2s}.tl li.has:hover{background:var(--ln2)}
+.att{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--ink2);background:var(--ln2);border-radius:99px;padding:2px 8px}.att svg{font-size:13px}
+.tc{font-size:15px;color:var(--mu);transition:transform .25s}.tl li.op .tc{transform:rotate(180deg)}
+.ax{flex-basis:100%;display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.8,.2,1)}.tl li.op .ax{grid-template-rows:1fr}.axi{overflow:hidden;padding-left:33px}
+.axi p{margin:10px 0 10px;font-size:13.5px;color:var(--ink2)}.shots{display:flex;gap:10px;flex-wrap:wrap}
+.shot{display:block;width:200px;border-radius:12px;overflow:hidden;border:1px solid var(--ln);background:var(--card);text-decoration:none;color:var(--ink2);transition:transform .2s,box-shadow .2s}.shot:hover{transform:translateY(-2px);box-shadow:var(--sh)}
+.shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}.shot span{display:flex;gap:6px;align-items:center;font-size:12.5px;padding:8px 10px}.shot span svg{font-size:14px;color:var(--mu)}
+.lnk{display:inline-flex;align-items:center;gap:7px;margin:10px 0 4px;font-size:13.5px;font-weight:600;color:var(--acc);text-decoration:none;padding:7px 12px;border-radius:10px;background:var(--accs)}.lnk svg{font-size:15px}
+.tl li.ping{animation:ping 1.6s ease}@keyframes ping{0%,100%{background:transparent}25%,60%{background:var(--accs)}}
+.st.ping{animation:sping 1.6s ease}@keyframes sping{25%,60%{box-shadow:0 0 0 4px var(--accs)}}
+.st{scroll-margin-top:16px}.tl li{scroll-margin-top:90px}
+button.cell{border:0;padding:0;cursor:pointer;font:inherit;transition:transform .18s ease,filter .18s}button.cell:hover{transform:translateY(-3px);filter:brightness(1.05)}button.cell:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.seg .sh{cursor:pointer}
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--bg);border-radius:12px;padding:9px 12px;font-size:13px;max-width:240px;box-shadow:0 12px 30px rgba(0,0,0,.25);opacity:0;transform:translate(-50%,-100%) translateY(4px);transition:opacity .15s,transform .15s}
+.tip.on{opacity:1;transform:translate(-50%,-100%) translateY(-8px)}.tip b{display:block;font-weight:600}.tip span{display:block;font-size:12px;opacity:.75}.tip em{display:flex;gap:4px;align-items:center;font-style:normal;font-size:11.5px;opacity:.75;margin-top:3px}
+.tip:after{content:"";position:absolute;left:50%;bottom:-5px;margin-left:-5px;border:5px solid transparent;border-bottom:0;border-top-color:var(--ink)}
 .empty{color:var(--mu);font-size:14px;display:flex;gap:10px;align-items:center;padding:6px 0}.empty svg{font-size:20px}
 .chg{display:flex;gap:16px;background:var(--card);border:1px solid var(--ln);border-radius:18px;padding:14px 18px}.lgd{font-size:13px;font-weight:700;color:var(--am);white-space:nowrap}.chg b{display:block;font-weight:600;font-size:14.5px}.chg>div span{font-size:13px;color:var(--mu)}
 .rep{margin-top:14px;display:flex;align-items:center;gap:8px}.rep svg{font-size:18px}
@@ -51,7 +67,7 @@
  .ml{display:flex;justify-content:center;font-size:12px;font-weight:700;color:var(--mu);white-space:nowrap}.seg.done .ml{color:var(--dn);font-size:15px}.seg.on .ml{color:var(--acc);font-size:13px;margin-top:2px}
  .call{grid-template-columns:1fr;gap:14px;padding:16px;margin-top:18px}.cb>svg{font-size:24px}
  .h2{margin-top:30px}.st{padding:18px 16px}
- .tr .dt{display:none}.tt small{display:block}.tr .chip{display:none}.tl li.a .why{padding-left:0}
+ .tr .dt{display:none}.axi{padding-left:0}.shot{width:calc(50% - 5px)}.tt small{display:block}.tr .chip{display:none}.tl li.a .why{padding-left:0}
  .rep{width:100%;justify-content:center}
 }
 </style></head><body>
@@ -61,9 +77,9 @@
 window.OPTS=[['../f','Home',1],['../f/details','Full progress',1]];
 const NX=S[CUR.i+1],NT=CUR.t.find(x=>x[1]==='n');
 const chip=k=>{const t=T[L];return k==='d'?`<span class="chip c-ok">${t.sDone}</span>`:k==='n'?`<span class="chip c-acc">${t.sNow}</span>`:k==='a'?`<span class="chip c-am">${t.sAdd}</span>`:k==='y'?`<span class="chip c-acc">${t.sYou}</span>`:`<span class="chip c-mu">${t.sNot}</span>`};
-function cells(s){if(!s.total)return `<div class="cells"><div class="cell e">${ic('r:flag')}</div></div>`;return `<div class="cells">${s.t.map(x=>`<div class="cell ${x[1]==='d'?'d':x[1]==='a'?'a':x[1]==='n'?'n':''}" title="${tn(x)}">${x[1]==='d'?ic('r:check'):x[1]==='a'?ic('r:plus'):''}</div>`).join('')}</div>`}
+function cells(s){if(!s.total)return `<div class="cells"><div class="cell e" data-s="${s.i}" data-tip="${s[L][0]}" data-st="${T[L].sNot}">${ic('r:flag')}</div></div>`;const t=T[L];return `<div class="cells">${s.t.map((x,j)=>{const k=x[1];return `<button class="cell ${k==='d'?'d':k==='a'?'a':k==='n'?'n':''}" data-s="${s.i}" data-t="${j}" data-tip="${tn(x)}" data-st="${k==='d'?t.sDone+' · '+D(x[2]):k==='a'?t.sAdd+' · '+t.readyBy(D(x[3])):k==='n'?t.sNow:k==='y'?t.sYou:t.sNot}" data-at="${x[4]?((x[4].img||[]).length+(x[4].lnk||[]).length):0}" aria-label="${tn(x)}">${k==='d'?ic('r:check'):k==='a'?ic('r:plus'):''}</button>`}).join('')}</div>`}
 function ribbon(){const t=T[L];return `<div class="rib"><div class="segs">${S.map(s=>{const on=s.st==='now';const f=on?Math.max(s.total,1)*1.6:Math.max(s.total,3.2);const fm=on?Math.max(s.total,1)*1.7:Math.max(s.total,1.4);
- return `<div class="seg ${isDone(s)?'done':on?'':'later'} ${on?'on':''}" style="--f:${f};--fm:${fm}">${on?`<span class="here">${ic('r:flag')} ${t.here}</span>`:''}
+ return `<div data-s="${s.i}" class="seg ${isDone(s)?'done':on?'':'later'} ${on?'on':''}" style="--f:${f};--fm:${fm}">${on?`<span class="here">${ic('r:flag')} ${t.here}</span>`:''}
  <div class="sh"><span class="si">${isDone(s)?ic('r:check'):on?ic('d:'+s.ic):s.i+1}</span><span class="sn"><b>${s[L][0]}</b><span>${isDone(s)?t.sDone+(s.added.length?` <em>· +1</em>`:''):on?t.stNow(s.done,s.total):t.stLater(D(s.from))}</span></span></div>
  ${cells(s)}<div class="ml">${isDone(s)?ic('r:check'):on?s[L][0]:s.i+1}</div><div class="sd">${isDone(s)?t.stDone(D(s.to)):t.dates(D(s.from),D(s.to))}</div></div>`}).join('')}</div>
  <div class="call" id="call"><div class="cb">${ic('d:hourglass-medium')}<div><small>${t.hNow}</small><b>${tn(NT)}</b><span>${CUR[L][1]}</span></div></div>
@@ -71,10 +87,10 @@ function ribbon(){const t=T[L];return `<div class="rib"><div class="segs">${S.ma
  ${PAY==='due'?`<div class="cb act">${ic('d:currency-inr')}<div><small>${t.hYou}</small><b>${t.pay}</b><span>${t.payS}</span></div></div>`:`<div class="cb ok">${ic('d:thumbs-up')}<div><small>${t.hYou}</small><b>${t.nothing}</b></div></div>`}</div></div>`}
 function stages(){const t=T[L];return S.map(s=>{
  const fold=false,on=s.st==='now';
- const rows=s.t.map(x=>{const k=x[1];const ico=k==='d'?ic('d:check-circle'):k==='a'?ic('d:plus-circle'):k==='n'?ic('r:circle-notch'):ic('r:circle');
+ const rows=s.t.map((x,j)=>{const k=x[1];const A=x[4];const na=A?((A.img||[]).length+(A.lnk||[]).length):0;const ico=k==='d'?ic('d:check-circle'):k==='a'?ic('d:plus-circle'):k==='n'?ic('r:circle-notch'):ic('r:circle');
   const dt=k==='d'?D(x[2]):k==='a'?t.readyBy(D(x[3])):'';const sm=k==='d'?t.tdone(D(x[2])):k==='n'?t.tnow:k==='y'?t.tyou:k==='a'?'':t.tnot;
-  return `<li class="${k}">${ico}<div class="tt"><b>${tn(x)}</b>${sm?`<small>${sm}</small>`:''}</div><div class="tr"><span class="dt">${dt}</span>${chip(k)}</div>${k==='a'?`<div class="why">${t.news(D(x[2]))} <b>${t.newe(D(x[3]))}</b></div>`:''}</li>`}).join('');
- return `<section class="st ${isDone(s)?'done':''} ${on?'now':''} ${fold?'fd':''}"><div class="sl"><span class="sno">${L==='en'?'STEP':'स्टेप'} ${s.i+1}</span><h3>${ic('d:'+s.ic)}${s[L][0]}</h3><div class="mean">${s.m[L]}</div>
+  return `<li class="${k}${na?' has':''}" id="t${s.i}-${j}" ${na?`onclick="tog(this,event)"`:''}>${ico}<div class="tt"><b>${tn(x)}</b>${sm?`<small>${sm}</small>`:''}</div><div class="tr">${na?`<span class="att">${ic('r:paperclip')}${na}</span>`:''}<span class="dt">${dt}</span>${chip(k)}${na?ic('r:caret-down','tc'):''}</div>${na?`<div class="ax"><div class="axi">${A.note?`<p>${A.note[L==='en'?0:1]}</p>`:''}<div class="shots">${(A.img||[]).map(m=>`<a class="shot" href="../shots/${m[0]}.svg" target="_blank" rel="noopener"><img src="../shots/${m[0]}.svg" alt="" loading="lazy"><span>${ic('r:image')}${m[L==='en'?1:2]}</span></a>`).join('')}</div>${(A.lnk||[]).map(l=>`<a class="lnk" href="${l[2]}">${ic('r:link-simple')}${l[L==='en'?0:1]}${ic('r:arrow-square-out')}</a>`).join('')}</div></div>`:''}${k==='a'?`<div class="why">${t.news(D(x[2]))} <b>${t.newe(D(x[3]))}</b></div>`:''}</li>`}).join('');
+ return `<section id="s${s.i}" class="st ${isDone(s)?'done':''} ${on?'now':''} ${fold?'fd':''}"><div class="sl"><span class="sno">${L==='en'?'STEP':'स्टेप'} ${s.i+1}</span><h3>${ic('d:'+s.ic)}${s[L][0]}</h3><div class="mean">${s.m[L]}</div>
  <div class="dl"><span>${ic('r:calendar-blank')}${t.plan(D(s.from),D(s.to))}</span>${isDone(s)?`<span>${ic('r:check')}${t.fin(D(s.to))} · ${t.ontime}</span>`:''}${s.ok?`<span>${ic('r:thumbs-up')}${t.appr(D(s.ok))}</span>`:''}${s.added.length?`<span style="color:var(--am)">${ic('r:plus')}${t.newt} · ${D(s.added[0][2])}</span>`:''}</div></div>
  <div>${fold?`<button class="fold" onclick="this.closest('.st').classList.toggle('op')">${t.showf(s.total)} ${ic('r:caret-down')}</button>`:''}${s.total?`<ul class="tl">${rows}</ul>`:`<div class="empty">${ic('d:calendar-dots')}${L==='en'?'We will share the details closer to the date.':'तारीख पास आने पर हम पूरी जानकारी देंगे।'}</div>`}</div></section>`}).join('')}
 function render(){const t=T[L];document.documentElement.lang=L;document.getElementById('main').innerHTML=`
@@ -84,5 +100,13 @@ function render(){const t=T[L];document.documentElement.lang=L;document.getEleme
  <button class="btn gh rep">${ic('d:receipt')}${t.rep}</button><div class="foot">Preview with sample data · Haritt Developers</div>`;point()}
 function point(){const c=document.getElementById('call'),o=document.querySelector('.seg.on');if(!c||!o)return;const r=c.getBoundingClientRect(),q=o.getBoundingClientRect();c.style.setProperty('--px',(q.left+q.width/2-r.left)+'px')}
 addEventListener('resize',point);
+function tog(li,e){if(e&&e.target.closest('a'))return;li.classList.toggle('op')}
+function go(si,tj){const el=tj!=null?document.getElementById('t'+si+'-'+tj):document.getElementById('s'+si);if(!el)return;el.scrollIntoView({behavior:'smooth',block:'center'});
+ el.classList.remove('ping');void el.offsetWidth;el.classList.add('ping');if(tj!=null&&el.classList.contains('has'))setTimeout(()=>el.classList.add('op'),350)}
+let TIP;document.addEventListener('mouseover',e=>{const c=e.target.closest('.cell[data-tip]');if(!c){TIP&&TIP.classList.remove('on');return}
+ if(!TIP){TIP=document.createElement('div');TIP.className='tip';document.body.appendChild(TIP)}const r=c.getBoundingClientRect(),n=+c.dataset.at;
+ TIP.innerHTML=`<b>${c.dataset.tip}</b><span>${c.dataset.st}</span>${n?`<em>${ic('r:paperclip')}${n} ${L==='en'?'attachments · tap to see':'अटैचमेंट · देखने के लिए टैप करें'}</em>`:''}`;TIP.style.left=(r.left+r.width/2)+'px';TIP.style.top=r.top+'px';TIP.classList.add('on')});
+addEventListener('scroll',()=>TIP&&TIP.classList.remove('on'),{passive:true});
+document.addEventListener('click',e=>{const c=e.target.closest('.cell[data-s]');if(c){go(+c.dataset.s,c.dataset.t!=null?+c.dataset.t:null);return}const h=e.target.closest('.seg .sh, .seg .ml');if(h){go(+h.closest('.seg').dataset.s)}});
 document.getElementById('app').innerHTML=shell('../f/details')+`<main class="w" id="main"></main>`;render();
 </script></body></html>
