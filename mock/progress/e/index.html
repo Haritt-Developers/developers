@@ -1,0 +1,118 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Progress preview · Easy</title>
+<link rel="icon" href="/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../m.css">
+<style>
+:root{--dn:#1F9D6B}[data-t=dark]{--dn:#3CCB8E}
+html[lang=hi] body{font-family:Inter,"Noto Sans Devanagari",system-ui,sans-serif}
+.w{max-width:860px}
+#payslot{margin:24px 0 14px}#payslot:empty{margin:24px 0 0;display:block}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:26px;box-shadow:var(--sh);padding:26px 30px 24px}
+.top2{display:flex;justify-content:space-between;align-items:center;gap:10px}.pn{font-size:14px;color:var(--mu);font-weight:500}
+.lang{display:flex;background:var(--ln2);border-radius:99px;padding:3px}.lang button{border:0;background:none;padding:5px 12px;border-radius:99px;font-size:13px;font-weight:600;color:var(--mu)}.lang button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.big{display:flex;align-items:baseline;gap:12px;margin:10px 0 18px;flex-wrap:wrap}.big b{font-family:Montserrat,sans-serif;font-size:60px;font-weight:800;letter-spacing:-.04em;line-height:1}.big span{font-size:19px;font-weight:600;color:var(--ink2)}
+.bar{display:flex;gap:4px}.bs{min-width:0}
+.bt{height:10px;border-radius:10px;background:var(--track);overflow:hidden}.bt i{display:block;height:100%;border-radius:10px;background:var(--dn)}.bs.now .bt i{background:var(--acc)}
+.bl{margin-top:9px;font-size:12.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bs.done .bl{color:var(--dn)}.bs.now .bl{color:var(--acc);font-weight:700}
+.step{display:none;margin-top:10px;font-size:13.5px;font-weight:600;color:var(--acc)}
+.facts{margin-top:22px}.f{display:flex;gap:14px;align-items:center;padding:12px 0}.facts>*+*{border-top:1px solid var(--ln2)}
+.fi{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:22px;flex:none;background:var(--ln2);color:var(--ink2)}
+.f.now .fi,.f.act .fi{background:var(--accs);color:var(--acc)}.f.ok .fi{background:var(--oks);color:var(--dn)}
+.f small{display:block;font-size:12.5px;color:var(--mu)}.f b{display:block;font-size:16px;font-weight:600}.f.act b{color:var(--acc)}
+.help{margin-top:16px;display:flex;align-items:center;gap:12px;background:var(--ln2);border-radius:16px;padding:12px 14px}
+.help>svg{font-size:26px;color:var(--ink2);flex:none}.help .ht{flex:1;min-width:0}.help b{display:block;font-size:14.5px}.help span{font-size:12.5px;color:var(--mu)}
+.hb{display:flex;gap:8px}.hb .btn{display:flex;align-items:center;gap:6px;padding:9px 14px}.hb .btn svg{font-size:18px}.wa{background:#1FA855;color:#fff}
+.h2{font-size:15px;font-weight:700;margin:32px 0 4px}.h2s{font-size:13px;color:var(--mu);margin:0 0 12px}
+.ls{background:var(--card);border:1px solid var(--ln);border-radius:22px;overflow:hidden}
+.r+.r{border-top:1px solid var(--ln)}
+.rh{display:flex;align-items:center;gap:14px;width:100%;padding:16px 20px;border:0;background:none;text-align:left}
+.ri{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex:none;font-size:13px;font-weight:700;color:var(--mu);box-shadow:inset 0 0 0 1.5px var(--ln)}
+.r.done .ri{background:var(--dn);color:#fff;box-shadow:none;font-size:16px}.r.now .ri{background:var(--acc);color:#fff;box-shadow:0 0 0 5px var(--accs);font-size:16px}
+.rt{flex:1;min-width:0}.rt b{display:block;font-size:15.5px;font-weight:600}.rt span{display:block;font-size:13px;color:var(--mu)}.r.now .rt span{color:var(--acc)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--am);display:inline-block;margin:0 3px 1px 2px}
+.cv{font-size:18px;color:var(--mu);transition:transform .25s;flex:none}.r.open .cv{transform:rotate(180deg)}
+.rb{display:none;padding:0 20px 18px 66px}.r.open .rb{display:block}.r.now{background:linear-gradient(180deg,var(--accs),transparent 120px)}
+.mean{font-size:13px;color:var(--mu);margin:-2px 0 8px;display:flex;gap:6px;align-items:center}.mean svg{font-size:15px;flex:none}
+.tk{list-style:none;margin:0;padding:0}.tk li{display:flex;gap:12px;align-items:flex-start;padding:8px 0}
+.tk li svg{font-size:20px;flex:none;margin-top:1px;color:var(--mu)}.tk li.d svg{color:var(--dn)}.tk li.n svg{color:var(--acc)}
+.tk li b{display:block;font-weight:500}.tk li small{display:block;font-size:12.5px;color:var(--mu)}.tk li.n small{color:var(--acc);font-weight:500}
+.tk li.hid{display:none}.showall .tk li.hid{display:flex}
+.new{display:flex;gap:12px;align-items:flex-start;background:var(--ams);border-radius:14px;padding:12px 14px;margin-bottom:4px}
+.new>svg{font-size:22px;color:var(--am);flex:none;margin-top:1px}.new b{display:block;font-weight:600}.new span{display:block;font-size:13px;color:var(--ink2)}.new em{font-style:normal;display:block;font-size:12.5px;color:var(--am);font-weight:600;margin-top:4px}
+.more{border:0;background:none;color:var(--mu);font-size:13px;font-weight:500;padding:8px 0 0;display:flex;align-items:center;gap:4px}
+.sh2{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:32px}.sh2 .h2{margin-top:0}.sh2 .lang{margin-bottom:12px;flex:none}
+.dm{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink2);margin:0 0 8px}.dm span{display:flex;gap:5px;align-items:center}.dm svg{font-size:14px;color:var(--mu)}
+.chg{display:flex;gap:16px;background:var(--card);border:1px solid var(--ln);border-radius:18px;padding:14px 18px}.lgd{font-size:13px;font-weight:700;color:var(--am);white-space:nowrap}.chg b{display:block;font-weight:600;font-size:14.5px}.chg>div span{font-size:13px;color:var(--mu)}
+.rep{margin-top:14px;display:flex;align-items:center;gap:8px}.rep svg{font-size:18px}
+.foot{color:var(--mu);font-size:12.5px;text-align:center;padding:30px 0 60px}
+@media (max-width:720px){
+ .card{padding:20px 18px 18px;border-radius:22px}.big b{font-size:50px}.big span{font-size:16px}.big{margin:8px 0 14px}
+ .bl{display:none}.step{display:block}.bar{gap:3px}.bt{height:8px}
+ .facts{margin-top:14px}.f{padding:11px 0;gap:12px}.fi{width:36px;height:36px;font-size:20px}.f b{font-size:15px}
+ .help{flex-wrap:wrap}.hb{width:100%}.hb .btn{flex:1;justify-content:center}
+ .sh2{flex-direction:column;align-items:flex-start;gap:0}.rep{width:100%;justify-content:center}
+ .rh{padding:14px 16px;gap:12px}.rb{padding:0 16px 16px 60px}
+}
+</style></head><body>
+<div id="app"></div>
+<script src="../ic.js"></script><script src="../m.js"></script>
+<script>
+window.OPTS=[['e','Easy (EN + हिंदी)']];
+let L='en',DET=false;try{DET=localStorage.getItem('hdDet')==='1'}catch(e){}
+const T={
+ en:{ready:'of your website is ready',step:(i,n,s)=>`Step ${i} of ${n}: ${s}`,now:'We are working on',launch:'Your site goes live on',days:d=>`${d} days to go`,you:'What you need to do',nothing:'Nothing right now. We will tell you.',pay:'Pay ₹25,000 by 19 Nov (for the design work)',
+  help:'Any question? We are here to help.',helps:'Your project manager replies within a few hours',wa:'WhatsApp',msg:'Message',stages:'Step by step',stagesS:'Tap any step to see the work inside it',simple:'Simple',det:'Detailed',plan:(a,b)=>`Planned ${a} – ${b}`,ontime:'on time',appr:d=>`Approved by you on ${d}`,log:'Changes after approval',logr:'Requested by you · launch date not affected',rep:'Download progress report (PDF)',
+  fin:d=>`Finished on ${d}`,newt:'1 new item',inp:(a,b)=>`Working on it now · ${a} of ${b} done`,starts:d=>`Will start around ${d}`,
+  tdone:d=>`Done on ${d}`,tnow:'We are doing this now',tnot:'Not started yet',tyou:'You will do this. We will send you a link.',
+  newh:t=>`New: ${t}`,news:d=>`You asked for this on ${d}, so we added it. The rest of the design is finished and you approved it.`,newe:d=>`Ready by ${d}. Your launch date does not change.`,showf:n=>`See ${n} finished items`,
+  payT:'Design is finished. Please pay ₹25,000.',payS:'Please pay by 19 Nov. This is payment 2 of 3.',payN:'Pay now',payI:'See bill',paidT:'Payment received. Thank you!',paidS:'We got ₹25,000 for the design work on 15 Nov. Your receipt is in Files & payments.'},
+ hi:{ready:'आपकी वेबसाइट तैयार हो चुकी है',step:(i,n,s)=>`स्टेप ${i} / ${n}: ${s}`,now:'अभी हम कर रहे हैं',launch:'आपकी साइट लाइव होगी',days:d=>`${d} दिन बाकी`,you:'आपको क्या करना है',nothing:'अभी कुछ नहीं। ज़रूरत होगी तो हम बताएँगे।',pay:'19 नवंबर तक ₹25,000 का भुगतान (डिज़ाइन का काम)',
+  help:'कोई सवाल है? हम मदद के लिए हैं।',helps:'आपके प्रोजेक्ट मैनेजर कुछ घंटों में जवाब देंगे',wa:'WhatsApp',msg:'मैसेज',stages:'स्टेप बाय स्टेप',stagesS:'किसी भी स्टेप पर टैप करके उसका काम देखें',simple:'आसान',det:'पूरी जानकारी',plan:(a,b)=>`योजना ${a} – ${b}`,ontime:'समय पर',appr:d=>`आपने ${d} को पास किया`,log:'पास होने के बाद बदलाव',logr:'आपके कहने पर · लॉन्च की तारीख पर कोई असर नहीं',rep:'प्रोग्रेस रिपोर्ट डाउनलोड करें (PDF)',
+  fin:d=>`${d} को पूरा हुआ`,newt:'1 नया काम',inp:(a,b)=>`अभी चल रहा है · ${b} में से ${a} पूरे`,starts:d=>`लगभग ${d} से शुरू`,
+  tdone:d=>`${d} को पूरा`,tnow:'यह अभी चल रहा है',tnot:'अभी शुरू नहीं हुआ',tyou:'यह आप करेंगे। हम आपको लिंक भेजेंगे।',
+  newh:t=>`नया: ${t}`,news:d=>`आपने ${d} को यह माँगा, इसलिए हमने जोड़ दिया। बाकी डिज़ाइन पूरा है और आपने उसे पास कर दिया है।`,newe:d=>`${d} तक तैयार। आपकी लॉन्च की तारीख नहीं बदलेगी।`,showf:n=>`${n} पूरे हुए काम देखें`,
+  payT:'डिज़ाइन पूरा हो गया। कृपया ₹25,000 का भुगतान करें।',payS:'19 नवंबर तक भुगतान करें। यह 3 में से दूसरा भुगतान है।',payN:'अभी भुगतान करें',payI:'बिल देखें',paidT:'भुगतान मिल गया। धन्यवाद!',paidS:'डिज़ाइन के काम के ₹25,000 हमें 15 नवंबर को मिल गए। रसीद Files & payments में है।'}
+};
+const D=d=>L==='hi'?d.replace('Nov','नवंबर').replace(' 2026',''):d;
+const S=[
+ {en:['Planning','Understanding your needs'],hi:['प्लानिंग','आपकी ज़रूरत समझना'],m:{en:'We learn what you need and agree on the work and price.',hi:'हम समझते हैं आपको क्या चाहिए, और काम व कीमत तय करते हैं।'},ic:'notepad',st:'done',ok:'6 Nov',from:'2 Nov',to:'6 Nov',t:[
+   [['First meeting with you','आपके साथ पहली मीटिंग'],'d','2 Nov'],[['You told us what you need','आपने अपनी ज़रूरतें बताईं'],'d','4 Nov'],[['Work and price agreed','काम और कीमत तय हुई'],'d','6 Nov']]},
+ {en:['Design','Designing how your site looks'],hi:['डिज़ाइन','साइट कैसी दिखेगी, यह बनाना'],m:{en:'We make the look of your site. You see it and approve it.',hi:'हम आपकी साइट का लुक बनाते हैं। आप देखकर पास करते हैं।'},ic:'palette',st:'done',ok:'12 Nov',from:'7 Nov',to:'12 Nov',t:[
+   [['Home page design','होम पेज का डिज़ाइन'],'d','9 Nov'],[['Product page design','प्रोडक्ट पेज का डिज़ाइन'],'d','10 Nov'],[['Design for phones','मोबाइल के लिए डिज़ाइन'],'d','11 Nov'],[['Payment page design','पेमेंट पेज का डिज़ाइन'],'d','12 Nov'],
+   [['Festive offers banner','त्योहार ऑफ़र बैनर'],'a','14 Nov','19 Nov']]},
+ {en:['Building','Building your website'],hi:['बनाना','आपकी वेबसाइट बनाना'],m:{en:'We turn the approved design into a working website.',hi:'पास किए गए डिज़ाइन से हम चलने वाली वेबसाइट बनाते हैं।'},ic:'code',st:'now',from:'13 Nov',to:'22 Nov',t:[
+   [['All pages made','सारे पेज बन गए'],'d','14 Nov'],[['Online payment set up','ऑनलाइन पेमेंट जुड़ गया'],'d','15 Nov'],[['Adding your products','आपके प्रोडक्ट डालना'],'n'],[['Making the site fast and safe','साइट को तेज़ और सुरक्षित बनाना'],'t']]},
+ {en:['Your check','You check the site'],hi:['आपकी जाँच','आप साइट जाँचेंगे'],m:{en:'You open the site, check everything and tell us what to change.',hi:'आप साइट खोलकर सब देखेंगे और बताएँगे क्या बदलना है।'},ic:'magnifying-glass',st:'next',from:'23 Nov',to:'25 Nov',t:[
+   [['You check the full site','आप पूरी साइट देखेंगे'],'y'],[['We make your changes','हम आपके बदलाव करेंगे'],'t']]},
+ {en:['Going live','Putting your site live'],hi:['लाइव','साइट लाइव करना'],m:{en:'Your site opens for customers on your web address.',hi:'आपकी साइट आपके वेब पते पर ग्राहकों के लिए खुलेगी।'},ic:'rocket-launch',st:'later',from:'26 Nov',to:'28 Nov',t:[
+   [['Site opens on your web address','साइट आपके वेब पते पर खुलेगी'],'t'],[['Last check after going live','लाइव होने के बाद आख़िरी जाँच'],'t']]},
+ {en:['Handover','Handing everything to you'],hi:['सौंपना','सब कुछ आपको सौंपना'],m:{en:'We give you the logins, files and a short guide.',hi:'हम आपको लॉगिन, फ़ाइलें और एक छोटी गाइड देंगे।'},ic:'handshake',st:'later',from:'29 Nov',to:'30 Nov',t:[]}
+];
+S.forEach((s,i)=>{s.i=i;s.done=s.t.filter(x=>x[1]==='d').length;s.total=s.t.length;s.added=s.t.filter(x=>x[1]==='a');});
+const TOT=S.reduce((a,s)=>a+s.total,0),DONE=S.reduce((a,s)=>a+s.done,0),PCT=Math.round(DONE/TOT*100),CUR=S.find(s=>s.st==='now');
+const isDone=s=>s.st==='done',fr=s=>isDone(s)?1:s.st==='now'?s.done/s.total:0;
+function payCard(){const t=T[L];if(PAY==='none')return'';
+ if(PAY==='paid')return`<div class="pay paid"><span class="pi">${ic('d:seal-check')}</span><div class="pt"><b>${t.paidT}</b><span>${t.paidS}</span></div><button class="px" onclick="setPay('none')" aria-label="Dismiss">${ic('r:x')}</button></div>`;
+ return`<div class="pay"><span class="pi">${ic('d:currency-inr')}</span><div class="pt"><b>${t.payT}</b><span>${t.payS}</span></div><div class="pa"><button class="btn pri">${t.payN}</button><button class="btn gh">${t.payI}</button></div></div>`}
+function card(){const t=T[L];return `<div class="card"><div class="top2"><span class="pn">${P.name}</span><div class="lang"><button class="${L==='en'?'on':''}" onclick="setL('en')">English</button><button class="${L==='hi'?'on':''}" onclick="setL('hi')">हिंदी</button></div></div>
+ <div class="big"><b>${PCT}%</b><span>${t.ready}</span></div>
+ <div class="bar">${S.map(s=>`<div class="bs ${isDone(s)?'done':s.st==='now'?'now':''}" style="flex:${Math.max(s.total,2)} 1 0"><div class="bt"><i style="width:${fr(s)*100}%"></i></div><div class="bl">${s[L][0]}</div></div>`).join('')}</div>
+ <div class="step">${t.step(CUR.i+1,S.length,CUR[L][0])}</div>
+ <div class="facts"><div class="f now"><span class="fi">${ic('d:'+CUR.ic)}</span><div><small>${t.now}</small><b>${CUR[L][1]}</b></div></div>
+ <div class="f"><span class="fi">${ic('d:calendar-dots')}</span><div><small>${t.launch}</small><b>${D(P.launch)} · ${t.days(P.daysLeft)}</b></div></div>
+ ${PAY==='due'?`<div class="f act"><span class="fi">${ic('d:currency-inr')}</span><div><small>${t.you}</small><b>${t.pay}</b></div></div>`:`<div class="f ok"><span class="fi">${ic('d:thumbs-up')}</span><div><small>${t.you}</small><b>${t.nothing}</b></div></div>`}</div>
+ <div class="help">${ic('d:question')}<div class="ht"><b>${t.help}</b><span>${t.helps}</span></div><div class="hb"><button class="btn wa">${ic('d:whatsapp-logo')}${t.wa}</button><button class="btn gh">${ic('d:chat-circle-text')}${t.msg}</button></div></div></div>`}
+function task(x,hid){const t=T[L],k=x[1];const c=k==='d'?'d':k==='n'?'n':'';return `<li class="${c}${hid?' hid':''}">${k==='d'?ic('d:check-circle'):k==='n'?ic('r:circle-notch'):ic('r:circle')}<div><b>${x[0][L==='en'?0:1]}</b><small>${k==='d'?t.tdone(D(x[2])):k==='n'?t.tnow:k==='y'?t.tyou:t.tnot}</small></div></li>`}
+function rows(){const t=T[L];return S.map(s=>{
+ const old=s.t.filter(x=>x[1]!=='a'),open=s.st==='now'||s.added.length;
+ const sub=isDone(s)?t.fin(D(s.to))+(s.added.length?` · <i class="dot"></i>${t.newt}`:''):s.st==='now'?t.inp(s.done,s.total):t.starts(D(s.from));
+ let body=`<div class="mean">${ic('r:info')}${s.m[L]}</div>`+(DET?`<div class="dm"><span>${ic('r:calendar-blank')}${t.plan(D(s.from),D(s.to))}${isDone(s)?' · '+t.ontime:''}</span>${s.ok?`<span>${ic('r:thumbs-up')}${t.appr(D(s.ok))}</span>`:''}</div>`:'');
+ if(s.added.length)body+=s.added.map(x=>`<div class="new">${ic('d:plus-circle')}<div><b>${t.newh(x[0][L==='en'?0:1])}</b><span>${t.news(D(x[2]))}</span><em>${t.newe(D(x[3]))}</em></div></div>`).join('')+`<div><ul class="tk">${old.map(x=>task(x,1)).join('')}</ul><button class="more" onclick="this.parentNode.classList.add('showall');this.remove()">${t.showf(old.length)} ${ic('r:caret-down')}</button></div>`;
+ else if(s.total)body+=`<ul class="tk">${s.t.map(x=>task(x)).join('')}</ul>`;
+ return `<div class="r ${isDone(s)?'done':s.st==='now'?'now':''} ${open?'open':''}"><button class="rh" onclick="this.parentNode.classList.toggle('open')"><span class="ri">${isDone(s)?ic('r:check'):s.st==='now'?ic('d:'+s.ic):s.i+1}</span><span class="rt"><b>${s[L][0]}</b><span>${sub}</span></span>${ic('r:caret-down','cv')}</button><div class="rb">${body}</div></div>`}).join('')}
+function render(){const t=T[L];document.documentElement.lang=L;document.getElementById('main').innerHTML=`<div id="payslot">${payCard()}</div>${card()}<div class="sh2"><div><div class="h2">${t.stages}</div><p class="h2s">${t.stagesS}</p></div><div class="lang"><button class="${DET?'':'on'}" onclick="setD(0)">${t.simple}</button><button class="${DET?'on':''}" onclick="setD(1)">${t.det}</button></div></div><div class="ls">${rows()}</div>${DET?`<div class="h2" style="margin-top:26px">${t.log}</div><div class="chg"><span class="lgd">${D('14 Nov')}</span><div><b>${t.newh(L==='en'?'Festive offers banner':'त्योहार ऑफ़र बैनर')} · ${S[1][L][0]}</b><span>${t.logr}</span></div></div><button class="btn gh rep">${ic('d:receipt')}${t.rep}</button>`:''}<div class="foot">Preview with sample data · Haritt Developers</div>`}
+function setL(l){L=l;render()}
+function setD(v){DET=!!v;try{localStorage.setItem('hdDet',v?'1':'0')}catch(e){};render()}
+const _sp=setPay;setPay=v=>{_sp(v);render()};
+function paint(){}
+document.getElementById('app').innerHTML=shell('e')+`<main class="w" id="main"></main>`;render();
+</script></body></html>
