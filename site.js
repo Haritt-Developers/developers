@@ -1,5 +1,5 @@
 (function(){
-var EMAIL='developers@haritt.com',FS='https://firestore.googleapis.com/v1/projects/harsh-reset/databases/(default)/documents:commit?key=AIzaSyDggasAVdqpvamkn1xeex2NmPUqG9JiZJ4',DOCS='projects/harsh-reset/databases/(default)/documents',HOOK='https://script.google.com/macros/s/AKfycbxpI5YUi8D_Lxlzwx2CRcnY-muhqzFGd3mSTUIPynVYEFgVrSulFLiklTwcXj2dNDdJ/exec';
+var EMAIL='developers@haritt.com',FS='https://firestore.googleapis.com/v1/projects/harsh-reset/databases/(default)/documents:commit?key=AIzaSyDggasAVdqpvamkn1xeex2NmPUqG9JiZJ4',DOCS='projects/harsh-reset/databases/(default)/documents',HOOK='https://script.google.com/macros/s/AKfycbzNOdiZ2c_OQegBBFolYWLVTwptGo-S-iHbNACDEQipmVLT688L123AsyusEZm7kLWqYw/exec';
 function track(n,p){try{window.hva&&hva('event',n,p)}catch(e){}try{window.gtag&&gtag('event',n,p||{})}catch(e){}}
 /* mobile menu */
 var mb=document.getElementById('mbtn'),mm=document.getElementById('mm');
@@ -62,9 +62,8 @@ function form(){var f=document.getElementById('flForm');if(!f||f.__on)return;f._
   var btn=f.querySelector('button[type=submit]');btn.disabled=true;btn.setAttribute('aria-busy','true');st.textContent='Sending…';ok.hidden=true;
   var id='';for(var i=0;i<20;i++)id+='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random()*62)];
   var fl={};Object.keys(d).forEach(function(k){if(d[k])fl[k]={stringValue:d[k]}});
-  fetch(FS,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({writes:[{update:{name:DOCS+'/enquiries/'+id,fields:fl},updateTransforms:[{fieldPath:'at',setToServerValue:'REQUEST_TIME'}],currentDocument:{exists:false}}]})})
-  .then(function(r){if(!r.ok)throw new Error(r.status);
-   try{fetch(HOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({id:id},d)),keepalive:true}).catch(function(){})}catch(x){}
+  fetch(HOOK,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({action:'enquiry_form',id:id},d))})
+  .then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(j){if(!j||!j.ok)throw new Error('not sent');
    track('enquiry_sent',{reply:call?'call':'written'});
    [].forEach.call(f.children,function(c){if(c!==ok)c.style.display='none'});
    ok.className='ok';ok.innerHTML='<b>Thank you. Your message has reached us.</b><br>We will reply to <b></b>. If you want to add anything, write to <a href="mailto:'+EMAIL+'">'+EMAIL+'</a>.';ok.querySelectorAll('b')[1].textContent=em;ok.hidden=false;ok.focus&&ok.setAttribute('tabindex','-1');ok.focus()})
